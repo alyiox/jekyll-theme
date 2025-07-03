@@ -36,6 +36,11 @@ plugins:
   - jekyll-asciidoc
   - jekyll-seo-tag
 
+asciidoctor:
+  attributes:
+    source-highlighter: rouge
+    rouge-css: class
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

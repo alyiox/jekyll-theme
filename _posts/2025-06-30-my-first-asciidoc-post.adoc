@@ -26,7 +26,7 @@ Visit the link:https://asciidoctor.org/[AsciiDoctor website].
 .o-media
 image:https://via.placeholder.com/100[alt=Placeholder Image,width=100,height=100]
 .o-media-body
-This is a media object, demonstrating the `o-media` and `o-media__body` classes from our Objects layer.
+This is a media object, demonstrating the `o-media` and `o-media-body` classes from our Objects layer.
 
 == Button Example
 
@@ -34,3 +34,16 @@ This is a media object, demonstrating the `o-media` and `o-media__body` classes 
 .c-button[Click Me]
 
 This demonstrates a button from our Components layer, centered using a utility class from Trumps.
+
+== Code Example
+
+[source,ruby]
+----
+def hello_world
+  puts "Hello, ITCSS!"
+end
+
+hello_world()
+----
+
+This is a Ruby code block to test syntax highlighting.
