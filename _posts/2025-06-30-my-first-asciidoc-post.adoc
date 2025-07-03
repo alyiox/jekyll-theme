@@ -1,0 +1,36 @@
+---
+layout: post
+title: "My First AsciiDoc Post"
+date: 2025-06-30 10:00:00 -0500
+categories: [jekyll, asciidoc, itcss]
+---
+
+= Welcome to AsciiDoc and ITCSS
+
+This is an example of an AsciiDoc post using our custom ITCSS theme.
+
+== Headings
+
+This is a level 2 heading.
+
+=== Level 3 Heading
+
+This is a level 3 heading.
+
+== Links
+
+Visit the link:https://asciidoctor.org/[AsciiDoctor website].
+
+== Media Object Example
+
+.o-media
+image:https://via.placeholder.com/100[alt=Placeholder Image,width=100,height=100]
+.o-media-body
+This is a media object, demonstrating the `o-media` and `o-media__body` classes from our Objects layer.
+
+== Button Example
+
+.u-text-center
+.c-button[Click Me]
+
+This demonstrates a button from our Components layer, centered using a utility class from Trumps.

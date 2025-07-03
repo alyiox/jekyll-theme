@@ -1,0 +1,15 @@
+/// _media.scss
+
+// Objects
+.o-media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.o-media-img {
+  margin-right: 1rem;
+}
+
+.o-media-body {
+  flex: 1;
+}

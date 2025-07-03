@@ -1,0 +1,8 @@
+@use "../01-settings" as settings;
+
+body {
+  font-family: settings.$font-family;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}

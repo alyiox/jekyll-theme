@@ -1,0 +1,24 @@
+@use "../01-settings" as settings;
+@use "../02-tools" as tools;
+@use "sass:color";
+
+.c-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  @include tools.border-radius(0.25rem);
+  background-color: settings.$primary-color;
+  color: #fff;
+
+  &:hover {
+    background-color: color.adjust(settings.$primary-color, $lightness: -10%);
+  }
+}

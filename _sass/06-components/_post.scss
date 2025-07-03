@@ -1,0 +1,28 @@
+/// _post.scss
+
+// Components
+.c-post {
+  margin-bottom: 2rem;
+
+  .c-post-header {
+    margin-bottom: 1rem;
+  }
+
+  .c-post-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .c-post-meta {
+    font-size: 0.9rem;
+    color: #888;
+  }
+
+  .c-post-content {
+    line-height: 1.8;
+
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+}
