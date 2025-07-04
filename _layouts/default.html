@@ -13,8 +13,9 @@ layout: null
     <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   </head>
   <body>
-    <div class="o-container">
+    {% include header.html %}
+    <main class="o-container">
       {{ content }}
-    </div>
+    </main>
   </body>
 </html>

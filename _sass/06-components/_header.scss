@@ -1,0 +1,23 @@
+@use "../01-settings" as settings;
+
+.c-header {
+  padding: settings.$base-spacing-unit 0;
+  border-bottom: 1px solid settings.$border-color;
+  margin-bottom: settings.$base-spacing-unit * 2;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: settings.$text-color;
+  }
+
+  &__nav a {
+    color: settings.$secondary-color;
+    margin-left: settings.$base-spacing-unit;
+
+    &:hover {
+      color: settings.$primary-color;
+      text-decoration: none;
+    }
+  }
+}

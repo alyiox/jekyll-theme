@@ -1,5 +1,19 @@
 /// main.scss
 
 // Settings
+
+// Colors
+$text-color: #333;
+$background-color: #fdfdfd;
 $primary-color: #007bff;
-$font-family: sans-serif;
+$secondary-color: #6c757d;
+$accent-color: #f0ad4e;
+$border-color: #dee2e6;
+
+// Typography
+$base-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$heading-font-family: "Georgia", "Times New Roman", serif;
+$code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+// Spacing
+$base-spacing-unit: 1rem;

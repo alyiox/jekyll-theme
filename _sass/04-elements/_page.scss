@@ -1,8 +1,19 @@
+@use "sass:color";
 @use "../01-settings" as settings;
 
 body {
-  font-family: settings.$font-family;
+  background-color: settings.$background-color;
+  color: settings.$text-color;
+  font-family: settings.$base-font-family;
   line-height: 1.6;
-  background-color: #fff;
-  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: settings.$heading-font-family;
+  margin-bottom: 0.5em;
+  color: color.scale(settings.$text-color, $lightness: -15%);
+}
+
+p {
+  margin-bottom: settings.$base-spacing-unit;
 }
