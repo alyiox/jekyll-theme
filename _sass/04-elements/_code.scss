@@ -1,0 +1,23 @@
+@use "../01-settings" as settings;
+
+pre,
+code {
+  font-family: settings.$code-font-family;
+}
+
+pre {
+  padding: settings.$base-spacing-unit;
+  margin-bottom: settings.$base-spacing-unit;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+code {
+  color: settings.$secondary-color;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
