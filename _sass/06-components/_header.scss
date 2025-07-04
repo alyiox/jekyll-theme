@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "../01-settings" as settings;
 
 .c-header {
@@ -5,19 +6,40 @@
   border-bottom: 1px solid settings.$border-color;
   margin-bottom: settings.$base-spacing-unit * 2;
 
+  .o-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: settings.$breakpoint-medium) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
   &__title {
     font-size: 1.5rem;
     font-weight: bold;
     color: settings.$text-color;
+    margin-bottom: math.div(settings.$base-spacing-unit, 2); // Add space below title on small screens
+
+    @media (min-width: settings.$breakpoint-medium) {
+      margin-bottom: 0; // Remove space on larger screens
+    }
   }
 
   &__nav a {
     color: settings.$secondary-color;
-    margin-left: settings.$base-spacing-unit;
+    margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
 
     &:hover {
       color: settings.$primary-color;
       text-decoration: none;
+    }
+
+    @media (min-width: settings.$breakpoint-medium) {
+      margin-left: settings.$base-spacing-unit; // Revert to original margin on larger screens
+      margin-right: 0;
     }
   }
 }

@@ -17,3 +17,15 @@ $code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier
 
 // Spacing
 $base-spacing-unit: 1rem;
+
+// Breakpoints
+$breakpoint-small: 576px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 992px;
+$breakpoint-xlarge: 1200px;
+
+// Container Max-Widths
+$container-max-width-default: 800px;
+$container-max-width-medium: 720px;
+$container-max-width-large: 960px;
+$container-max-width-xlarge: 1140px;
