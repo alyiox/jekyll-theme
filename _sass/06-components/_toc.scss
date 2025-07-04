@@ -1,0 +1,53 @@
+@use "../01-settings" as settings;
+@use "sass:color";
+@use "sass:math";
+
+/* Generic TOC styling */
+.c-toc-list {
+  list-style: none;
+  padding-left: 0;
+
+  ul {
+    list-style: none;
+    padding-left: settings.$base-spacing-unit;
+    margin-bottom: 0;
+  }
+
+  li {
+    margin-bottom: math.div(settings.$base-spacing-unit, 4);
+  }
+
+  a {
+    color: settings.$secondary-color;
+    text-decoration: none;
+
+    &:hover {
+      color: settings.$secondary-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* AsciiDoc specific TOC styling */
+div#toc {
+  margin-bottom: settings.$base-spacing-unit * 1.5;
+
+  #toctitle {
+    display: none;
+    font-weight: bold;
+    margin-bottom: math.div(settings.$base-spacing-unit, 2);
+  }
+
+  // Apply generic list styles to the ul within AsciiDoc TOC
+  > ul {
+    @extend .c-toc-list;
+  }
+}
+
+/* Markdown specific TOC styling */
+ul#markdown-toc {
+  margin-bottom: settings.$base-spacing-unit * 1.5;
+
+  // Apply generic list styles to the Markdown TOC
+  @extend .c-toc-list;
+}
