@@ -1,28 +1,62 @@
-/// _post.scss
+@use "sass:math";
+@use "../01-settings" as settings;
 
-// Components
 .c-post {
-  margin-bottom: 2rem;
+  margin-bottom: settings.$base-spacing-unit * 2;
 
   &-header {
-    margin-bottom: 1rem;
+    margin-bottom: settings.$base-spacing-unit;
   }
 
   &-title {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    margin-bottom: math.div(settings.$base-spacing-unit, 2);
   }
 
   &-meta {
+    color: settings.$secondary-color;
     font-size: 0.9rem;
-    color: #888;
   }
 
   &-content {
     line-height: 1.8;
+    overflow-wrap: break-word; // Added to prevent long words from overflowing
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: settings.$base-spacing-unit * 1.5;
+      margin-bottom: settings.$base-spacing-unit;
+    }
 
     p {
-      margin-bottom: 1rem;
+      margin-bottom: settings.$base-spacing-unit;
+    }
+
+    ul, ol {
+      margin-bottom: settings.$base-spacing-unit;
+      padding-left: settings.$base-spacing-unit * 1.5;
+    }
+
+    li {
+      margin-bottom: math.div(settings.$base-spacing-unit, 4);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: settings.$base-spacing-unit * 1.5 auto;
+    }
+
+    blockquote {
+      border-left: 4px solid settings.$border-color;
+      padding-left: settings.$base-spacing-unit;
+      margin: settings.$base-spacing-unit * 1.5 0;
+      color: settings.$secondary-color;
+      font-style: italic;
+    }
+
+    a {
+      word-break: break-all; // Prevent long URLs from breaking layout
     }
   }
 }
