@@ -4,21 +4,21 @@
 .c-post {
   margin-bottom: 2rem;
 
-  .c-post-header {
+  &-header {
     margin-bottom: 1rem;
   }
 
-  .c-post-title {
+  &-title {
     font-size: 2rem;
     margin-bottom: 0.5rem;
   }
 
-  .c-post-meta {
+  &-meta {
     font-size: 0.9rem;
     color: #888;
   }
 
-  .c-post-content {
+  &-content {
     line-height: 1.8;
 
     p {

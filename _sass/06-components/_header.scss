@@ -17,7 +17,7 @@
     }
   }
 
-  &__title {
+  &-title {
     font-size: 1.5rem;
     font-weight: bold;
     color: settings.$text-color;
@@ -28,7 +28,7 @@
     }
   }
 
-  &__nav a {
+  &-nav a {
     color: settings.$secondary-color;
     margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
 
