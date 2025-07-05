@@ -28,18 +28,87 @@
     }
   }
 
-  &-nav a {
-    color: settings.$secondary-color;
-    margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
+  &-nav {
+    a {
+      color: settings.$secondary-color;
+      margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
 
-    &:hover {
-      color: settings.$primary-color;
-      text-decoration: none;
+      &:hover {
+        color: settings.$primary-color;
+        text-decoration: none;
+      }
+
+      @media (min-width: settings.$breakpoint-medium) {
+        margin-left: settings.$base-spacing-unit; // Revert to original margin on larger screens
+        margin-right: 0;
+      }
+    }
+  }
+
+  &-nav-toggle {
+    display: none; // Hidden by default
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: math.div(settings.$base-spacing-unit, 2);
+    position: absolute;
+    right: settings.$base-spacing-unit;
+    top: settings.$base-spacing-unit;
+
+    @media (max-width: settings.$breakpoint-medium - 1px) {
+      display: block; // Show on small screens
+    }
+
+    &-icon {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: settings.$text-color;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        width: 24px;
+        height: 2px;
+        background-color: settings.$text-color;
+        position: absolute;
+        left: 0;
+      }
+
+      &::before {
+        top: -8px;
+      }
+
+      &::after {
+        top: 8px;
+      }
+    }
+  }
+
+  &-nav-wrapper {
+    @media (max-width: settings.$breakpoint-medium - 1px) {
+      display: none; // Hidden by default on small screens
+      width: 100%;
+      text-align: center;
+      padding-top: settings.$base-spacing-unit;
+
+      &.is-active {
+        display: block; // Show when active
+      }
+
+      .c-header-nav {
+        display: flex;
+        flex-direction: column;
+        a {
+          margin: math.div(settings.$base-spacing-unit, 2) 0; // Stack links vertically
+        }
+      }
     }
 
     @media (min-width: settings.$breakpoint-medium) {
-      margin-left: settings.$base-spacing-unit; // Revert to original margin on larger screens
-      margin-right: 0;
+      display: block; // Always visible on larger screens
     }
   }
 }

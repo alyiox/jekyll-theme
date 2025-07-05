@@ -1,8 +1,13 @@
 <header class="c-header">
   <div class="o-container">
     <a class="c-header-title" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
-    <nav class="c-header-nav">
-      <a href="{{ "/about/" | relative_url }}">About</a>
-    </nav>
+    <button class="c-header-nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="c-header-nav-toggle-icon"></span>
+    </button>
+    <div class="c-header-nav-wrapper" id="nav-wrapper">
+      <nav class="c-header-nav">
+        <a href="{{ "/about/" | relative_url }}">About</a>
+      </nav>
+    </div>
   </div>
 </header>
