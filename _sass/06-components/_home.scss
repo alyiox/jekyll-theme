@@ -69,6 +69,40 @@
         }
       }
     }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: settings.$base-spacing-unit * 2;
+      padding-top: settings.$base-spacing-unit;
+      border-top: 1px solid settings.$border-color;
+
+      a {
+        text-decoration: none;
+        color: settings.$link-color;
+        padding: math.div(settings.$base-spacing-unit, 2) settings.$base-spacing-unit;
+        border: 1px solid settings.$border-color;
+        border-radius: settings.$border-radius;
+
+        &:hover {
+          background-color: settings.$light-background-color;
+        }
+      }
+
+      .page_number {
+        font-size: 0.9rem;
+        color: settings.$secondary-color;
+      }
+
+      .previous,
+      .next {
+        &.disabled {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+      }
+    }
   }
 
   .c-home-sidebar {

@@ -5,7 +5,7 @@ layout: default
 <div class="c-home-container">
   <div class="c-home-main">
     <ul class="c-post-list">
-      {% for post in site.posts %}
+      {% for post in paginator.posts %}
         <li class="c-post-item">
           <h2 class="c-post-title">
             <a class="c-post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
@@ -19,6 +19,22 @@ layout: default
         </li>
       {% endfor %}
     </ul>
+
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">Previous</a>
+      {% else %}
+        <span class="previous">Previous</span>
+      {% endif %}
+
+      <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
+      {% else %}
+        <span class="next ">Next</span>
+      {% endif %}
+    </div>
   </div>
   <aside class="c-home-sidebar">
     {% include sidebar.html %}
