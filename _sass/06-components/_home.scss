@@ -35,6 +35,10 @@
     .c-post-title {
       font-size: 1.8rem;
       margin-bottom: math.div(settings.$base-spacing-unit, 4);
+
+      @media (max-width: settings.$breakpoint-medium - 1px) {
+        font-size: 1.5rem;
+      }
     }
 
     .c-post-link {
