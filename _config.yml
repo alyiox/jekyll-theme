@@ -31,7 +31,7 @@ github_username:  jekyll
 
 # Build settings
 # theme: minima
-excerpt_separator: ""
+excerpt_separator: "<!-- more -->"
 plugins:
   - jekyll-feed
   - jekyll-asciidoc

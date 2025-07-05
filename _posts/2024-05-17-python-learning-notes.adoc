@@ -1,0 +1,5096 @@
+---
+layout: post
+title: "Python Learning Notes"
+date: 2024-05-17 10:29:20 +0800
+categories: ['python']
+tags: ['python']
+excerpt: "A comprehensive collection of notes covering Python fundamentals, from the Zen of Python and basic syntax to advanced topics like data structures, functions, and namespaces. Ideal for a quick reference."
+---
+= Python Learning Notes
+:toc: preamble
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+
+```console
+> import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+== Running Python
+
+* Using the interactive interpreter (shell)
++
+```console
+$ python3 -q
+>>> 2+2
+4
+>>> quit()
+```
+
+* Using python files
++
+```py
+print(2+2)
+```
++
+```console
+$ python3 test.py
+4
+```
+
+* Using python files with shebang
++
+[TIP]
+====
+In computing, a https://en.wikipedia.org/wiki/Shebang_(Unix)[*shebang*] is the character sequence consisting of the characters number sign and exclamation mark (`#!`) at the beginning of a script. It is also called sharp-exclamation, sha-bang, *hashbang*, pound-bang, or hash-pling.
+
+[.text-right]
+-- From Wikipedia, the free encyclopedia
+====
++
+```py
+#!/usr/bin/env python3
+print(2+2)
+```
++
+```console
+$ ./test.py
+4
+```
+
+* Executing modules as scripts
++
+In Python, `python -m` is a command-line construct used to execute modules as scripts directly from the command line without explicitly writing a separate Python script file (`.py`).
++
+```console
+$ python3 -m venv --help
+usage: venv [-h] [--system-site-packages] [--symlinks | --copies] [--clear] [--upgrade] [--without-pip]
+            [--prompt PROMPT] [--upgrade-deps]
+            ENV_DIR [ENV_DIR ...]
+
+Creates virtual Python environments in one or more target directories.
+. . .
+```
++
+```console
+$ python3 -m webbrowser https://www.google.com
+```
+
+== Indentations, comments, and multi-line expressions
+
+* Python uses whitespace indentation (the recommended style, called PEP-8, is to use four spaces), rather than curly brackets or keywords, to delimit blocks.
++
+--
+** Don't use tabs, or mix tabs and spaces; it messes up the indent count.
+
+** When designing the language that became Python, Guido van Rossum decided that the indentation itself was enough to define a program’s structure, and avoided typing all those parentheses and curly braces. Python is unusual in this use of white space to define program structure.
+--
++
+```py
+disaster = True
+if disaster:
+    print("Woe!")
+else:
+    print("Whee!")
+```
+
+** As one special case here, the body of a compound statement can instead appear on the same line as the header in Python, after the colon:
++
+```py
+if x > y: print(x)  # Simple statement on header line
+```
+
+* In Python, the general rule is that the end of a line automatically terminates the statement that appears on that line.
++
+```py
+x = 1  # x = 1;
+```
+
+* It is possible to squeeze more than one statement onto a single line in Python by separating them with semicolons:
++
+```py
+a = 1; b = 2; print(a + b) # Three statements on one line
+```
+
+* Python allows writing expressions that span multiple lines within certain delimiters.
+
+** In older versions of Python (pre-3.0), the backslash character (`\`) at the end of a line was used to indicate that the line continued on the next line, which  is no longer required in modern Python (versions 3.0 and above).
++
+```py
+# Example in older Python (error-prone, not recommended)
+long_expression = (1 + 2 + 3 + 4 + 5 + \
+                  6 + 7 + 8 + 9 + 10)
+```
+
+** In modern Python, avoid using the continuation character (`\`) for line continuation, and utilize parentheses (`()`), brackets (`[]`), or braces (`{}`) for readability and structure in multi-line expressions.
++
+```py
+# Parentheses for complex calculations
+long_calculation = (a * b +
+                    c) * (d /
+                          e - f)
+
+# Brackets for multi-line lists or data structures
+data = [
+    "item1",
+    "item2 with a longer description",
+    "item3"
+]
+
+# Braces for multi-line dictionaries
+person_info = {
+    "name": "Alice",
+    "age": 30,
+    "hobbies": ["reading", "hiking"]
+}
+```
+* A comment is marked by using the `#` (names: _hash_, _sharp_, _pound_, or or the sinister-sounding _octothorpe_) character; everything from that point on to the end of the current line is part of the comment.
++
+```py
+# 60 sec/min * 60 min/hr * 24 hr/day
+seconds_per_day = 86400
+```
++
+```py
+seconds_per_day = 86400 # 60 sec/min * 60 min/hr * 24 hr/day
+```
++
+```py
+# Python does NOT
+# have a multiline comment.
+print("No comment: quotes make the # harmless.")
+```
+
+== Keywords
+
+```txt
+False               class               from                or
+None                continue            global              pass
+True                def                 if                  raise
+and                 del                 import              return
+as                  elif                in                  try
+assert              else                is                  while
+async               except              lambda              with
+await               finally             nonlocal            yield
+break               for                 not
+```
+
+== Types
+
+* Python is a dynamically, strongly typed and garbage-collected programming language.
++
+--
+* In a dynamically typed language, the data type of a variable is NOT explicitly declared at the time of definition, and is determined at runtime.
++
+```py
+age = 30  # age is an integer (no need to declare the data type explicitly)
+age = "thirty"  # age is now a string
+```
+
+* In a statically typed language, the data type of a variable MUST be declared at compile time and the compiler ensures type compatibility throughout the code.
++
+```java
+// In Java, declare the type of a variable before assigning a value.
+int age = 30;  // age is declared as an integer
+age = "thirty";  // error: incompatible types: String cannot be converted to int
+```
+
+* In a strongly typed language, the data type of a variable MUST be declared at the time of definition, and the compiler or interpreter enforces type safety.
+
+* In Python, everything is ultimately an object, even data types like integers and strings, that has associated methods and attributes.
++
+At runtime, Python checks if the methods or attributes involved are compatible with the object's type.
++
+```py
+# Like dynamic languages, Python infers types based on assigned values.
+name = "Alice"  # name is a string
+name + 10  # This would cause a TypeError in Python (mixing string and number)
+```
++
+[TIP]
+====
+In computer programming, https://en.wikipedia.org/wiki/Duck_typing[duck typing] is an application of the duck test—"If it walks like a duck and it quacks like a duck, then it must be a duck"—to determine whether an object can be used for a particular purpose.
+
+[.text-right]
+-- From Wikipedia, the free encyclopedia
+====
++
+```yml
+# Python's major built-in object types, organized by categories.
+Collections:
+  Sequences:
+    Immutable:
+      String:
+      Unicode (2.X):
+      Bytes (3.X):
+      Tuple:
+    Mutable:
+      List:
+      Bytearray (3.X/2.6+):
+  Mappings:
+    Dictionary:
+  Sets:
+    Set:
+    Fronzenset:
+Numbers:
+  Integers:
+    Integer:
+    Long (2.X):
+    Boolean:
+  Float:
+  Complex:
+  Decimal:
+  Fraction:
+Callables:
+  Function:
+  Generator:
+  Class:
+  Method:
+    Bound:
+    Unbound (2.X):
+Other:
+  Module:
+  Instance:
+  File:
+  None:
+  View (3.X/2.7):
+Internals:
+  Type:
+  Code:
+  Frame:
+  Traceback:
+```
++
+```py
+bool # True, False
+
+int # 47, 25000, 25_000, 0b0100_0000, 0o100, 0x40, sys.maxsize, - sys.maxsize - 1
+
+float # 3.14, 2.7e5, float('inf'), float('-inf'), float('nan')
+
+complex # 3j, 5 + 9j
+
+# In Python 3, strings are Unicode character sequences, not byte arrays.
+str # 'alas', "alack", '''a verse attack'''
+
+list # ['Winken', 'Blinken', 'Nod']
+tuple # (2, 4, 8)
+
+bytes # b'ab\xff'
+bytearray # bytearray(...)
+
+set # set([3, 5, 7])
+frozenset # frozenset(['Elsa', 'Otto'])
+
+dict # {}, {'game': 'bingo', 'dog': 'dingo', 'drummer': 'Ringo'}
+
+decimal.Decimal('1.0'), fractions.Fraction(1, 3)  # Decimal and fraction extension types
+```
++
+```py
+# int(), float(), bin(), oct(), hex(), chr(), and ord()
+int(True), int(False)  # (1, 0)
+int(98.6), int(1.0e4)  # (98, 10_000)
+int('99'), int('-23'), int('+12'), int('1_000_000')  # (99, -23, 12, 1_000_000)
+
+int('10', 2), 'binary', int('10', 8), 'octal', int('10', 16), 'hexadecimal', int('10', 22), 'chesterdigital' 
+# (2, 'binary', 8, 'octal', 16, 'hexadecimal', 22, 'chesterdigital') 
+
+float(True), float(False)  # (1.0, 0.0)
+float('98.6'), float('-1.5'), float('1.0e4')  # (98.6, -1.5, 10_000.0)
+
+bin(65), oct(65), hex(65)  # ('0b1000001', '0o101', '0x41')
+
+chr(65), ord('A')  # ('A', 65)
+
+# Python also promotes booleans to integers or floats:
+False + 0, True + 0, False + 0., True + 0.  # (0, 1, 0.0, 1.0)
+```
+--
+
+* https://fastapi.tiangolo.com/python-types/[Type hints] (or type annotations)
++
+```py
+# variable_name: type
+age: int = 30
+pi: float = 3.14159
+```
++
+```py
+# def func(argument: type) -> type
+def greet(name: str) -> str:
+  """Greets the provided name."""
+  return f"Hello, {name}!"
+```
++
+```py
+# any
+def func(argument: any) -> any: ...
+```
++
+```py
+# simple types: all the standard Python types, for example: int, float, bool, bytes
+def get_items(item_a: str, item_b: int, item_c: float, item_d: bool, item_e: bytes): ...
+```
++
+```py
+# generic types with type parameters: like dict, list, set and tuple
+# the internal types in the square brackets are called "type parameters".
+# Python 3.9+
+def process_items(
+    items_l: list[str],
+    items_t: tuple[int, int, str],
+    items_s: set[bytes],
+    prices: dict[str, float],
+): ...
+```
++
+```py
+# union: a variable can be any of several types separated by a vetical bar (|)
+def process_item(item: int | str): ...
+```
++
+```py
+# possibly None: a value could have a type, like str, but that it could also be None.
+# Python 3.10+
+def say_hi(name: str | None = None):
+    if name is not None:
+        print(f"Hey {name}!")
+    else:
+        print("Hello World")
+```
++
+```py
+# classes as types
+class Person:
+    def __init__(self, name: str):
+        self.name = name
+
+
+def get_person_name(one_person: Person):
+    return one_person.name
+```
++
+```py
+# type Hints with Metadata Annotations
+# Python 3.9+
+from typing import Annotated
+
+def say_hello(name: Annotated[str, "this is just metadata"]) -> str:
+    return f"Hello {name}"
+```
+
+* In Python, a name must be bound to an object before it can be used.
++
+```py
+# assignment statements
+spam = 'Spam'                   # simple assignment
+spam, ham = 'yum', 'YUM'        # tuple unpacking
+[spam, ham] = ['yum', 'YUM']    # list unpacking
+a, b, c, d = 'spam'             # sequence unpacking (each character to a variable)
+a, *b = 'spam'                  # extended sequence unpacking (a='s', b=['p', 'a', 'm'])
+a, *_ = 'spam'                  # use the underscore (_) for unwanted variables
+spam = ham = 'lunch'            # multiple assignment (both variables refer to the same object)
+spams += 42                     # augmented assignment (equivalent to spams = spams + 42)
+spam = ham = eggs = 0           # multiple variable names can be assigned a value at the same time
+```
++
+```py
+# swap variable names
+a, b = 1, 2
+b, a = a, b  # 2, 1
+```
+
+* In Python, variables are NOT places, just names, and a name is a _reference_ to an object rather than the object itself, which is a chunk of data that contains at least a _type_, a unique _id_, a _value_, and a _reference count_.
++
+```py
+type(5.20)  # <class 'float'>
+id(5.20)    # 140683748269744
+x = y = z = 0
+sys.getrefcount(x)  # 1000000591
+del y
+sys.getrefcount(x)  # 1000000590
+del z
+sys.getrefcount(x)  # 1000000589
+```
+
+* A _class_ is the definition of an object, and "class" and "type" mean pretty much the same thing.
++
+```py
+type(7)             # <class 'int'>
+type(7) == int      # True
+isinstance(7, int)  # True
+```
+
+* Strings, tuples and lists are common built-in sequences, which are zero-based indexing and ordered collections that can store elements of any data types, except strings, which are sequences of characters themselves.
++
+```py
+# iteration
+for item in ['meow', 'bark', 'moo']:
+    print(item)
+```
++
+```py
+# range
+a = ['meow', 'bark', 'moo']
+for i in range(len(a)):
+    print(a[i])
+```
++
+```py
+# enumeration
+for index, item in enumerate(['meow', 'bark', 'moo']):
+    print(f'Index: {index}, Item: {item}')
+```
++
+```py
+# comparisons
+('meow', 'bark', 'moo') == ('meow', 'bark', 'moo')  # True
+('meow', 'bark', 'moo') >= ('meow', 'bark')         # True
+('meow', 'bark', 'moo') > ('meow', 'bark')          # True
+```
++
+```py
+# `+`, `*`
+('cat',) + ('dog', 'cattle')  # ('cat', 'dog', 'cattle')
+('bark',) * 3                 # ('bark', 'bark', 'bark')
+```
++
+```py
+# unpacking
+cat, dog, cattle = ('meow', 'bark', 'moo')
+```
++
+```py
+# testing with `in`
+'c' in 'cat'                        # True
+'meow' in ['cat', 'cattle', 'dog']  # False
+```
++
+```py
+# indexing, and slicing a shallow copy subsequence:
+s = 'hello!'  # len(S) is 6
+# S[-7], S[6]  # IndexError: string index out of range
+
+# The slice expression X[I:J:K] is equivalent to indexing with a slice object: X[slice(I, J, K)]:
+#    slice(stop)
+#    slice(start, stop[, step])
+#
+# [:] extracts the entire sequence from start to end.
+# [start:] specifies from the start offset to the end.
+# [:end] specifies from the beginning to the end offset minus 1.
+# [start:end] indicates from the start offset to the end offset minus 1.
+# [start:end:step] extracts from the start offset to the end offset minus 1, skipping characters by step.
+
+# Indexing (S[i]) fetches components at offsets:
+#   The first item is at offset 0.
+#   Negative indexes mean to count backward from the end or right.
+#     Technically, a negative offset is added to the length of a sequence to derive a positive offset.
+#   S[0] fetches the first item.
+#   S[−2] fetches the second item from the end (like S[len(S)−2]).
+#
+# Slicing(S[i:j]) extracts contiguous sections of sequences:
+#   The upper bound is noninclusive.
+#   Slice boundaries default to 0 and the sequence length, if omitted.
+#   S[1:3] fetches items at offsets 1 up to but not including 3.
+#   S[1:] fetches items at offset 1 through the end(the sequence length).
+#   S[:3] fetches items at offset 0 up to but not including 3.
+#   S[:−1] fetches items at offset 0 up to but not including the last item.
+#   S[:] fetches items at offsets 0 through the end—making a top-level copy of S.
+#
+# Extended slicing (S[i:j:k]) accepts a step ( or stride) k, which defaults to + 1:
+#   Allows for skipping items and reversing order(using a negative stride).
+
+s[:], s[0:6], s[:6], s[:6:], s[0:6:], s[0:6:1]  # ('hello!', 'hello!', 'hello!', 'hello!', 'hello!', 'hello!')
+s[::-1]  # '!olleh'
+len(s), s[-1], s[len(s)-1], s[-len(s)], s[0]  # (6, '!', '!', 'h', 'h')
+```
+
+* In Python, truthiness and falsiness are used to check a value in a Boolean context:
+
+** Truthy: Values that evaluate to `True`, which includes most non-zero numbers, non-empty strings, lists, dictionaries, and many objects.
+
+** Falsy: Values that evaluate to `False`, which include `False`, zero numbers (`0`, `0.0`), empty strings (`""`), lists (`[]`), and tuples (`()`), and `None`.
++
+```py
+falsy = [False, 0, 0.0, '', [], (), None]
+```
+
+* In Python, the logical operators `and`, `or`, `not` are used to combine Boolean values (`True`/`False`) or expressions that evaluate to Boolean values.
++
+```py
+letter = 'o'
+if letter == 'a' or letter == 'e' or letter == 'i' or letter == 'o' or letter == 'u':
+    print(letter, 'is a vowel')
+else:
+    print(letter, 'is not a vowel')
+```
+
+* Python provides bit-level integer operators, similar to those in the C language.
++
+TIP: Bitwise operators have lower precedence than arithmetic operators like `+`, `-`, `*`, and `/`.
++
+TIP: The order of precedence for bitwise operators is: `~`, `<<` `>>`, `&`, `^`, `|`.
++
+```py
+x = 5  # 0b0101
+y = 1  # 0b0001
+
+print(f"0b{(x & y):04b}")  # and
+# 0b0001
+print(f"0b{(x | y):04b}")  # or
+# 0b0101
+print(f"0b{(x ^ y):04b}")  # exclusive or
+# 0b0100
+print(f'0b{~x:04b}')       # flip bits
+# 0b-110
+print(f'0b{(x << 1):04b}') # left shift
+# 0b1010
+print(f'0b{(x >> 1):04b}') # right shift
+# 0b0010
+```
+
+* Test for equality: `==` and `is`
++
+```py
+# The `==` operator tests value equivalence.
+#   Python performs an equivalence test, comparing all nested objects recursively.
+#
+# The `is` operator tests object identity.
+#   Python tests whether the two are the same object (i.e., live at the same address in memory).
+S1 = 'spam'
+S2 = 'spam'
+id(S1), id(S2), S1 == S2, S1 is S2 # (4472645872, 4472645872, True, True)
+
+foo = 1024
+bar = 1024
+id(foo), id(bar), foo == bar, foo is bar # (4472786448, 4472786352, True, False)
+```
+
+* Division, and modulo: `/`, `//`, `%`
++
+```py
+# True division (/):
+#   Always returns a float, even if both operands are integers
+#     and the result is a whole number ({0, 1, 2, 3, 4,...}).
+10   / 2  # 5.0 (float)
+10.0 / 2  # 5.0 (float)
+11   / 2  # 5.5 (float)
+
+# Floor Division (//):
+#   If both operands are integers, it
+#     returns an int (the floor of the division result).
+#   If either operand is a float, it
+#     returns a float (the floor of the division result).
+10   // 2    # 5 (int)
+11   // 2    # 5 (int)
+11.0 // 2    # 5.0 (float)
+11   // 2.0  # 5.0 (float)
+-11  // 2    # -6 (int - floor division towards negative infinity)
+
+# Modulo Operator (%): the remainder of a division
+#   If both operands are integers, it
+#     returns an int.
+#   If either operand is a float, it
+#     returns a float.
+10   % 3     #  1 (int)
+10.0 % 3     #  1.0 (float)
+10   % 3.0   #  1.0 (float)
+-10  % 3     #  2 (int)
+10   % -3    #  -2 (int)
+```
+
+== Strings, bytes and bytearray
+
+In Python 3.X there are three string types: `str` is used for Unicode text (including ASCII), `bytes` is used for binary data (including encoded text), and `bytearray` is a mutable variant of bytes.
+
+Files work in two modes: _text_, which represents content as `str` and implements Unicode encodings, and `binary`, which deals in raw bytes and does no data translation.
+
+* UTF-8 is the standard text encoding in Python, Linux, and HTML.
++
+Ken Thompson and Rob Pike, whose names will be familiar to Unix developers, designed the UTF-8 dynamic encoding scheme one night on a placemat in a New Jersey diner. It uses one to four bytes per Unicode character:
++
+--
+* One byte for ASCII
+* Two bytes for most Latin-derived (but not Cyrillic) languages
+* Three bytes for the rest of the basic multilingual plane
+* Four bytes for the rest, including some Asian languages and symbols
+--
++
+```py
+cafe = 'café'
+
+# len() function on string counts Unicode characters, not bytes:
+len(cafe)  # 4
+
+cafe_bytes = cafe.encode()  # b'caf\xc3\xa9'
+
+# len() returns the number of bytes:
+len(cafe_bytes)  # 5
+
+cafe_text = cafe_bytes.decode()  # 'café'
+```
+
+* Strings are created by enclosing characters in matching single, double, or triple quotes:
++
+```py
+'Snap'
+"Crackle"
+"'Nay!' said the naysayer. 'Neigh?' said the horse."
+'The rare double quote in captivity: ".'
+'''Boom!'''
+"""Eek!"""
+```
++
+Triple quotes are very useful to create multiline strings, like this classic poem from Edward Lear:
++
+```py
+poem = '''There was a Young Lady of Norway,
+    Who casually sat in a doorway;
+    When the door squeezed her flat,
+    She exclaimed, "What of that?"
+    This courageous Young Lady of Norway.'''
+print(poem)
+```
++
+```console
+There was a Young Lady of Norway,
+    Who casually sat in a doorway;
+    When the door squeezed her flat,
+    She exclaimed, "What of that?"
+    This courageous Young Lady of Norway.
+```
++
+```py
+# the line ending characters, and leading or trailing spaces are preserved as below:
+'There was a Young Lady of Norway,\n    Who casually sat in a doorway;\n    When the door squeezed her flat,\n    She exclaimed, "What of that?"\n    This courageous Young Lady of Norway.'
+```
+
+* Escape with `\`, combine by using `+`, duplicate with `*`
++
+```py
+hi = 'Na ' 'Na ' 'Na ' 'Na ' \ # literal strings (not string variables) just one after the other
+    + 'Hey ' * 4 \
+    + '\\' + '\t' + 'Goodbye.'
+print(hi)  # Na Na Na Na Hey Hey Hey Hey \	Goodbye.
+```
+
+* In Python, adjacent string literals (inside parentheses) are automatically concatenated into a single string.
++
+```py
+s = "foo" "bar" "buz"
+print(s)
+# foobarbuz
+```
++
+```py
+s = (
+    "Hello, "
+    "this is an example "
+    "of string concatenation with a very looooooooooooooong text."
+)
+print(s)
+# Hello, this is an example of string concatenation with a very looooooooooooooong text.
+```
+
+
+
+
+* Python has a few special types of strings, indicated by a letter before the first quote.
+
+** `f` or `F` starts an _f-string_, used for formatting.
++
+```py
+thing = 'wereduck'
+place = 'werepond'
+print(f'The {thing} is in the {place}')  # 'The wereduck is in the werepond'
+```
+
+** `r` or `R` starts a raw string, used to prevent escape sequences in the string.
++
+```py
+info = r'Type a \n to get a new line'  # info = 'Type a \\n to get a new line'
+```
++
+```py
+# raw string does not undo any real (not `\n`) newlines:
+poem = r'''Boys and girls, come out to play.
+The moon doth shine as bright as day.'''
+print(poem) # 'Boys and girls, come out to play.\nThe moon doth shine as bright as day.'
+```
++
+```console
+Boys and girls, come out to play.
+The moon doth shine as bright as day.
+```
+
+** `fr` (or `FR`, `Fr`, or `fR`), the combination, that starts a raw f-string.
++
+```py
+hello = 'Hello'
+world = '世界'
+print(fr'{hello}, {world}!')  # Hello, 世界!
+```
+
+** `u` starts a Unicode string, which is the same as a plain string.
++
+TIP: Python 3 strings are Unicode character sequences, not byte arrays.
++
+```py
+hi = u'Hello, 世界!'  # same as: hi = 'Hello, 世界!'
+```
+
+** `b` starts a value of type bytes.
++
+```py
+ip = b'\x14\xcd\xf3\xa6'
+list(ip) # [20, 205, 243, 166]
+```
+
+* Python has three ways of formatting strings.
++
+```py
+actor = 'Richard Gere'
+cat = 'Chester'
+weight = 28
+```
++
+```py
+# old style (supported in Python 2 and 3): format_string % data
+'My wife\'s favorite actor is %s' % actor  # "My wife's favorite actor is Richard Gere"
+'Our cat %s weighs %d pounds' % (cat, weight)  # 'Our cat Chester weighs 28 pounds'
+'Our cat %(cat)s weighs %(weight)d pounds' % {'cat': cat, 'weight': weight}  # dictionary-based expressions
+```
++
+```py
+# new style (Python 2.6 and up): format_string.format(data)
+'{0}, {1} and {2}'.format('spam', 'ham', 'eggs')  # By position
+'{motto}, {pork} and {food}'.format(motto='spam', pork='ham', food='eggs')  # By keyword
+'{motto}, {0} and {food}'.format('ham', motto='spam', food='eggs')  # By both
+'{}, {} and {}'.format('spam', 'ham', 'eggs')  # By relative position
+# 'spam, ham and eggs'
+```
++
+```py
+# f-strings (Python 3.6 and up): f, F
+f'Our cat {cat} weighs {weight} pounds'  # 'Our cat Chester weighs 28 pounds'
+```
+
+* Python 3 introduced the following sequences of eight-bit integers, with possible values from 0 to 255, in two types:
++
+--
+* `bytes` is immutable, like a tuple of bytes
+
+* `bytearray` is mutable, like a list of bytes
+
+Endian order refers to the byte order used to store multi-byte values (like integers, floats) in computer memory.
+
+* Big-Endian: In big-endian order, the most significant byte (MSB) of a multi-byte value is stored at the beginning (lower memory address) of the allocated space. The remaining bytes follow in decreasing order of significance.
+
+* Little-Endian: In little-endian order, the least significant byte (LSB) is stored at the beginning (lower memory address), followed by bytes of increasing significance.
+
+```py
+blist = [1, 2, 3, 255]
+
+the_bytes = bytes(blist)
+print(the_bytes)
+# b'\x01\x02\x03\xff'
+
+the_byte_array = bytearray(blist)
+print(the_byte_array)
+# bytearray(b'\x01\x02\x03\xff')
+
+the_bytes[0] = 127  # TypeError: 'bytes' object does not support item assignment
+
+the_byte_array[0] = 127
+
+the_byte_array[1] = 256  # ValueError: byte must be in range(0, 256)
+
+the_bytes = bytes(range(0, 256))
+for i in range(0, len(the_bytes), 16):
+    end_index = min(i+16, len(the_bytes))
+    print(the_bytes[i:end_index])
+# b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f'
+# b'\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f'
+# b' !"#$%&\'()*+,-./'
+# b'0123456789:;<=>?'
+# b'@ABCDEFGHIJKLMNO'
+# b'PQRSTUVWXYZ[\\]^_'
+# b'`abcdefghijklmno'
+# b'pqrstuvwxyz{|}~\x7f'
+# b'\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f'
+# b'\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f'
+# b'\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf'
+# b'\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf'
+# b'\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf'
+# b'\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf'
+# b'\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef'
+# b'\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff'
+```
+--
+
+* regular expressions: pattern matching, substitution, and splitting
++
+```py
+import re
+```
++
+```py
+p = 'Les Fleurs du Mal'  # pattern
+c = re.compile(p)  # compile
+s = "Charles Baudelaire's 'Les Fleurs du Mal'"  # source
+m = c.search(s)  # match
+if m:  # m != None
+    print("Mon cœur est comme une feuille sèche, emportée par le vent...")
+```
++
+```py
+m = re.match('Les Fleurs du Mal', s)  # find exact beginning match with match()
+print(m)  # return a Match object
+# None
+
+m = re.search('Les Fleurs du Mal', s)  # find first match with search()
+print(m)  # return a Match object
+# <re.Match object; span=(22, 39), match='Les Fleurs du Mal'>
+
+m = re.findall('es', s)  # find all matches with findall()
+print(m)  # return a list
+# ['es', 'es']
+
+m = re.split(r'\s', s)  # split at matches with split()
+print(m)  # return a list
+# ['Charles', "Baudelaire's", "'Les", 'Fleurs', 'du', "Mal'"]
+
+m = re.sub("'", '?', s)  # replace at matches with sub()
+print(m)  # return a string
+# Charles Baudelaire?s ?Les Fleurs du Mal?
+```
+
+== If, while, and for
+
+* In Python (version 3.8 and above), the walrus operator (`:=`, formally known as the assignment expression operator) combines assignment and expression evaluation in a single line.
++
+```py
+tweet_limit = 280
+tweet_string = "Blah" * 50
+if diff := tweet_limit - len(tweet_string) >= 0:  # walrus operator
+    print("A fitting tweet")
+else:
+    print("Went over by", abs(diff))
+```
+
+* Compare with `if`, `elif`, and `else`:
++
+```py
+color = "mauve"
+if color == "red":
+    print("It's a tomato")
+elif color == "green":
+    print("It's a green pepper")
+else:
+    print("I've never heard of the color", color)
+```
+
+* The `if`/`else` ternary expression:
++
+```py
+# Python runs expression Y only if X turns out to be true, and runs expression Z only if X turns out to be false.
+# A = Y if X else Z  # equivalent to `((X and Y) or Z)`
+A = 't' if 'spam' else 'f'  # (('spam' and 't') or 'f')
+A  # 't'
+```
+
+* It is also possible to chain comparisons:
++
+```py
+if 4 > 3 > 2 > 1:  # True
+    ...
+```
+
+* Dictionary-based multiway branching:
++
+```py
+# Handling switch defaults
+branch = {'spam': 1.25,
+          'ham': 1.99,
+          'eggs': 0.99}
+print(branch.get('spam', 'Bad choice'))  # 1.25
+print(branch.get('bacon', 'Bad choice'))  # Bad choice
+# membership test in an if statement can have the same default effect:
+choice = 'bacon'
+if choice in branch:
+    print(branch[choice])
+else:
+    print('Bad choice')  # Bad choice
+
+# handle defaults by catching and handling the exceptions they'd otherwise trigger:
+try:
+    print(branch[choice])
+except KeyError:
+    print('Bad choice')
+
+# Handling larger actions
+branch = {'spam': lambda: ...,  # A table of callable function objects
+          'ham': function,
+          'eggs': lambda: ...}
+branch.get(choice, default)()
+```
+
+* Repeat with `while`, and `break`, `continue`, and `else`:
++
+```py
+while True:
+    value = input("Integer, please [q to quit]: ")
+    if value == 'q':  # quit
+        break
+    number = int(value)
+    if number % 2 == 0:  # an even number
+        continue
+    print(number, "squared is", number*number)
+```
++
+```py
+while x:  # Exit when x empty
+    if match(x[0]):  # Value at front?
+        print('Ni')
+        break  # Exit, go around else
+    x = x[1:]  # Slice off front and repeat
+else:  # break not called
+    print('Not found')  # Only here if exhausted x
+```
+
+* Iterate with `for`/`in`, and `break`, `continue` and `else`:
++
+```py
+word = 'thud'
+for letter in word:
+    if letter == 'u':
+        continue
+    print(letter)
+```
++
+```py
+word = 'thud'
+for letter in word:
+    if letter == 'x':
+        print("Eek! An 'x'!")
+        break
+    print(letter)
+else:  # break not called
+    print("No 'x' in there.")
+```
++
+```py
+# counter loops: range
+for num in range(0, 10, 2):
+    print(num)  # 0 2 ... 8
+
+# reverse loops: range 
+spam = 'spam'
+for i in range(len(spam) - 1, -1, -1):
+    print((i, spam[i]), end='\t')
+# (3, 'm')	(2, 'a')	(1, 'p')	(0, 's')
+```
++
+```py
+# generating both offsets and items: enumerate
+for (index, item) in enumerate('spam'):
+    print(f'{index}: {item}', end='\t')  # 0: s	1: p	2: a	3: m
+```
++
+```py
+# parallel traversals: zip
+for nums in zip(range(0, 10, 2), range(1, 10, 2)):
+    print(nums)  # (0, 1) (2, 3) .. (8, 9)
+```
++
+```py
+# unpack sequence elements into variables
+nums = [[1, 2], [3, 4], [5, 6]]
+for a, b in nums:
+    print(a, b)
+# 1 2
+# 3 4
+# 5 6
+```
+
+== Tuples and lists
+
+* *Tuples* are built-in immutable sequences.
++
+```py
+# to make a tuple with one or more elements, follow each element with a comma (`,`):
+'cat',  # ('cat',)
+'cat', 'dog', 'cattle'  # ('cat', 'dog', 'cattle')
+
+# to make an empty tuple, using `()`, or `tuple()`:
+()  # ()
+tuple()  # ()
+
+# the comma is required to make a tuple
+('cat')  # 'cat'
+
+# the parentheses is not required, but could make the tuple more visible
+('cat',)  # ('cat',)
+('cat', 'dog', 'cattle')  # ('cat', 'dog', 'cattle')
+
+# for cases in which commas might also have another use, the parentheses is needed
+type('cat',)  # <class 'str'>
+type(('cat',))  # <class 'tuple'>
+
+# tuple()
+tuple('cat')  # ('c', 'a', 't')
+
+# zip()
+for x in zip([1, 2, 8], [1, 4, 9], ('cat', 'dog', 'cattle', 'chicken')):
+     print(x)
+# (1, 1, 'cat')
+# (2, 4, 'dog')
+# (8, 9, 'cattle')
+
+# generator expression
+nums = tuple(range(10))  # (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+(x for x in nums if x % 2 == 0)  # <generator object <genexpr> at 0x7fcd7069b920>
+```
++
+```py
+# named tuples are a tuple/class/dictionary hybrid.
+from collections import namedtuple  # import extension type
+Rec = namedtuple('Rec', ['name', 'age', 'jobs'])  # make a generated class
+bob = Rec('Bob', age=40.5, jobs=['dev', 'mgr'])  # a named-tuple record
+print(bob)
+# Rec(name='Bob', age=40.5, jobs=['dev', 'mgr'])
+
+bob[0], bob[2]  # access by position
+# ('Bob', ['dev', 'mgr'])
+
+bob.name, bob.jobs  # access by attribute
+# ('Bob', ['dev', 'mgr'])
+
+# converting to a dictionary supports key-based behavior when needed:
+x = bob._asdict()  # dictionary-like form
+x['name'], x['jobs']  # access by key too
+# ('Bob', ['dev', 'mgr'])
+
+type(x)
+# <class 'dict'>
+x
+# {'name': 'Bob', 'age': 40.5, 'jobs': ['dev', 'mgr']}
+```
+
+* *Lists* are built-in mutable sequences.
++
+```py
+# create with `[]` or `list()`
+[]  # []
+['meow', 'bark', 'moo']  # ['meow', 'bark', 'moo']
+[('cat', 'meow'), 'bark', 'moo']  # [('cat', 'meow'), 'bark', 'moo']
+list()  # []
+list('cat')  # ['c', 'a', 't']
+
+# append(), insert(), extend()
+wow = ['meow']  # ['meow']
+wow.append('moo')  # ['meow', 'moo']
+wow.insert(1, 'bark')  # ['meow', 'bark', 'moo']
+wow.extend(['cluck', 'baa']) # ['meow', 'bark', 'moo', 'cluck', 'baa']
+
+# plus(+), repeat(*)
+plus = ['meow', 'bark', 'moo'] + ['cluck', 'baa'] # ['meow', 'bark', 'moo', 'cluck', 'baa']
+repeat = ['bark'] * 3 # ['bark', 'bark', 'bark']
+
+# index, and slice assignment
+L = ['spam', 'Spam', 'SPAM!']
+# index assignment
+L[1] = 'eggs'  # ['spam', 'eggs', 'SPAM!']
+# slice assignment: delete+insert  # list[start:stop:step] = iterable
+#   if the iterable is shorter, elements are deleted from the slice.
+#   if the iterable is longer, extra elements are inserted.
+L[0:2] = ['eat', 'more']  # ['eat', 'more', 'SPAM!']
+
+# del, remove(), pop(), clear()
+farm = ['cat', 'dog', 'cattle', 'chicken', 'duck']
+
+del farm[-1]
+# ['cat', 'dog', 'cattle', 'chicken']
+
+farm.remove('dog')
+# ['cat', 'cattle', 'chicken']
+
+# pop: remove and return item at index (default last).
+farm.pop()  # 'chicken'
+# ['cat', 'cattle']
+
+farm.pop(-1)  # 'cattle'
+# ['cat']
+
+farm.clear()
+# []
+
+# sort() and sorted()
+farm = ['cat', 'dog', 'cattle']
+
+# a sorted copy
+sorted(farm)  # ['cat', 'cattle', 'dog']
+print(farm)  # ['cat', 'dog', 'cattle']
+
+# sorting in-place 
+farm.sort()
+print(farm)  # ['cat', 'cattle', 'dog']
+
+# shallow copy: any changes made to the elements within the original list will also be reflected in the copy.
+a = [['cat', 'meow'], ['dog', 'bark']]
+c = a[:]
+b = a.copy()  # equivalent to list slicing ([:] )but might be slightly less efficient.
+d = list(c)
+
+# deep copy: changes to elements within the original list won't affect the copy (and vice versa) because they point to different objects in memory.
+import copy
+e = copy.deepcopy(a)
+
+a[0][1] = 'moo'
+a  # [['cat', 'moo'], ['dog', 'bark']]
+b  # [['cat', 'moo'], ['dog', 'bark']]
+c  # [['cat', 'moo'], ['dog', 'bark']]
+d  # [['cat', 'moo'], ['dog', 'bark']]
+
+e  # [['cat', 'meow'], ['dog', 'bark']]
+
+# list comprehensions: [expression for item in iterable]
+even_numbers = [2 * num for num in range(5)]
+# [0, 2, 4, 6, 8]
+# list comprehensions: [expression for item in iterable if condition]
+odd_numbers = [num for num in range(10) if num % 2 == 1]
+# [1, 3, 5, 7, 9]
+```
++
+```py
+# from collections import deque
+q = deque([], maxlen=5)
+q.maxlen  # 5
+q.append(0)  # deque([0], maxlen=5)
+q.extend([1,2])  # deque([0, 1, 2], maxlen=5)
+q.extendleft([3,4])  # deque([4, 3, 0, 1, 2], maxlen=5)
+q.appendleft(5)  # deque([5, 4, 3, 0, 1], maxlen=5)
+q.pop()  # 1
+q.popleft()  # 5
+```
+
+== Dictionaries and sets
+
+[TIP]
+====
+In Python, keys in dictionaries (dict) and elements in sets must be of immutable, or hashable data types.
+
+The `hash()` built-in function works directly with built-in types and falls back to calling `+++__hash__+++` for user-defined types. 
+
+If a user-defined class doesn't explicitly define the `+++__hash__+++` method, Python falls back to hashing the object's identity, the memory address. However, the hash values will be unpredictable that based on the object's memory location, which can change depending on various factors (e.g., memory allocation, garbage collection).
+
+```py
+class Foo:
+    pass
+
+a, b = Foo(), Foo()
+id(a), id(b)  # (4346584704, 4345722384)
+hash(a), hash(b)  # (271661544, 271607649)
+```
+====
+
+*Dictionaries* _(hash maps or associative arrays)_
+
+```py
+# dictionaries are sometimes called hash maps or associative arrays
+{}  # {}
+{'cat': 'meow', 'dog': 'bark'}  # {'cat': 'meow', 'dog': 'bark'}
+
+# dict(): keyword argument names need to be legal variable names (no spaces, no reserved words)
+dict(cat='meow', dog='bark')  # {'cat': 'meow', 'dog': 'bark'}
+
+# dict(): zipping together sequences of keys and values into a dictionary
+dict([['cat', 'meow'], ['dog', 'bark']])  # {'cat': 'meow', 'dog': 'bark'}
+
+# [key], get()
+animals = {'cat': 'meow', 'dog': 'bark'}
+animals['cattle'] = 'moo'  # {'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'}
+animals['cat']  # 'meow'
+animals['sheep']  # KeyError: 'sheep'
+animals.get('sheep')  # None
+animals.get('sheep', 'baa')  # 'baa'
+
+# testing
+animals = {'cat': 'meow', 'dog': 'bark'}
+'cat' in animals  # True
+'sheep' in animals  # False
+animals['sheep'] if 'sheep' in animals else 'oops!'  # 'oops!'
+
+# keys(), values(), items(), len()
+animals.keys()  # dict_keys(['cat', 'dog', 'cattle'])
+animals.values()  # dict_values(['meow', 'bark', 'moo'])
+animals.items()  # dict_items([('cat', 'meow'), ('dog', 'bark'), ('cattle', 'moo')])
+len(animals)  # 3
+
+# `**`, update()
+{**{'cat': 'meow'}, **{'dog': 'bark'}}  # {'cat': 'meow', 'dog': 'bark'}
+animals = {'cat': 'meow'}
+animals.update({'dog': 'bark'})  # {'cat': 'meow', 'dog': 'bark'}
+
+# del, pop(), clear()
+animals = {'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'}
+del animals['dog']
+# {'cat': 'meow', 'cattle': 'moo'}
+animals.pop('cattle')  # 'moo'
+# {'cat': 'meow'}
+animals.clear()
+# {}
+
+# iterations
+animals = {'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'}
+for key in animals:  # for key in animals.keys()
+    print(f'{key} => {animals[key]}', end='\t')
+# cat => meow	dog => bark	cattle => moo
+for key, value in animals.items():
+    print(f'{key} => {value}', end='\t')
+# cat => meow     dog => bark     cattle => moo   
+
+# dictionary comprehensions: {key_expression : value_expression for expression in iterable}
+word = 'letters'
+letter_counts = {letter: word.count(letter) for letter in word}
+# {'l': 1, 'e': 2, 't': 2, 'r': 1, 's': 1}
+
+# dictionary comprehensions: {key_expression : value_expression for expression in iterable if condition}
+vowels = 'aeiou'
+word = 'onomatopoeia'
+vowel_counts = {letter: word.count(letter)
+                for letter in set(word) if letter in vowels}
+# {'i': 1, 'o': 4, 'a': 2, 'e': 1}
+```
+
+```py
+# setdefault()
+d = {}
+d[0].extend(range(5))  # KeyError: 0
+d.setdefault(0, []).extend(range(5))
+d[0]  # [0, 1, 2, 3, 4]
+
+# from collections import defaultdict  # defaultdict(default_factory=None, /, [...])
+dict()[0]  # KeyError: 0
+defaultdict(list)[0]  # []
+defaultdict(int)[0]   # 0
+defaultdict(float)[0] # 0.0
+defaultdict(str)[0]   # ''
+```
+
+```py
+# from collections import Counter  # Counter(iterable=None, /, **kwds)
+#  Dict subclass for counting hashable items.  Sometimes called a bag
+#  or multiset.  Elements are stored as dictionary keys and their counts
+#  are stored as dictionary values.
+
+word = 'abcdeabcdabcaba'  
+# {letter: word.count(letter) for letter in set(word)}  # {'e': 1, 'a': 5, 'c': 3, 'd': 2, 'b': 4}
+c = Counter(word)  # Counter({'a': 5, 'b': 4, 'c': 3, 'd': 2, 'e': 1})
+c.elements()  # ['a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'd', 'd', 'e']
+c.most_common(2)  # [('a', 5), ('b', 4)]
+for l in c:
+    print(f'{l} -> {c[l]}', end='\t')  # a -> 5	b -> 4	c -> 3	d -> 2	e -> 1	
+```
+
+*Sets*
+
+```py
+# `{}`, set(), frozenset()
+{}  # <class 'dict'>
+{0, 2, 4, 6}  # {0, 2, 4, 6}
+
+set()  # set()
+set('letter')  # {'l', 't', 'r', 'e'}
+set({'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'})  # {'cat', 'cattle', 'dog'}
+
+frozenset()  # frozenset()
+frozenset([3, 1, 4, 1, 5, 9])  # frozenset({1, 3, 4, 5, 9})
+
+# len(), add(), remove()
+nums = {0, 1, 2, 3, 4, }
+len(nums)  # 5
+nums.add(5)  # {0, 1, 2, 3, 4, 5}
+nums.remove(0)  # {1, 2, 3, 4, 5}
+
+# iteration
+for num in {0, 2, 4, 6, 8}:
+    print(num, end='\t')
+# 0	2	4	6	8	
+
+# testing
+2 in {0, 2, 4}  # True
+3 in {0, 2, 4}  # False
+
+# `&`: intersection(), `|`: union(), `-`: difference(), `^`: symmetric_difference()
+a = {1, 3}
+b = {2, 3}
+a & b  # {3}
+a | b  # {1, 2, 3}
+a - b  # {1}
+a ^ b  # {1, 2}
+
+# `<=`: issubset(), `<`: proper subset, `>=`: issuperset(), `>`: proper superset
+a <= b  # False
+a < b  # False
+a >= b  # False
+a > b  # False
+
+# set comprehensions: { expression for expression in iterable }
+{num for num in range(10)}  # {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+# set comprehensions: { expression for expression in iterable if condition }
+{num for num in range(10) if num % 2 == 0}  # {0, 2, 4, 6, 8}
+```
+
+== Iterations and comprehensions
+
+The terms "iterable" and "iterator" are casually used interchangeably to refer to an object that supports iteration in general. For clarity, using the term:
+
+* _iterable_ to refer to an object that supports the `iter` call, and 
+
+* _iterator_ to refer to an object returned by an _iterable_ on `iter` that supports the `next(I)` call.
+
+Any object with a `++__next__++` method to advance to a next result, which raises `StopIteration` at the end of the series of results, is considered an _iterator_, that may also be stepped through with a `for` loop or other iteration tool, because all iteration tools normally work internally by calling `++__next__++` on each iteration and catching the `StopIteration` exception to determine when to exit.
+
+```py
+print(open('script2.py').read())
+# import sys
+# print(sys.path)
+# x = 2
+# print(x**32)
+
+f = open('script2.py')
+f.__next__()
+# 'import sys\n'
+f.__next__()
+# 'print(sys.path)\n'
+f.__next__()
+# 'x = 2\n'
+f.__next__()
+# 'print(x**32)\n'
+f.__next__()
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# StopIteration
+```
+
+```py
+# manual iteration: what for loops usually do
+with open('script2.py', 'rt', encoding='utf-8') as fi:
+    while True:
+        try:
+            # To simplify manual iteration code, Python 3.X also provides a built-in function, next,
+            # that automatically calls an object’s __next__ method.
+            line = fi.__next__()  # same as: line = next(fi)
+            print(line, end='')
+        except StopIteration:
+            break
+```
+
+```py
+for line in open('script2.py'):  # use file iterators to read by lines
+    print(line.upper(), end='')  # calls __next__, catches StopIteration
+```
+
+When the `for` loop begins, it first uses the iteration protocol to obtain an iterator from the iterable object by passing it to the `iter` built-in function; the object returned by `iter` in turn has the required `next` method. The `iter` function internally runs the `++__iter__++` method, much like `next` and `++__next__++`.
+
+The Python iteration protocol is used by for loops, comprehensions, maps, and more, and also supported by files, lists, dictionaries, generators, and more.
+
+* An iterable object's `++__iter__++` method, called by `iter()`, returns an iterator for the iteration.
+
+* The iterator's `++__next__++` method, called by `next()`, produces values during the iteration until it raises `StopIteration`.
++
+```py
+L = [1, 2, 3]  # iterable
+I = iter(L)  # iterator
+next(I)
+# 1
+next(I)
+# 2
+next(I)
+# 3
+next(I)
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# StopIteration
+```
+
+Iteration contexts in Python include the `for` loop; `list` comprehensions; the `map` built-in function; the `in` membership test expression; and the built-in functions `sorted`, `sum`, `any`, and `all`, and also includes the `list` and `tuple` built-ins, string `join` methods, and sequence assignments, all of which use the iteration protocol to step across iterable objects one item at a time.
+
+Technically speaking, list comprehensions are never really required because a list of expression results can be always built up manually with for loops, however, list comprehensions might run much faster than manual for loop statements (often roughly twice as fast) because their iterations are performed at C language speed inside the interpreter, rather than with manual Python code.
+
+```py
+L = [1, 2, 3, 4, 5]
+res = []
+for x in L:
+    res.append(x+10)
+print(res)  # [11, 12, 13, 14, 15]
+```
+
+```py
+res2 = [x + 10 for x in L]
+print(res2)  # [11, 12, 13, 14, 15]
+```
+
+```py
+# filter clauses: if
+[line.rstrip() for line in open('script2.py') if line[0] == 'p']
+```
+
+```py
+# nested loops: for
+[x + y for x in 'abc' for y in 'lmn']
+```
+
+```py
+# all, any, map, filter, reduce, zip, enumerate, shuffle, sample, reversed, sorted
+nums = list(range(10))  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+all(num > 0 for num in nums)  # False
+any(num > 0 for num in nums)  # True
+
+map(lambda x: x * x, nums)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+filter(lambda x: x % 2 == 0, nums)  # [0, 2, 4, 6, 8]
+# from functools import reduce
+reduce(lambda x, y: x + y, nums)  # ((0 + 1) + 2) + ... = 45
+
+zip(range(3), range(4), range(5))  # [(0, 0, 0), (1, 1, 1), (2, 2, 2)]
+
+funcs = ['map', 'filter', 'reduce']
+enumerate(funcs)     # [(0, 'map'), (1, 'filter'), (2, 'reduce')]
+enumerate(funcs, 1)  # [(1, 'map'), (2, 'filter'), (3, 'reduce')]
+[(i, func) for i, func in enumerate(funcs, start=1)]  # [(1, 'map'), (2, 'filter'), (3, 'reduce')]
+
+# from random import shuffle, sample
+shuffle(nums)  # Shuffle list x in place, and return None.
+nums  # [4, 2, 5, 9, 6, 0, 1, 3, 8, 7]
+sample(nums, k=len(nums))  # [5, 3, 7, 6, 8, 4, 0, 1, 2, 9]
+
+reversed(nums)  # [7, 8, 3, 1, 0, 6, 9, 5, 2, 4]
+nums[::-1]  # [7, 8, 3, 1, 0, 6, 9, 5, 2, 4]
+
+sorted(nums, reverse=True)  # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+```
+
+```py
+import itertools
+
+names = ["Alan", "Adam", "Wes", "Will", "Albert", "Steven"]
+
+for letter, names in itertools.groupby(names, lambda x: x[0]):
+    print(letter, list(names))
+
+# A ['Alan', 'Adam']
+# W ['Wes', 'Will']
+# A ['Albert']
+# S ['Steven']
+
+for num in itertools.chain(range(3), range(3, 7), range(7, 10), [10]):
+    print(num, end='\t')
+
+# 0       1       2       3       4       5       6       7       8       9       10
+
+list(itertools.combinations([0, 1, 2], 2))
+[(0, 1), (0, 2), (1, 2)]
+
+list(itertools.combinations_with_replacement([0, 1, 2], 2))
+[(0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2)]
+
+list(itertools.permutations([0, 1, 2], 2))
+[(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)]
+
+list(itertools.product([0, 1, 2], [3, 4, 5], repeat=1))
+[(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]
+```
+
+== Files and directories
+
+A _file_ is a sequence of bytes, stored in some _filesystem_, and accessed by a _filename_. A _directory_ (or _folder_) is a collection of files, and possibly other directories.
+
+* _Text files_ represent content as normal `str` strings, perform Unicode encoding and decoding automatically, and perform end-of-line translation by default.
+
+* _Binary files_ represent content as a special `bytes` string type and allow programs to access file content unaltered.
+
+* `open(filename, mode)`: Opens a file in the specified mode, and returns a file object used for reading or writing data.
+
+** `file.read([size])`: Read a specified number of characters (or bytes) from the file (or all remaining bytes if no size is provided).
+
+** `file.readline()`: Read a single line from the file.
+
+** `file.readlines([size])`: Return a list of lines from the stream.
+
+** `for line in open('data'): use line`: File iterators read line by line.
+
+** `file.write(data)`: Write a string of characters (or bytes) data to the file.
+
+** `file.writelines(strings)`: Write all line strings in a list into file.
+
+** `file.flush()`: Flush output buffer to disk without closing.
+
+** `file.tell()`: Return the stream position as an opaque number.
+
+** `file.seek(pos)`: Set the stream position, and return the new stream position.
+
+** `file.encoding`: Encoding of the text stream.
+
+** `mode` (optional): a string specifies how the file will be opened, which determines the access permissions and how newline characters (for text files) are handled.
++
+--
+** `r` (read): Opens the file for reading. The file must exist, or an error will be raised.
+** `w` (write): Opens the file for writing. An existing file will be truncated (emptied) before writing. If the file doesn't exist, it will be created.
+** `a` (append): Opens the file for appending. New data will be written to the end of the file. If the file doesn't exist, it will be created.
+** `x` (exclusive creation): Attempts to create a new file. If the file already exists, an error will be raised.
+** `r+` (read and write): Opens the file for both reading and writing. The file must exist.
+** `w+` (read and write): Opens the file for both reading and writing. An existing file will be truncated before any operations. If the file doesn't exist, it will be created.
+** `a+` (append and read): Opens the file for both appending and reading. If the file doesn't exist, it will be created.
+
+** By default, Python opens files in text mode (`t`), that handles newline characters differently based on the operating system (CRLF on Windows, LF on Unix/Linux).
+
+** The binary mode (`b`) can be specified  by appending it to any mode (e.g., `rb`, `wb`), that treats the file as a raw stream of bytes without newline conversion.
+
+** Python 3 offers a universal newline mode (`U`) that attempts to handle various newline conventions consistently.
+--
++
+```py
+poem = '''
+Je suis l'automne, la saison des pluies,
+Le temps des fruits mûrs et des feuilles jaunies,
+Le soleil pâle et les jours qui décroissent,
+Le vent qui hurle et les chaumes qui gémissent.
+
+Je suis l'automne, la saison des regrets,
+Le temps où meurent les amours et les joies,
+Le temps des souvenirs et des larmes secrètes,
+Le temps des nuits longues et des tristesses froides.
+
+Je suis l'automne, la saison des douleurs,
+Le temps des fièvres et des maladies,
+Le temps où l'on se sent mourir sans pouvoir guérir,
+Le temps où l'on voudrait mourir et qu'on n'ose pas.
+
+Je suis l'automne, la saison de la mort,
+Le temps où l'on se couche dans la terre humide,
+Le temps où l'on dort pour toujours sans rêver,
+Le temps où l'on ne souffre plus et qu'on n'aime plus.
+'''
+
+# sys.getdefaultencoding()  # 'utf-8'
+with open('autumn_song.txt', 'w+', encoding='utf-8') as fio:
+    fio.write(poem)
+
+    fio.seek(0)
+    lines = fio.readlines()
+    for line in lines:
+        print(line, sep='', end='')
+
+    fio.seek(0)
+    for line in fio:  # iterate over lines in the file object (text mode only)
+        print(line, sep='', end='')
+
+```
+
+* `os.mkdir(directory_name)`: Create a single directory.
+
+* `os.makedirs(directory_path)` : Create nested directories if they don't exist.
+
+* `os.remove(filename)`: Delete a single file.
+
+* `shutil.rmtree(directory_path)`: Delete a directory and its contents recursively.
+
+* `os.rename(old_name, new_name)`: Rename a file or directory.
+
+* `os.getcwd()`: Get the current working directory.
+
+* `os.chdir(new_path)`: Change the working directory.
+
+* `os.listdir(directory_path)`: Get a list of files and subdirectories within a directory.
+
+* `os.path.exists(path)`: Check if a file or directory exists.
+
+* `os.path.getsize(path)`: Get a file size.
+
+* `os.path.isdir(path)`: Check if it's a directory.
+
+* `os.path.isfile(path)`: Check whether a path is a regular file.
+
+* `os.walk(directory)`: Iterate through a directory recursively, yielding a 3-tuple for each directory containing its path, subdirectories, and filenames.
+
+* `glob.glob(pathname)`: Return a list of paths matching a pathname pattern.
+
+* `glob.iglob(pathname)`: Returns an iterator of paths that match the given pattern.
++
+The pattern can include wildcard characters:
++
+** `*`: Matches zero or more characters.
+** `?`: Matches exactly one character.
+** `[]`: Matches any character within the specified set.
+** `{}`: Matches one of the enclosed patterns.
++
+```py
+glob.glob("*.txt")  # Find all text files in the current directory
+glob.glob("**/*.py")  # Find all Python files in the current directory and its subdirectories
+glob.glob("./docs/**/*.png") # "./docs/": Specifies the directory to search in.
+glob.glob("**/images/*.jpg") # Use ** to match files in subdirectories as well
+```
+
+* `pathlib.Path`: Represents a file path object in the modern and object-oriented `pathlib` module for working with file paths.
++
+```py
+# Creating and manipulating files and directories:
+Path.mkdir()    # Create a new directory.
+Path.unlink()   # Remove a file.
+Path.rmdir()    # Remove an empty directory.
+Path.rename()   # Rename a file or directory.
+Path.copy()     # Copy a file or directory.
+Path.replace()  # Move a file or directory.
+
+# Getting information about files and directories:
+Path.exists()   # Check if a path exists.
+Path.is_file()  # Check if a path is a file.
+Path.is_dir()   # Check if a path is a directory.
+Path.stat()     # Get information about a file or directory (e.g., size, modification time).
+Path.iterdir()  # Iterate over the contents of a directory.
+
+# Working with file paths:
+Path.joinpath() # Join multiple path components into a single path.
+Path.parent     # Get the parent directory of a path.
+Path.name       # Get the name of a file or directory.
+Path.stem       # Get the name of a file without the extension.
+Path.suffix     # Get the file extension.
+Path.resolve()  # Convert a relative path to an absolute path.
+
+# Using context managers:
+Path.open()     # Open a file for reading or writing.
+```
+
+== Functions
+
+```py
+# Function-related statements and expressions
+
+# call expressions
+myfunc('spam', 'eggs', meat=ham, *rest)
+
+# def
+def printer(messge):
+    print('Hello ' + message)
+
+# return
+def adder(a, b=1, *c):
+    return a + b + c[0]
+
+# global
+x = 'old'
+def changer():
+    global x; x = 'new'
+
+# nonlocal (3.X) allows a function to modify variables defined in a higher-level scope that is not global
+def outer():
+    x = 'old'
+    def changer():
+        nonlocal x; x = 'new'
+
+# yield
+def squares(x):
+  for i in range(x): yield i ** 2  # generator
+
+# lambda
+funcs = [lambda x: x**2, lambda x: x**3]
+```
+
+```py
+# pass
+def do_nothing():
+    pass  # NOOP
+do_nothing()
+```
+
+[TIP]
+====
+Python 3.X (but not 2.X) allows ellipses coded as `...` (literally, three consecutive dots) to appear any place an expression can. Because ellipses do nothing by themselves, this can serve as an alternative to the `pass` statement, especially for code to be filled in later—a sort of Python "TBD":
+
+```py
+def func1():
+    ... # Alternative to pass
+def func2():
+    ...
+func1() # Does nothing if called
+```
+
+Ellipses can also appear on the same line as a statement header and may be used to initialize variable names if no specific type is required:
+
+```py
+def func1(): ... # Works on same line too
+def func2(): ...
+```
+
+```py
+x = ... # Alternative to None
+x       # Ellipsis
+type(x) # <class 'ellipsis'>
+```
+
+This notation is new in Python 3.X—and goes well beyond the original intent of `...` in slicing extensions—so time will tell if it becomes widespread enough to challenge `pass` and `None` in these roles.
+====
+
+* `def` is an executable statement to create a new function object and assigns it to a name at runtime, and can appear anywhere a statement can—even nested in other statements.
+
+* `lambda` is an expression, not a statement, for coding simple functions, and its body is a single expression, not a block of statements.
+
+* `return` sends a result object back to the caller.
+
+* `yield` sends a result object back to the caller, but remembers where it left off, to produce a series of results over time.
+
+* `global` declares module-level variables that are to be assigned, that tells Python that a function plans to change one or more global names—that is, names that live in the enclosing module’s scope (namespace).
++
+```py
+X = 88  # Global X
+
+def func():
+    global X
+    X = 99  # Global X: outside def
+
+func()
+print(X)  # Prints 99
+```
+
+* `nonlocal` declares enclosing function variables that are to be assigned, that is declaring the enclosing scopes’ names in a nonlocal statement enables nested functions to assign and thus change such names as well.
++
+```py
+def tester(start):
+    state = start  # Each call gets its own state
+
+    def nested(label):
+        nonlocal state  # Remembers state in enclosing scope
+        print(label, state)
+        state += 1  # Allowed to change it if nonlocal
+    return nested
+
+# Increments state on each call
+F = tester(0)
+F('spam')  # spam 0
+F('ham')   # ham 1
+F('eggs')  # eggs 2
+```
+
+* Arguments are *passed by assignment* (object reference), and are passed by position, unless saying otherwise.
+
+** Values passed in a function call match argument names in a function’s definition from left to right by default.
+
+** Function calls can also pass arguments by name with `name=value` keyword syntax, and unpack arbitrarily many arguments to send with `+++*args+++` and `+++**kargs+++` starred-argument notation.
+
+** Function definitions use the same two forms to specify argument defaults, and collect arbitrarily many arguments received.
+
+* Arguments, return values, and variables are not declared, and there are no type constraints on functions, and a single function can often be applied to a variety of object types—any objects that sport a compatible interface (methods and expressions) will do, regardless of their specific types.
+
+
+```py
+# None
+def whatis(thing):  # def whatis(thing: any) -> None:
+    if thing is None:
+        print(thing, "is None")
+    elif thing:
+        print(thing, "is True")
+
+whatis(None)  # None is None
+```
+
+```py
+# docstring
+def echo(anything):
+    'echo returns its input argument'
+    return anything
+
+print(echo.__doc__)  # 'echo returns its input argument'
+help(echo)
+```
+
+=== Namespaces
+
+When talking about the search for a name’s value in relation to code, the term _scope_ refers to a _namespace_—a place where names live.
+
+Python’s name-resolution scheme is sometimes called the _LEGB rule_, after the scope names:
+
+* When using an unqualified name inside a function, Python searches up to four scopes—the local (_L_) scope, then the local scopes of any enclosing (_E_) ``def``s and ``lambda``s, then the global (_G_) scope, and then the built-in (_B_) scope—and stops at the first place the name is found. If the name is not found during this search, Python reports an error (`NameError`) .
+
+* When assigning a name in a function (instead of just referring to it in an expression), Python always creates or changes the name in the local scope, unless it’s declared to be `global` or `nonlocal` in that function.
+
+* When assigning a name outside any function (i.e., at the top level of a module file, or at the interactive prompt), the local scope is the same as the global scope—the module’s namespace.
+
+```py
+def tester(start):
+    def nested(label):
+        nonlocal state  # Nonlocals must already exist in enclosing def!
+        state = 0
+        print(label, state)
+    return nested
+# SyntaxError: no binding for nonlocal 'state' found
+
+
+def tester(start):
+    def nested(label):
+        global state  # Globals don't have to exist yet when declared
+        state = 0  # This creates the name in the module now
+        print(label, state)
+    return nested
+```
+
+Python provides two functions to access the contents of the namespaces:
+
+* `locals()` returns a dictionary of the contents of the local namespace.
+
+* `globals()` returns a dictionary of the contents of the global namespace.
+
+```py
+a = 5.21
+
+def print_global_a():
+ global a  # the global keyword: explicit is better than implicit
+ print(a)
+
+print_global_a()
+# 5.21
+
+def print_locals_globals():
+    a: int = 0
+    b: float = 3.14
+    print(locals())
+    print(globals())
+
+print_locals_globals()
+# {'a': 0, 'b': 3.14}
+# {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'print_locals': <function print_locals at 0x7fab761ade40>, 'print_globals': <function print_globals at 0x7fab761adee0>, 'print_locals_globals': <function print_locals_globals at 0x7fab761bbba0>, 'a': 5.21}
+```
+
+* `vars()` without arguments, equivalent to `locals()`.
++
+```py
+print(vars())
+# {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}
+```
+
+=== Arguments
+
+
+```py
+# function argument-matching forms
+def func(name): ...  # normal: matches any passed value by position or name
+def func(name=value): ...  # defaults: default argument value, if not passed in the call
+def func(*args): ...  # varargs collecting: matches and collects remaining positional arguments in a tuple
+def func(**kargs): ...  # varargs collecting: matches and collects remaining keyword arguments in a dictionary
+def func(*other, name): ...  # keyword-only arguments: arguments that must be passed by keyword only in calls (3.X)
+def func(*, name=value): ...  # keyword-only arguments: arguments that must be passed by keyword only in calls (3.X)
+
+func(value)  # positionals: matched by position
+func(name=value)  # keywords: matched by name
+func(*iterable)  # varargs unpacking: pass all objects in iterable as individual positional arguments
+func(**dict)  # varargs unpacking: pass all key/value pairs in dict as individual keyword arguments
+```
+
+```py
+# arguments
+def menu(wine, entree, dessert):
+    return {'wine': wine, 'entree': entree, 'dessert': dessert}
+
+# positional (or named) arguments: passed by order
+menu('chardonnay', 'chicken', 'cake')
+# {'wine': 'chardonnay', 'entree': 'chicken', 'dessert': 'cake'}
+
+# keyword arguments: passed by name
+menu(entree='beef', dessert='bagel', wine='bordeaux')
+# {'wine': 'bordeaux', 'entree': 'beef', 'dessert': 'bagel'}
+
+# mix positional and keyword arguments
+menu('frontenac', dessert='flan', entree='fish')
+# {'wine': 'frontenac', 'entree': 'fish', 'dessert': 'flan'}
+```
+
+```py
+# optional positional arguments
+def print_args(*args):
+    print(args)  # gather as a tuple
+
+print_args()
+# ()
+print_args('meow', 'bark', 'moo')
+# ('meow', 'bark', 'moo')
+print_args(('meow', 'bark', 'moo'))
+# (('meow', 'bark', 'moo'),)
+print_args(*('meow', 'bark', 'moo'))  # explode a tuple with `*`
+# ('meow', 'bark', 'moo')
+```
+
+```py
+# optional keyword arguments
+def print_kargs(**kargs):
+    print(kargs)  # gather as a dict
+
+print_kargs()
+# {}
+print_kargs(cat='meow', dog='bark', cattle='moo')
+# {'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'}
+print_kargs(**{'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'})  # explode a dict with `**`
+# {'cat': 'meow', 'dog': 'bark', 'cattle': 'moo'}
+```
+
+```py
+# default parameters
+def menu(wine, entree, dessert='pudding'):
+    return {'wine': wine, 'entree': entree, 'dessert': dessert}
+
+menu('chardonnay', 'chicken')
+# {'wine': 'chardonnay', 'entree': 'chicken', 'dessert': 'pudding'}
+```
+
+```py
+# keyword-only arguments `*`
+def kwonly(a, *b, c):
+    '''
+    - a: may be passed by name or position.
+    - b: collects any extra positional arguments
+    - c: must be passed by keyword only.
+    '''
+    print(a, b, c)
+
+kwonly(1, 2, c=3)  # 1 (2,) 3
+kwonly(a=1, c=3)  # 1 () 3
+kwonly(1, 2, 3)  # TypeError: kwonly() missing 1 required keyword-only argument: 'c'
+
+def kwonly(a, *, b, c='spam'):
+    '''
+    - a: may be passed by name or position.
+    - b: must be passed by keyword.
+    - c: optional but must be passed by keyword.
+    '''
+    print(a, b, c)
+
+kwonly(1, b='eggs')  # 1 eggs spam
+```
+
+```py
+# In a function header, arguments must appear in this order: any normal arguments (name); followed
+# by any default arguments (name=value); followed by the *name (or * in 3.X) form; followed by any
+# name or name=value keyword-only arguments (in 3.X); followed by the **name form.
+
+# In Python 3.X only, argument names in a function header can also have annotation values, specified
+# as name:value (or name:value=default when defaults are present). The function itself can also have
+# an annotation value, given as def f()->value.
+
+# In a function call, arguments must appear in this order: any positional arguments (value); followed
+# by a combination of any keyword arguments (name=value) and the *iterable form; followed by the
+# **dict form.
+
+# In both the call and header, the **args form must appear last if present.
+
+# The steps that Python internally carries out to match arguments before assignment can roughly be
+# described as follows:
+#   1. Assign nonkeyword arguments by position.
+#   2. Assign keyword arguments by matching names.
+#   3. Assign extra nonkeyword arguments to *name tuple.
+#   4. Assign extra keyword arguments to **name dictionary.
+#   5. Assign default values to unassigned arguments in header.
+def the_order_of_arguments(
+    required: str,
+    optional: str = None,
+    *args: tuple,
+    key: str = None,
+    **kargs: dict
+) -> None:
+  """
+  This function demonstrates the order of arguments in Python.
+
+  Args:
+      required (str): A required positional argument.
+      optional (str, optional): An optional positional argument with a default value of None.
+      *args (tuple, optional): Captures any remaining positional arguments as a tuple.
+      key (str, optional): A keyword-only argument with a default value of None.
+      **kargs (dict, optional): Captures any remaining keyword arguments as a dictionary.
+
+  Returns:
+      None
+  """
+  # Function body (can be replaced with actual logic)
+  print(f"Required argument: {required}")
+  print(f"Optional argument: {optional}")
+  print(f"Positional arguments (as tuple): {args}")
+  print(f"Keyword-only argument: {key}")
+  print(f"Keyword arguments (as dictionary): {kwargs}")
+
+the_order_of_arguments("This is required", "This is optional", x=10, y="hello")
+```
+
+```py
+# applying functions generically
+from collections.abc import Callable
+
+def tracer(func: Callable, *pargs: tuple, **kargs: dict):  # accept arbitrary arguments
+    print('calling:', func.__name__)
+    return func(*pargs, **kargs)  # pass along arbitrary arguments
+
+def func(a, b, c, d):
+    return a + b + c + d
+
+print(tracer(func, 1, 2, c=3, d=4))
+# calling: func
+# 10
+```
+
+```py
+# recursion
+def flatten(lol):
+    for item in lol:
+        if isinstance(item, list):
+            yield from flatten(item)  # yield from expression
+        else:
+            yield item
+
+lol = [1, 2, [3, 4, 5], [6, [7, 8, 9], []]]
+list(flatten(lol))
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+=== Attributes
+
+In Python, functions are objects, which may be assigned to other names, passed to other functions, embedded in data structures, returned from one function to another, and more, as if they were simple numbers or strings.
+
+```py
+# functions are first-class citizens
+def answer():
+    print(42)
+
+def run_sth(func):
+    func()
+
+run_sth(answer)  # 42
+
+# inner functions
+def outer(a, b):
+    def inner(c, d):
+        return c+d
+    return inner(a, b)
+```
+
+Function objects are not limited to the system-defined attributes, but also can be attached arbitrary user-defined attributes.
+
+```py
+def func(): ...
+
+dir(func)  # ['__annotations__', '__code__', '__name__', ...]
+
+func.count = 0
+func.count += 1
+func.count  # 1
+
+func.handles = 'Button-Press'
+func.handles  # 'Button-Press'
+```
+
+=== Annotations
+
+In Python 3.X, it’s also possible to attach annotation information—arbitrary user-defined data about a function’s arguments and result—to a function object, and when present are simply attached to the function object’s `+++__annotations__+++` attribute for use by other tools.
+
+```py
+def func(a: 'spam', b: (1, 10), c: float) -> int: return a + b + c
+func.__annotations__  # {'a': 'spam', 'b': (1, 10), 'c': <class 'float'>, 'return': <class 'int'>}
+```
+
+=== Lambda
+
+Python provides a `lambda` expression form that generates anonymous (i.e., unnamed) function objects. Its general form is the keyword `lambda`, followed by one or more arguments (exactly like the arguments list enclosed in parentheses in a `def` header), followed by an expression after a colon:
+
+```py
+lambda argument1, argument2,... argumentN : expression using arguments
+```
+
+```py
+# defs and lambdas do the same sort of work:
+def func(x, y, z): return x + y + z
+func(2, 3, 4)  # 9
+f = func
+f(2, 3, 4)  # 9
+
+g = lambda x, y, z: x + y + z
+g(2, 3, 4)  # 9
+
+# defaults work on lambda arguments, just like in a def:
+x = (lambda a="fee", b="fie", c="foe": a + b + c)
+x("wee")  # 'weefiefoe'
+```
+
+```py
+# lambda is also commonly used to code jump tables, which are lists or dictionaries of
+# actions to be performed on demand. For example:
+L = [lambda x: x ** 2,  # Inline function definition
+     lambda x: x ** 3,
+     lambda x: x ** 4]  # A list of three callable functions
+for f in L:
+    print(f(2))  # Prints 4, 8, 16
+print(L[0](3))  # Prints 9
+
+key = 'got'
+actions = {
+    'already': (lambda: 2 + 2),
+    'got': (lambda: 2 * 4),
+    'one': (lambda: 2 ** 6),
+}
+actions[key]()  # 8
+```
+
+```py
+# lambda functions in Python don't support type hints in the same way as regular functions.
+g = lambda x: int, y: int, z: int: x + y + z # invalid syntax
+```
+
+```py
+from functools import reduce
+nums = range(10)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# map: mapping functions over iterables
+list(map(lambda x: x+1, nums))  # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# filter: selecting items in iterables
+list(filter(lambda x: x % 2 == 0, nums))  # [0, 2, 4, 6, 8]
+
+# reduce: combining items in iterables
+reduce(lambda x, y: x+y, nums)  # 45
+```
+
+### Closures
+
+```py
+def maker(N):
+    def action(X):  # make and return action
+        return X ** N  # action retains N from enclosing scope
+    return action
+
+f = maker(2)
+f  # <function maker.<locals>.action at 0x7faba988f240>
+f(3)  # 9
+f(4)  # 16
+g = maker(3)  # g remembers 3, f remembers 2
+g(4)  # 64
+f(4)  # 16
+
+def maker(N):
+    action = (lambda x: x ** N)  # N remembered from enclosing def
+    return action
+
+x = maker(4)
+print(x(2))  # Prints 16, 4 ** 2
+```
+
+```py
+# If a lambda or def defined within a function is nested inside a loop, and
+# the nested function references an enclosing scope variable that is changed
+# by that loop, all functions generated within the loop will have the same
+# value—the value the referenced variable had in the last loop iteration.
+#
+# It's because the enclosing scope variable is looked up when the nested
+# functions are later called, they all effectively remember the same value:
+# the value the loop variable had on the last loop iteration.
+def make_actions():
+    acts = []
+    for i in range(5):  # Tries to remember each i
+        acts.append(lambda x: i ** x)  # But all remember same last i!
+    return acts
+
+acts = make_actions()
+[act(2) for act in acts]  # [16, 16, 16, 16, 16]
+
+# That is, to make this sort of code work, we must pass in the current value
+# of the enclosing scope’s variable with a default. Because defaults are
+# evaluated when the nested function is created (not when it’s later called),
+# each remembers its own value for i:
+def make_actions():
+    acts = []
+    for i in range(5):  # Use defaults instead
+        acts.append(lambda x, i=i: i ** x)  # Remember current i
+    return acts
+
+acts = make_actions()
+[act(2) for act in acts]  # [0, 1, 4, 9, 16]
+```
+
+=== Generators
+
+* A function `def` statement that contains a `yield` statement is turned into a _generator function_.
++
+When called, it returns a new generator object with automatic retention of local scope and code position; an automatically created `+++__iter__+++` method that simply returns itself; and an automatically created `+++__next__+++` method (`next` in 2.X) that starts the function or resumes it where it last left off, and raises `StopIteration` when finished producing results.
++
+```py
+def gensquares(N):
+    for i in range(N):
+        yield i ** 2  # Resume here later
+
+
+for i in gensquares(5):  # Resume the function
+    print(i, end=' : ')  # Print last yielded value
+# 0 : 1 : 4 : 9 : 16 :
+
+x = gensquares(4)
+# iter() is not required: a no-op here
+iter(x) is x  # True
+x.__next__()  # 0
+x.__next__()  # 1
+x.__next__()  # 4
+x.__next__()  # 9
+x.__next__()  # StopIteration
+```
++
+--
+* State suspension
+
+** Unlike normal functions that return a value and exit, generator functions automatically _suspend_ and _resume_ their execution and state around the point of value generation.
++
+Because of that, they are often a useful alternative to both computing an entire series of values up front and manually saving and restoring state in classes.
+
+** The _state_ that generator functions retain when they are suspended includes both their code location, and their entire local scope. Hence, their _local variables_ retain information between results, and make it available when the functions are resumed.
+
+** The chief code difference between generator and normal functions is that a generator _yields_ a value, rather than _returning_ one—the `yield` statement suspends the function and sends a value back to the caller, but retains enough state to enable the function to resume from where it left off.
++
+When resumed, the function continues execution immediately after the last `yield` run. From the function’s perspective, this allows its code to produce a series of values over time, rather than computing them all at once and sending them back in something like a list.
+
+* Iteration protocol integration
+
+** Generator functions, coded as def statements containing yield statements, are automatically made to support the _iteration object protocol_ and thus may be used in any iteration context to produce results over time and on demand.
++
+To support this protocol, functions containing a `yield` statement are compiled specially as generators—they are not normal functions, but rather are built to return an object with the expected iteration protocol methods. When later called, they return a generator object that supports the iteration interface with an automatically created method named `+++__next__+++` to start or resume execution.
+
+** Generator functions may also have a `return` statement that, along with falling off the end of the `def` block, simply terminates the generation of values—technically, by raising a `StopIteration` exception after any normal function exit actions.
++
+From the caller’s perspective, the generator’s `+++__next__+++` method resumes the function and runs until either the next yield result is returned or a `StopIteration` is raised.
+--
+
+* A comprehension expression enclosed in parentheses (like tuples, their enclosing parentheses are often optional) is known as a _generator expression_.
++
+When run, it returns a new generator object with the same automatically created method interface and state retention as a generator function call’s results —with an `+++__iter__+++` method that simply returns itself; and a `+++__next__+++` method (`next` in 2.X) that starts the implied loop or resumes it where it last left off, and raises `StopIteration` when finished producing results.
++
+```py
+[x ** 2 for x in range(4)]      # list comprehension: build a list
+# [0, 1, 4, 9]
+(x ** 2 for x in range(4))      # generator expression: make an iterable
+# <generator object <genexpr> at 0x7fcd7069b780>
+list(x ** 2 for x in range(4))  # list comprehension equivalence
+[0, 1, 4, 9]
+sum(x ** 2 for x in range(100)) # used as function arguments
+328350
+```
++
+--
+* Generator expressions are a _memory-space_ optimization —they do not require the entire result list to be constructed all at once, as the squarebracketed list comprehension does.
+
+* Generator expressions may run slightly slower than list comprehensions in practice, so they are probably best used only for very large result sets, or applications that cannot wait for full results generation.
+--
+
+* Python 3.3 introduces extended syntax for the `yield` statement that allows delegation to a subgenerator with a `from generator` clause.
++
+```py
+def both(N):
+    for i in range(N):
+        yield i
+    for i in (x ** 2 for x in range(N)):
+        yield i
+
+list(both(5))  # [0, 1, 2, 3, 4, 0, 1, 4, 9, 16]
+
+def both(N):
+    yield from range(N)
+    yield from (x ** 2 for x in range(N))
+
+list(both(5))  # [0, 1, 2, 3, 4, 0, 1, 4, 9, 16]
+
+' : '.join(str(i) for i in both(5))  # '0 : 1 : 2 : 3 : 4 : 0 : 1 : 4 : 9 : 16'
+```
+
+* Generators are single-iteration objects, that support just one active iteration, and can’t have multiple iterators of either positioned at different locations in the set of results.
++
+Because of this, a generator’s iterator is the generator itself; in fact, as suggested earlier, calling `iter` on a generator expression or function is an optional no-op.
++
+```py
+G = (c * 4 for c in 'SPAM')
+iter(G) is G  # My iterator is myself: G has __next__
+# True
+
+G = (c * 4 for c in 'SPAM')
+for x in G:
+  print(x, end=' ')
+# SSSS PPPP AAAA MMMM 
+for x in G:
+  print(x, end=' ')
+# <empty>
+```
+ 
+== Classes
+
+* Like the function `def` statement, the Python `class` statement is an executable statement, and generates a new class object and assigns it to the name in the class header when reached and run, and provides default behavior and serve as factories for instance objects.
++
+```py
+class name: ...  # standard class definition
+class name(): ...  # less common approach (equivalent in functionality)
+```
+
+* The first argument (called `self` by convention) inside a class’s method functions references the instance object being processed and assignments to attributes of `self` create or change data in the instance, not the class.
++
+```py
+# superclass links are made by listing classes in parentheses in a class statement header.
+class name(superclass, ...):  # assign to name
+    # class attributes are created by statements (assignments) in class statements.
+    attr = value  # class data attributes, shared by all instances
+
+    def method(self, ...):  # methods
+        # instance attributes are generated by assignments to self attributes in methods.
+        self.attr = value  # per-instance data
+```
+
+* Like in module files, top-level assignments within a `class` statement (not nested in a `def`) generate attributes in the class object's local scope.
+
+* A class object's attributes record state information and behavior to be shared by all instances created from the class and function `def` statements nested inside a `class` generate _methods_, which process instances.
+
+*  Like a function, each time a class is called, it creates and returns a new instance object that inherits class attributes and gets its own namespace.
++
+```py
+class Cat:
+    color = 'red'
+
+cat = Cat()  # create an object from a class
+tom = Cat()
+jerry = Cat()
+print(tom.color)  # red
+print(jerry.color)  # red
+
+tom.color = 'black'  # object attributes take precedence over class attributes when accessed or modified
+Cat.color = 'blue'  # affect existing and new objects
+
+butch = Cat()
+print(jerry.color)  # blue
+print(tom.color)  # black
+print(butch.color)  # blue
+```
+
+* An instance method call `instance.method(args...)` is automatically mapped to a class’s method functions as `class.method(instance, args...)`.
++
+```py
+class Cat:
+    def wow(self):
+        print('meow!')
+
+tom = Cat()
+tom.wow()  # meow!
+Cat.wow(tom)  # meow!
+```
+
+* The built-in `+++instance.__class__+++` attribute provides a link from an instance to the class from which it was created, and classes in turn have a `+++__name__+++`, and a `+++__bases__+++` sequence that provides access to superclasses.
++
+```py
+tom = Cat()
+tom.color = 'blue'
+tom.__class__.color  # red
+tom.color  # blue
+```
+
+* The built-in `+++object.__dict__+++` attribute provides a dictionary for every attribute attached to a namespace object (including modules, classes, and instances).
++
+Because attribute fetch qualification also performs an inheritance search, it can access inherited attributes that namespace dictionary indexing cannot.
++
+```py
+class Super:
+    def hello(self):
+        self.data1 = 'spam'
+
+class Sub(Super):
+    def hola(self):
+        self.data2 = 'eggs'
+
+x = Sub()
+x.__dict__  # instance namespace dict
+# {}
+x.__class__  # class of instance
+# <class '__main__.Sub'>
+x.__class__.__name__
+# 'Sub'
+Sub.__bases__  # superclasses of class
+# (<class '__main__.Super'>,)
+Super.__bases__
+# (<class 'object'>,)
+
+x.hello()
+x.__dict__
+# {'data1': 'spam'}
+x.hola()
+x.__dict__
+# {'data1': 'spam', 'data2': 'eggs'}
+x.data1, x.__dict__['data1']
+# ('spam', 'spam')
+x.data3 = 'toast'
+x.__dict__
+# {'data1': 'spam', 'data2': 'eggs', 'data3': 'toast'}
+
+x.__dict__['hello']
+# KeyError: 'hello'
+```
+
+* In Python, the `super()` function is used to access the parent class's methods and attributes and helps to call the parent class constructors in `+++__init__+++` in the correct order based on the method resolution order (MRO).
+
+* In classes, operator overloading is implemented by providing specially methods named with double underscores (`+++__X__+++`) to intercept operations.
++
+```py
+# initialization: __init__(), to save syllables, double underscores (__), also pronounce as dunder.
+class Cat:
+    # self is not a reserved word, but it’s common as the first argument to refer to the object itself.
+    def __init__(self, name):  # initializer
+        self.name = name
+
+    # a method is a function in a class or object.
+    def wow(self):
+        print(f'{self.name:}: meow!')
+
+
+cat = Cat('Tom')
+cat.wow()  # Tom: meow!
+Cat.wow(cat)  # Tom: meow!
+```
+
+=== Inheritances
+
+```py
+# inheritance is based on attribute lookup in Python (in X.name expressions)
+class Animal:
+    def __init__(self, voice):
+        self.voice = voice
+
+    def wow(self):
+        print(f'{self.voice}!')
+
+class Cat(Animal):
+    def __init__(self):
+        Animal.__init__(self, 'meow')  # Name superclass explicitly, pass self
+
+class Dog(Animal):
+    def __init__(self):
+        super().__init__('bark')  # Reference superclass generically, omit self
+
+    def wow(self):
+        print(f'{self.voice}! '*3)
+
+cat = Cat()
+cat.wow()  # meow!
+
+dog = Dog()
+dog.wow()  # bark! bark! bark!
+```
+
+The inheritance search path is more breadth-first in diamond cases—Python first looks in any superclasses to the right of the one just searched before ascending to the common superclass at the top.
+
+* In other words, this search proceeds across by levels before moving up.
+* This search order is called the new-style MRO for “method resolution order” (and often just MRO for short when used in contrast with the classic DFLR, depth first, and then left to right order).
+* Despite the name, this is used for all attributes in Python, not just methods.
+
+```py
+# multiple inheritance: method resolution order
+class Animal:
+    def wow(self):
+        print('I speak!')
+
+class Horse(Animal):
+    def wow(self):
+        print('Neigh!')
+
+class Donkey(Animal):
+    def wow(self):
+        print('Hee-haw!')
+
+class Mule(Donkey, Horse):
+    pass
+
+print(Mule.mro())
+# [<class '__main__.Mule'>, <class '__main__.Donkey'>, <class '__main__.Horse'>, <class '__main__.Animal'>, <class 'object'>]
+
+class Hinny(Horse, Donkey):
+    pass
+
+print(Hinny.__mro__)
+# (<class '__main__.Hinny'>, <class '__main__.Horse'>, <class '__main__.Donkey'>, <class '__main__.Animal'>, <class 'object'>)
+```
+
+```py
+# Mixins in Python are a code reuse technique used to add functionalities to classes
+# without relying on traditional inheritance to achieve modularity.
+class PrettyMixin():
+    def dump(self):
+        import pprint
+        pprint.pprint(vars(self))
+
+class Thing():
+    def __init__(self):
+        self.name = "Nyarlathotep"
+        self.feature = "ichor"
+        self.age = "eldritch"
+
+# Mixins are included in a class definition using multiple inheritance syntax.
+class PrettyThing(Thing, PrettyMixin):
+    pass
+
+t = PrettyThing()
+t.dump()  # {'age': 'eldritch', 'feature': 'ichor', 'name': 'Nyarlathotep'}
+```
+
+```py
+# Python doesn’t have private attributes, but has a naming convention for attributes that
+# should not be visible outside of their class definition: begin with two underscores (__).
+class Cat:
+    def __init__(self, name):
+        self.__name = name
+
+    @property
+    def name(self):  # getter
+        return self.__name
+
+    @name.setter
+    def name(self, name):  # setter
+        self.__name = name
+
+cat = Cat('Tom')
+print(cat.name)  # Tom
+cat.name = 'Jerry'
+print(cat.name)  # Jerry
+```
+
+```py
+# duck typing: a loose implementation of polymorphism
+# If it walks like a duck and quacks like a duck, it’s a duck.
+#     —— A Wise Person
+class Duck:
+    def __init__(self, name) -> None:
+        self.__name = name
+
+    def who(self):
+        return self.__name
+
+    def wow(self):
+        return 'quack!'
+
+class Cat:
+    def __init__(self, name) -> None:
+        self.__name = name
+
+    def who(self):
+        return self.__name
+
+    def wow(self):
+        return 'meow!'
+
+def who_wow(obj):
+    print(f'{obj.who()}: {obj.wow()}')
+
+who_wow(Duck('Donald'))  # Donald: quack!
+who_wow(Cat('Tom'))  # Tom: meow!
+```
+
+```py
+# dataclasses
+from dataclasses import dataclass
+
+@dataclass
+class Cat:
+    name: str
+    age: int
+    color: str = 'blue'
+
+tom = Cat('tom', 3)
+print(tom)  # Cat(name='tom', age=3, color='blue')
+```
+
+=== Slots: attribute declarations
+
+By assigning a sequence of string attribute names to a special `+++__slots__+++` class attribute, it can enable a new-style class to both limit the set of legal attributes that instances of the class will have, and optimize memory usage and possibly program speed.
+
+```py
+class limiter(object):
+    __slots__ = ['age', 'name', 'job']
+x = limiter()
+x.age # Must assign before use
+# AttributeError: age
+x.age = 40 # Looks like instance data
+x.age
+# 40
+x.ape = 1000 # Illegal: not in __slots__
+# AttributeError: 'limiter' object has no attribute 'ape'
+```
+
+=== Properties: attribute accessors (a.k.a. “getters” and “setters”)
+
+A property is a type of object assigned to a class attribute name by calling the `property` built-in function, passing in up to three accessor methods—handlers for get, set, and delete operations—as well as an optional docstring for the property.  If any argument is passed as None or omitted, that operation is not supported.
+
+```py
+class operators:
+    def __getattr__(self, name):
+        if name == 'age':
+            return 40
+        else:
+            raise AttributeError(name)
+
+x = operators()
+x.age  # Runs __getattr__
+# 40
+x.name  # Runs __getattr__
+# AttributeError: name
+```
+
+```py
+class properties(object):  # Need object in 2.X for setters
+    def getage(self):
+        return 40
+    age = property(getage, None, None, None)  # (get, set, del, docs), or use @
+
+x = properties()
+x.age  # Runs getage
+# 40
+x.name  # Normal fetch
+# AttributeError: 'properties' object has no attribute 'name'
+```
+
+```py
+class properties(object):  # Need object in 2.X for setters
+    def getage(self):
+        return 40
+
+    def setage(self, value):
+        print('set age: %s' % value)
+        self._age = value
+    age = property(getage, setage, None, None)
+
+x = properties()
+x.age  # Runs getage
+# 40
+x.age = 42  # Runs setage
+# set age: 42
+x._age  # Normal fetch: no getage call
+# 42
+x.age  # Runs getage
+# 40
+x.job = 'trainer'  # Normal assign: no setage call
+x.job  # Normal fetch: no getage call
+# 'trainer'
+```
+
+```py
+class properties(object):
+    @property  # Coding properties with decorators: ahead
+    def age(self):
+        ...
+
+    @age.setter
+    def age(self, value):
+        ...
+```
+
+=== Instance methods, class methods, static methods  
+
+* Instance methods, passed a `self` instance object (the default)
+* Static methods, passed no extra object (via `staticmethod`)
+* Class methods, passed a class object (via `classmethod`, and inherent in metaclasses)
++
+```py
+class Methods:
+    def imeth(self, x):  # Normal instance method: passed a self
+        print([self, x])
+
+    def smeth(x):  # Static: no instance passed
+        print([x])
+
+    def cmeth(cls, x):  # Class: gets class, not instance
+        print([cls, x])
+
+    smeth = staticmethod(smeth)  # Make smeth a static method (or @: ahead)
+    cmeth = classmethod(cmeth)  # Make cmeth a class method (or @: ahead)
+```
++
+```py
+class Methods:
+    def imeth(self, x):  # Normal instance method: passed a self
+        print([self, x])
+
+    @staticmethod
+    def smeth(x):  # Static: no instance passed
+        print([x])
+
+    @classmethod
+    def cmeth(cls, x):  # Class: gets class, not instance
+        print([cls, x])
+```
++
+```py
+# instance methods, class methods, static methods  
+class Cat:
+    # Class attribute (shared by all instances)
+    species = "Felis catus"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    # Instance method (operates on a specific instance)
+    def meow(self):
+        print(f"{self.name} says meow!")
+
+    @classmethod
+    def create_from_dict(cls, cat_dict):
+        """
+        Class method to create a Cat object from a dictionary.
+
+        Args:
+            cls (class): The Cat class itself.
+            cat_dict (dict): A dictionary containing cat data (name, age).
+
+        Returns:
+            Cat: A new Cat object.
+        """
+        return cls(cat_dict["name"], cat_dict["age"])
+
+    @staticmethod
+    def is_adult(age):
+        """
+        Static method to check if a cat is considered adult (age >= 1).
+
+        Args:
+            age (int): The cat's age.
+
+        Returns:
+            bool: True if the cat is adult, False otherwise.
+        """
+        return age >= 1
+
+
+# Create Cat objects
+cat1 = Cat("Whiskers", 2)
+cat2 = Cat.create_from_dict({"name": "Luna", "age": 5})
+
+# Instance method call (operates on specific objects)
+cat1.meow()  # Output: Whiskers says meow!
+cat2.meow()  # Output: Luna says meow!
+
+# Class method call
+new_cat = Cat.create_from_dict({"name": "Simba", "age": 1})
+
+# Static method call
+is_cat1_adult = Cat.is_adult(cat1.age)
+
+# Output: Simba is 1 years old.
+print(f"{new_cat.name} is {new_cat.age} years old.")
+# Output: Is Whiskers an adult? True
+print(f"Is Whiskers an adult? {is_cat1_adult}")
+```
+
+
+
+=== Operator overloading
+
+* Operator overloading lets classes intercept normal Python operations.
+* Classes can overload all Python expression operators.
+* Classes can also overload built-in operations such as printing, function calls, attribute access, etc.
+* Overloading makes class instances act more like built-in types.
+* Overloading is implemented by providing specially named methods in a class.
+
+==== Constructors and destructions: +++__init__+++, +++__del__+++
+
+The `+++__init__+++` _constructor_ is called whenever an instance is generated, and its counterpart, the `+++__del__+++` _destructor_ is run automatically when an instance’s space is being reclaimed (i.e., at “garbage collection” time).
+
+* Technically, instance creation first triggers the `+++__new__+++` method, which creates and returns the new instance object, which is then passed into `+++__init__+++` for initialization.
+
+* Python automatically reclaims all memory space held by an instance when the instance is reclaimed, destructors are not necessary for space management. It’s often better to code termination activities in an explicitly called method (e.g., `shutdown`), and the `try/finally` statement also supports termination actions, as does the `with` statement for objects that support its context manager model.
++
+```py
+class Life:
+    def __init__(self, name='unknown'):
+        print('Hello ' + name)
+        self.name = name
+
+    def live(self):
+        print(self.name)
+
+    def __del__(self):
+        print('Goodbye ' + self.name)
+```
++
+```py
+brian = Life('Brian')  # Hello Brian
+brian.live()  # Brian
+brian = 'loretta'  # Goodbye Brian
+```
+
+==== Indexing and slicing: +++__getitem__+++ and +++__setitem__+++
+
+* When an instance `X` appears in an _indexing expression_ like `X[i]`, Python calls the `+++__getitem__+++` method inherited by the instance, passing `X` and the index in brackets to the arguments.
++
+```py
+class Indexer:
+    def __getitem__(self, index):
+        return index ** 2
+
+X = Indexer()
+X[2]  # X[i] calls X.__getitem__(i)
+# 4
+for i in range(5):
+    print(X[i], end=' ')  # Runs __getitem__(X, i) each time
+# 0 1 4 9 16
+```
+
+* In addition to indexing, `+++__getitem__+++` is also called for _slice expressions_—using upper and lower bounds and a stride bundled up into a slice object.
++
+```py
+class Indexer:
+    data = [5, 6, 7, 8, 9]
+
+    def __getitem__(self, index: int | slice) -> int | list[int]:  # Called for index or slice
+        print('getitem:', index)
+        return self.data[index]  # Perform index or slice
+```
++
+```py
+X = Indexer()
+X[0]
+# getitem: 0
+# 5
+X[-1]
+# getitem: -1
+# 9
+X[2:4]
+# getitem: slice(2, 4, None)
+# [7, 8]
+X[1:]
+# getitem: slice(1, None, None)
+# [6, 7, 8, 9]
+X[:-1]
+# getitem: slice(None, -1, None)
+# [5, 6, 7, 8]
+X[::2]
+# getitem: slice(None, None, 2)
+# [5, 7, 9]
+```
+
+* The `+++__getitem__+++` may be also called automatically as an iteration fallback option (all iteration contexts will try the `+++__iter__+++` method first), for example, the `for` loops, `in` membership test, list comprehensions, the `map` built-in, list and tuple assignments, and type constructors.
++
+```py
+class StepperIndex:
+    def __init__(self, data):
+        self.data = data
+
+    def __getitem__(self, i):
+        return self.data[i]
+```
++
+```py
+X = StepperIndex('Spam')
+
+X[1]  # Indexing calls __getitem__
+# 'p'
+
+for item in X:  # for loops call __getitem__
+    print(item, end=' ')  # for indexes items 0..N
+# S p a m 
+'p' in X  # All call __getitem__ too
+# True
+[c for c in X]  # List comprehension
+# ['S', 'p', 'a', 'm']
+list(map(str.upper, X))  # map calls
+# ['S', 'P', 'A', 'M']
+(a, b, c, d) = X  # Sequence assignments
+a, c, d
+# ('S', 'a', 'm')
+list(X), tuple(X), ''.join(X)  # And so on...
+# (['S', 'p', 'a', 'm'], ('S', 'p', 'a', 'm'), 'Spam')
+```
+
+* The `+++__setitem__+++` index assignment method similarly intercepts both index and slice assignments.
++
+```py
+class IndexSetter:
+    def __init__(self, data):
+        self.data = data
+
+    def __setitem__(self, index, value):  # Intercept index or slice assignment
+        self.data[index] = value  # Assign index or slice
+```
+
+* The `+++__index__+++` method returns an integer value for an instance when needed and is used by built-ins that convert to digit strings.
++
+```py
+class C:
+    def __index__(self):
+        return 255
+```
++
+```py
+X = C()
+hex(X)  # '0xff'
+bin(X)  # '0b11111111'
+oct(X)  # '0o377'
+```
+
+==== Iterable objects: +++__iter__+++ and +++__next__+++
+
+* Technically, iteration contexts work by passing an iterable object to the `iter` built-in function to invoke an `+++__iter__+++` method, which is expected to return an iterator object.
+
+* If it’s provided, Python then repeatedly calls the iterator object’s `+++__next__+++` method to produce items until a `StopIteration` exception is raised.
+
+* A `next` built-in function is also available as a convenience for manual iterations—`next(I)` is the same as `I.__next__()`.
+
+* In all iteration contexts, Python tries to use `+++__iter__+++` first, which returns an object that supports the iteration protocol with a `+++__next__+++` method: if no `+++__iter__+++` is found by inheritance search, Python falls back on the `+++__getitem__+++` indexing method, which is called repeatedly, with successively higher indexes, until an `IndexError` exception is raised.
++
+```py
+class Squares:
+    def __init__(self, start, stop):  # Save state when created
+        self.value = start - 1
+        self.stop = stop
+
+    def __iter__(self):  # Get iterator object on iter
+        return self  # One-shot iteration, single traversal only
+
+    def __next__(self):  # Return a square on each iteration
+        if self.value == self.stop:  # Also called by next built-in
+            raise StopIteration
+        self.value += 1
+        return self.value ** 2
+```
+
+* If used, the `yield` statement can create the `+++__next__+++` method automatically.
++
+```py
+class Squares:                          # __iter__ + yield generator
+    def __init__(self, start, stop):    # __next__ is automatic/implied
+        self.start = start
+        self.stop = stop
+
+    def __iter__(self):
+        for value in range(self.start, self.stop + 1):
+            yield value ** 2
+```
+
+* To achieve the multiple-iterator effect on one object, `+++__iter__+++` simply needs to define a new stateful object for the iterator, instead of returning `self` for each iterator request.
++
+```py
+class SkipObject:
+    def __init__(self, wrapped):  # Save item to be used
+        self.wrapped = wrapped
+
+    def __iter__(self):
+        return SkipIterator(self.wrapped)  # New iterator each time
+
+class SkipIterator:
+    def __init__(self, wrapped):
+        self.wrapped = wrapped  # Iterator state information
+        self.offset = 0
+
+    def __next__(self):
+        if self.offset >= len(self.wrapped):  # Terminate iterations
+            raise StopIteration
+        else:
+            item = self.wrapped[self.offset]  # else return and skip
+            self.offset += 2
+            return item
+```
+
+==== Membership: +++__contains__, __iter__, and __getitem__+++
+
+* In the iterations domain, classes can implement the `in` membership operator as an iteration, using either the `+++__iter__+++` or `+++__getitem__+++` methods.
+
+* To support more specific membership, though, classes may code a `+++__contains__+++` method—when present, this method is preferred over `+++__iter__+++`, which is preferred over `+++__getitem__+++`.
+
+* The `+++__contains__+++` method should define membership as applying to keys for a mapping (and can use quick lookups), and as a search for _sequences_.
++
+```py
+class Iters:
+    def __init__(self, value):
+        self.data = value
+
+    def __getitem__(self, i):  # Fallback for iteration
+        print('get[%s]:' % i, end='')  # Also for index, slice
+        return self.data[i]
+
+    def __iter__(self):  # Preferred for iteration
+        print('iter=> next:', end='')  # Allows multiple active iterators
+        for x in self.data:  # no __next__ to alias to next
+            yield x
+            print('next:', end='')
+
+    def __contains__(self, x):  # Preferred for 'in'
+        print('contains: ', end='')
+        return x in self.data
+```
+
+==== Attribute access: +++__getattr__ and __setattr__+++
+
+* The `+++__getattr__+++` method intercepts attribute references.
+
+** It’s called with the attribute name as a string whenever trying to qualify an instance with an undefined (nonexistent) attribute name.
+
+** It is not called if Python can find the attribute using its inheritance tree search procedure.
++
+```py
+class Empty:
+    def __getattr__(self, attrname):  # On self.undefined
+        if attrname == 'age':  # age becomes a dynamically computed attribute
+            return 40
+        else:
+            raise AttributeError(attrname)  # raises the builtin AttributeError exception
+```
++
+```py
+X = Empty()
+X.age  # 40
+getattr(X, 'age')  # 40
+
+X.name  # AttributeError: name
+getattr(X, 'name', 'Jon')  # 'Jon'
+
+hasattr(X, 'name')  # False
+
+setattr(X, 'name', 'Jon X')
+X.name  # 'Jon X'
+```
+
+* In the same department, the `+++__setattr__+++` intercepts all attribute assignments.
+
+** If the method is defined or inherited, `self.attr = value` becomes `+++self.__setattr__('attr', value)+++`.
+
+** Assigning to any `self` attributes within `+++__setattr__+++` calls `+++__setattr__+++` again, potentially causing an infinite recursion loop.
+
+** Avoid loops by coding instance attribute assignments as assignments to attribute dictionary keys:  `self.__dict__['name'] = x`, not `self.name = x`.
++
+```py
+class Accesscontrol:
+    def __setattr__(self, attr, value):
+        if attr == 'age':
+            self.__dict__[attr] = value + 10  # Not self.name=val or setattr
+            # It’s also possible to avoid recursive loops in a class that uses __setattr__ by routing
+            # any attribute assignments to a higher superclass with a call, instead of assigning keys
+            # in __dict__:
+            #    self.__dict__[attr] = value + 10 # OK: doesn't loop
+            #    object.__setattr__(self, attr, value + 10) # OK: doesn't loop (new-style only)
+        else:
+            raise AttributeError(attr + ' not allowed')
+```
++
+```py
+X = Accesscontrol()
+X.age = 40
+X.age  # 50
+X.name = 'Bob'  # AttributeError: name not allowed
+```
+
+* A third attribute management method, `+++__delattr__+++`, is passed the attribute name string and invoked on all attribute deletions (i.e., `del object.attr`).
+
+** Like `+++__setattr__+++`, it must avoid recursive loops by routing attribute deletions with the using class through `+++__dict__+++` or a superclass.
+
+
+
+* The built-in `getattr` function is used to fetch an attribute from an object by name string—`getattr(X,N)` is like `X.N`, except that `N` is an expression that evaluates to a string at runtime, not a variable.
++
+```py
+class Wrapper:  # A wrapper (sometimes called a proxy) class
+    def __init__(self, object):
+        self.wrapped = object  # Save object
+
+    def __getattr__(self, attrname):
+        print('Trace: ' + attrname)  # Trace fetch
+        return getattr(self.wrapped, attrname)  # Delegate fetch
+```
+
+==== String representation: +++__repr__ and __str__+++
+
+If defined, `+++__repr__+++` (or its close relative, `+++__str__+++`) is called automatically when class instances are printed or converted to strings.
+
+* `+++__str__+++` is tried first for the `print` operation and the `str` built-in function (the internal equivalent of which `print` runs). It generally should return a user-friendly display.
+
+* `+++__repr__+++` is used in all other contexts: for interactive echoes, the `repr` function, and nested appearances, as well as by `print` and `str` if no `+++__str__+++` is present. It should generally return an as-code string that could be used to re-create the object, or a detailed display for developers.
++
+```py
+class adder:
+    def __init__(self, value=0):
+        self.data = value  # Initialize data
+
+    def __add__(self, other):
+        self.data += other  # Add other in place (bad form?)
+```
++
+```py
+x = adder()  # Default displays
+print(x)
+# <__main__.adder object at 0x7fd1fd745a50>
+x
+# <__main__.adder object at 0x7fd1fd745a50>
+```
++
+```py
+class addrepr(adder):  # Inherit __init__, __add__
+    def __repr__(self):  # Add string representation
+        return 'addrepr(%s)' % self.data  # Convert to as-code string
+```
++
+```py
+x = addrepr(2)
+x  # Runs __repr__
+# addrepr(2)
+print(x)  # Runs __repr__
+# addrepr(2)
+str(x), repr(x)  # Runs __repr__ for both
+# ('addrepr(2)', 'addrepr(2)')
+```
++
+```py
+class addstr(adder):
+    def __str__(self):  # __str__ but no __repr__
+        return '[Value: %s]' % self.data  # Convert to nice string
+```
++
+```py
+x = addstr(3)
+x  # Default __repr__
+# <demo.addstr object at 0x7fd1fd63d2d0>
+print(x)  # # Runs __str__
+# [Value: 3]
+str(x), repr(x)
+# ('[Value: 3]', '<demo.addstr object at 0x7fd1fd63d2d0>')
+```
++
+```py
+class addboth(adder):
+    def __str__(self):
+        return '[Value: %s]' % self.data  # User-friendly string
+
+    def __repr__(self):
+        return 'addboth(%s)' % self.data  # As-code string
+```
++
+```py
+x = addboth(4)
+x  # Runs __repr__
+# addboth(4)
+print(x)  # Runs __str__
+# [Value: 4]
+str(x), repr(x)
+# ('[Value: 4]', 'addboth(4)')
+```
+
+==== Right-side and in-place uses: +++__radd__ and __iadd__+++
+
+* Every binary operator has a left, right, and in-place variant overloading methods (e.g., `+++__add__+++`, `+++__radd__+++`, and `+++__iadd__+++`).
+
+* For example, the `+++__add__+++` for objects on the left is called instead in all other cases and does not support the use of instance objects on the right side of the `+` operator.
++
+```py
+class Number:
+    def __init__(self, value=0):
+        self.data = value
+
+    def __add__(self, other):
+        return self.data+other
+```
++
+```py
+x = Number(5)
+x + 2
+# 7
+2 + x
+# TypeError: unsupported operand type(s) for +: 'int' and 'Number'
+```
+
+* To implement more general expressions, and hence support commutative-style operators, code the `+++__radd__+++` method as well.
++
+```py
+class Number:
+    def __init__(self, value=0):
+        self.data = value
+
+    def __add__(self, other):
+        return self.data+other
+
+    def __radd__(self, other):
+        return self.data+other
+
+    # Reusing __add__ in __radd__
+    # def __radd__(self, other):
+    #     return self.__add__(other)  # Call __add__ explicitly
+    #     return self + other  # Swap order and re-add
+    # __radd__ = __add__  # Alias: cut out the middleman
+```
++
+```py
+x = Number(5)
+x + 2
+# 7
+2 + x
+# 7
+```
+
+* To also implement `+=` in-place augmented addition, code either an `+++__iadd__+++` or an `+++__add__+++`. The latter is used if the former is absent, but may not be able optimize in-place cases.
++
+```py
+class Number:
+    def __init__(self, value=0):
+        self.data = value
+
+    def __add__(self, other):
+        return self.data+other
+
+    __radd__ = __add__
+
+    def __iadd__(self, other):  # __iadd__ explicit: x += y
+        self.data += other  # Usually returns self
+        return self
+```
++
+```py
+x = Number(5)
+x += 1
+x += 1
+x.data
+# 7
+```
+
+==== Call expressions: +++__call__+++
+
+* Python runs a `+++__call__+++` method for function call expressions applied to the instances, passing along whatever positional or keyword arguments were sent.
++
+```py
+class Callee:
+    def __call__(self, *pargs, **kargs):  # Intercept instance calls
+        print('Called:', pargs, kargs)  # Accept arbitrary arguments
+```
++
+```py
+C = Callee()
+C(1, 2, 3)  # C is a callable object
+# Called: (1, 2, 3) {}
+C(1, 2, 3, x=4, y=5)
+# Called: (1, 2, 3) {'y': 5, 'x': 4}
+```
++
+```py
+class C:
+    def __call__(self, a, b, c=5, d=6): ...  # Normals and defaults
+
+class C:
+    def __call__(self, *pargs, **kargs): ...  # Collect arbitrary arguments
+
+class C:
+    def __call__(self, *pargs, d=6, **kargs): ...  # 3.X keyword-only argument
+```
+
+==== Boolean tests: +++__bool__+++ and +++__len__+++
+
+* In Boolean contexts, Python first tries `+++__bool__+++` to obtain a direct Boolean value; if that method is missing, Python tries `+++__len__+++` to infer a truth value from the object’s length.
++
+```py
+class Truth:
+    def __bool__(self): return True
+```
++
+```py
+X = Truth()
+if X: print('yes!')
+# yes!
+```
++
+```py
+class Truth:
+    def __bool__(self): return False
+```
++
+```py
+X = Truth()
+bool(X)
+# False
+```
++
+```py
+class Truth:
+    def __len__(self): return 0
+X = Truth()
+if not X: print('no!')
+# no!
+```
+
+* If both methods are present Python prefers `+++__bool__+++` over `+++__len__+++`, because it is more specific:
++
+```py
+class Truth:
+    def __bool__(self): return True # 3.X tries __bool__ first
+    def __len__(self): return 0 # 2.X tries __len__ first
+X = Truth()
+if X: print('yes!')
+# yes!
+```
+
+* If neither truth method is defined, the object is vacuously considered true (though any potential implications for more metaphysically inclined readers are strictly coincidental):
++
+```py
+class Truth:
+    pass
+```
++
+```py
+X = Truth()
+bool(X)
+# True
+```
+
+==== with/as Context Managers: +++__enter__+++ and +++__exit__+++
+
+```py
+with expression [as variable], [expression [as variable]]:
+    with-block
+```
+
+The `with` statement can be used with any object that implements the `+++__enter__()+++` and `+++__exit__()+++` special methods that provide hooks for initializing and finalizing resource management. Common resources managed with with include:
+
+* Files: The with `open('filename', 'mode') as file:` syntax opens a file, assigns it to a variable (`file`), and automatically closes the file when the indented block exits, even in case of exceptions.
+
+* Database Connections: `with sqlite3.connect(':memory:') as con:` creates a connection, assigns it to a variable, and guarantees closure upon exiting the block.
+
+* Locks: In multithreaded environments, with can be used with lock objects to acquire a lock at the beginning of the block and release it at the end, ensuring proper synchronization.
++
+```py
+fi = open('test.txt', 'w', encoding='utf-8')
+try:
+    fi.write('hello world')
+finally:
+    fi.close()
+```
++
+```py
+with open('test.txt', 'r', encoding='utf-8') as fo:
+    txt = fo.read()
+    print(txt)
+```
++
+```py
+with open('data', 'r', encoding='utf-8') as fin, open('res', 'wb') as fout:  # multiple context managers
+    for line in fin:
+        if 'some key' in line:
+            fout.write(line)
+```
+
+
+```py
+class Cat:
+    """A custom context manager class that simulates a cat entering and leaving."""
+
+    def __enter__(self):
+        """
+        Called when entering the `with` block. Prints a message and returns itself.
+
+        Returns:
+            The Cat instance (self) to be used within the `with` block.
+        """
+        print("I'm coming in!")
+        return self  # Return self to provide the managed object to the `with` block
+
+    def __exit__(self, exc_type: type, exc_value: object, traceback: object) -> bool:
+        """
+        Called when exiting the `with` block, regardless of exceptions.
+        Prints a message, optionally handles exceptions, and returns True to suppress them.
+
+        Args:
+            exc_type (type): The type of exception raised within the `with` block (if any).
+            exc_value (object): The actual exception object raised (if any).
+            traceback (object): A traceback object containing information about the call stack
+                               (if any exception was raised).
+
+        Returns:
+            bool: True to suppress any exceptions raised within the `with` block,
+                  False to re-raise them. (Can be modified for specific exception handling)
+        """
+        print("I'm going out.")
+        # Suppress potential exceptions (modify for specific handling)
+        return True
+
+    def wow(self) -> None:
+        """
+        Method to simulate a cat's meow. Prints "meow!".
+
+        Returns:
+            None
+        """
+        print("meow!")
+
+
+with Cat() as cat:  # type: Cat
+    """Enters the context manager and assigns the Cat object to 'cat'."""
+    cat.wow()  # Calls the cat's meow method within the context
+
+# I'm coming in!
+# meow!
+# I'm going out.
+```
+
+=== Enum
+
+> Added in version 3.4.
+
+```py
+from enum import Enum
+
+class Weekday(Enum):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
+    SUNDAY = 7
+
+Weekday(3)            # <Weekday.WEDNESDAY: 3>
+Weekday["WEDNESDAY"]  # <Weekday.WEDNESDAY: 3>
+
+print(Weekday.THURSDAY)         # Weekday.THURSDAY
+print(Weekday.TUESDAY.name)     # TUESDAY
+print(Weekday.WEDNESDAY.value)  # 3
+
+for day in list(Weekday):
+    print(day)
+# Weekday.MONDAY
+# Weekday.TUESDAY
+# Weekday.WEDNESDAY
+# Weekday.THURSDAY
+# Weekday.FRIDAY
+# Weekday.SATURDAY
+# Weekday.SUNDAY
+```
+
+```py
+from enum import Flag
+
+class Weekday(Flag):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 4
+    THURSDAY = 8
+    FRIDAY = 16
+    SATURDAY = 32
+    SUNDAY = 64
+
+weekend = Weekday.SATURDAY | Weekday.SUNDAY
+# <Weekday.SATURDAY|SUNDAY: 96>
+for day in weekend:
+    print(day)
+# Weekday.SATURDAY
+# Weekday.SUNDAY
+```
+
+== Exceptions
+
+* An exception is a class, which is a child of the class `Exception`.
++
+```py
+class OopsException(Exception): pass  # user-defined exception
+```
+
+* The `raise` statement raises (triggers) a built-in or user-defined exception.
++
+```py
+raise instance  # raise instance of class
+raise clazz     # make and raise instance of class: makes an instance with no constructor arguments
+raise           # reraise the most recent exception
+```
++
+```py
+try:
+    1 / 0
+except Exception as E:
+    raise TypeError('Bad') from E  # raise newexception from otherexception
+
+# Traceback (most recent call last):
+# ZeroDivisionError: division by zero
+# 
+# The above exception was the direct cause of the following exception:
+# 
+# Traceback (most recent call last):
+# TypeError: Bad
+```
+
+* The `assert` statement raises an `AssertionError` exception if a condition is false.
++
+```py
+# assert test, data # the data part is optional
+assert False, 'Nobody expects the Spanish Inquisition!'  # AssertionError: Nobody expects the Spanish Inquisition!
+```
+
+* The `try` statement catches and recovers from exceptions with one or more handlers for exceptions that may be raised during the block’s execution.
++
+```py
+# try -> except -> else -> finally
+try:
+    raise OopsException('panic')  # raising exceptions
+except OopsException as err:  # 3.X localizes 'as' names to except block
+    print(err)  # catch and recover from exceptions
+except (RuntimeError, TypeError, NameError) as err:  # multiple exceptions as a parenthesized tuple
+    ...
+except Exception as other:  # except to catch all exceptions
+    ...
+except:  # bare except to catch all exceptions
+    ...
+else:
+    ... # run if no exception was raised during try block
+finally:  # termination actions
+    ...
+```
+
+* The `with/as` statement is designed to automate startup and termination activities that must occur around a block of code.
++
+```py
+# try:
+#     file = open('lumberjack.txt', 'w', encoding='utf-8')
+#     file.write('The larch!\n')
+# finally:
+#     if file: file.close()
+with open('lumberjack.txt', 'w', encoding='utf-8') as file:  # always close file on exit
+    file.write('The larch!\n')
+```
+
+== Decorators
+
+A decorator is a _callable that returns a callable_ to specify management or augmentation code for functions and classes.
+
+* Function decorators, do name rebinding at function definition time, install wrapper objects to intercept later function calls and process them as needed, usually passing the call on to the original function to run the managed action.
++
+```py
+def decorator(F):
+    # Process function F
+    return F
+
+@decorator       # Decorate function
+def func(): ...  # func = decorator(func)
+```
++
+```py
+def decorator(F):
+    # Save or use function F
+    # Return a different callable, a proxy: nested def, class with __call__, etc.
+    ...
+
+@decorator
+def func(): ...  # func = decorator(func)
+```
++
+```py
+def decorator(F):                 # On @ decoration
+    def wrapper(*args, **kargs):  # On wrapped function call that retains the original function in an enclosing scope
+        # Use F, args, and  kargs
+        # F(*args, **kargs) calls original function
+        ...
+    return wrapper
+
+@decorator                         # func = decorator(func)
+def func(x, y, z=122):             # func is passed to decorator's F
+    ...
+
+func(6, 7, 8)                      # 6, 7, 8 are passed to wrapper's *args, **kargs
+```
++
+```py
+class decorator:
+    def __init__(self, func):  # On @ decoration
+        self.func = func
+
+    def __call__(self, *args):  # On wrapped function call by overloading the call operation
+        # Use self.func and args
+        # self.func(*args) calls original function
+
+@decorator
+def func(x, y):                 # func = decorator(func)
+    ...                         # func is passed to __init__
+
+func(6, 7)                      # 6, 7 are passed to __call__'s *args
+```
++
+```py
+def decorator(A, B):
+    # Save or use A, B
+    def actualDecorator(F):
+        # Save or use function F
+        # Return a callable: nested def, class with __call__, etc.
+        return callable
+    return actualDecorator
+
+@decorator(A, B)
+def F(arg):  # F = decorator(A, B)(F) # Rebind F to result of decorator's return value
+    ...
+```
+
+* Class decorators, do name rebinding at class definition time, install wrapper objects to intercept later instance creation calls and process them as needed, usually passing the call on to the original class to create a managed instance.
++
+```py
+def decorator(C):
+    # Process class C
+    return C
+
+@decorator  # Decorate class
+class C:
+    ...     # C = decorator(C)
+```
++
+```py
+def decorator(C):
+    # Save or use class C
+    # Return a different callable, a proxy: nested def, class with __call__, etc.
+
+@decorator
+class C:
+    ...  # C = decorator(C)
+```
++
+```py
+def decorator(cls):                             # On @ decoration
+    class Wrapper:
+        def __init__(self, *args):              # On instance creation
+            self.wrapped = cls(*args)
+
+        def __getattr__(self, name):            # On attribute fetch
+            return getattr(self.wrapped, name)
+    return Wrapper
+
+@decorator
+class C:                        # C = decorator(C)
+    def __init__(self, x, y):   # Run by Wrapper.__init__
+        self.attr = 'spam'
+
+x = C(6, 7)                     # Really calls Wrapper(6, 7)
+print(x.attr)                   # Runs Wrapper.__getattr__, prints "spam"
+```
+
+
+== Modules and packages
+
+```py
+# A module is a single Python file (.py extension) containing Python code,
+# that can include functions, classes, variables, and statements.
+
+# animal.py (module file)
+class Animal:
+    def __init__(self, voice: str) -> None:
+        self.__voice = voice
+
+    def wow(self):
+        print(f'{self.__voice}!')
+```
+
+```py
+# A package is a directory containing multiple Python modules and potentially
+# subdirectories with even more modules, that represents a collection of related
+# modules organized under a common namespace.
+#
+# A package import turns a directory into another Python namespace, with attributes
+# corresponding to the subdirectories and module files that the directory contains.
+
+# .
+# ├── animals
+# │   ├── cat.py
+# │   ├── dog.py
+# │   └── __init__.py
+# └── main.py
+
+# animals/cat.py 
+def wow():
+    print('meow!')
+
+# animals/dog.py 
+def wow():
+    print('bark!')
+
+# main.py
+from animals import cat  # from package import module
+import animals.dog as dog  # import package.module
+
+cat.wow()  # meow!
+dog.wow()  # bark!
+```
+
+=== search path
+
+In the context of programming languages and environments, the search path refers to a list of directories that the program or interpreter looks at to locate specific files, particularly modules or libraries, that is composed of the concatenation of the four major components, that ultimately becomes `sys.path`, a mutable list of directory name strings:
+
+1. Home directory (automatic)
+
+* When running a program, this entry is the directory containing the program’s top-level script file.
+
+* When working _interactively_, this entry is the directory in the working (i.e., the current working directory).
+
+2. PYTHONPATH directories (if set)
+
+* In brief, PYTHONPATH is simply a list of user-defined and platform-specific names of directories that contain Python code files.
+ 
+* The `os.pathsep` constant in Python provides the provide platform-specific directory path separator on the module search path.
+
+** Windows: `C:\Python310;C:\Users\YourName\Documents\my_modules`
++
+```py
+import os, platform
+
+platform.system(), os.pathsep  # ('Windows', ';')
+```
+** Linux/macOS: `/usr/lib/python3.10/site-packages:/home/yourname/my_modules`
++
+```py
+import os, platform
+
+platform.system(), os.pathsep  # ('Linux', ':')
+```
+
+3. Standard library directories
+
+4. The contents of any .pth files (if present)
+
+5. The _site-packages_ directory of third-party extensions (automatic)
+
+```py
+import sys
+for path in sys.path:
+    print(f"'{path}'")
+
+''  # current working directory where the script is located
+'/usr/lib/python311.zip'  # standard library, built-in modules
+'/usr/lib/python3.11'
+'/usr/lib/python3.11/lib-dynload'  # dynamically loaded modules or libraries
+'/usr/local/lib/python3.11/dist-packages'  # third-party libraries
+'/usr/lib/python3/dist-packages'
+
+# sys.path is a list, and can be updated programmlly
+sys.path
+# ['', '/usr/lib/python311.zip', '/usr/lib/python3.11', '/usr/lib/python3.11/lib-dynload', '/usr/local/lib/python3.11/dist-packages', '/usr/lib/python3/dist-packages']
+sys.path.insert(0, '/tmp')
+sys.path
+# ['/tmp', '', '/usr/lib/python311.zip', '/usr/lib/python3.11', '/usr/lib/python3.11/lib-dynload', '/usr/local/lib/python3.11/dist-packages', '/usr/lib/python3/dist-packages']
+```
+
+=== +++__init__.py+++
+
+```py
+# dir0\ # Container on module search path
+#     dir1\
+#         __init__.py
+#         dir2\
+#             __init__.py
+#             mod.py
+
+import dir1.dir2.mod
+```
+
+* `dir1` and `dir2` both must contain an `+++__init__.py+++` file at least until Python 3.3.
+
+* `dir0`, the container, does not require an `+++__init__.py+++` file; this file will simply be ignored if present.
+
+* `dir0`, not `dir0\dir1`, must be listed on the module search path `sys.path`.
+
+The `+++__init__.py+++` file serves as a hook for package initialization-time actions, declares a directory as a package, generates a module namespace for a directory, and implements the behavior of `from *` (i.e., `from .. import *`) statements when used with directory imports:
+
+* Package initialization: The first time a Python program imports through a directory, it automatically runs all the code in the directory’s `+++__init__.py+++` file which a natural place to put code to initialize the state required by files in a package.
+
+* Module usability declarations: Package `+++__init__.py+++` files are also partly present to declare that a directory is a regular module package.
+
+* Module namespace initialization: In the package import model, the directory paths in a script become real nested object paths after an import.
+
+* `from *` statement behavior: As an advanced feature, the `+++__all__+++` lists in `+++__init__.py+++` files can define what is exported when a directory is imported with the `from *` statement form.
+
+=== import and from statements, reload call
+
+* `import` fetches the module as a whole, and must qualify to fetch its names.
++
+```py
+import module_name
+```
+
+* `from` fetches (or copies) specific names out of the module over to another scope, and when using a `*` (used only at the top level of a module file, not within a function) instead of specific names, it copies of all names assigned at the top level of the referenced module.
++
+```py
+# import specific functions or classes from a module.
+from module_name import element1, element2
+# import a specific element and assign it an alias for easier use.
+from module_name import element1 as alias
+# copy out _all_ variables
+from module_name import *
+```
+
+* Like `def`, `import` and `from` are executable statements, not compile-time declarations, and they are implicit assignments:
+
+** `import` assigns an entire module object to a single name.
+
+** `from` assigns one or more names to objects of the same names in another module.
+
+* Modules are loaded and run on the first `import` or `from`, and only the first.
+
+* Unlike `import` and `from`:
++
+--
+** `reload` is a function in Python, not a statement.
+
+** `reload` is passed an existing module object, not a new name.
+
+** `reload` lives in a module in Python 3.X and must be imported itself.
+--
++
+```py
+# import module                 # initial import
+# ...use module.attributes...
+# ...                           # now, go change the module file
+# ...
+# from importlib import reload  # get reload itself (in 3.x)
+# reload(module)                # get updated exports
+# ...use module.attributes...
+```
+
+* A _namespace package_ is not fundamentally different from a _regular package_ (must have an `+++__init__.py+++` file that is run automatically); it is just a different way of creating packages which are still relative to `sys.path` at the
+top level: the leftmost component of a dotted namespace package path must still be located in an entry on the normal module search path.
++
+```py
+import dir1.dir2.mod
+from dir1.dir2.mod import x
+import splitdir.mod
+```
++
+```sh
+mkdir -p /code/ns/dir{1,2}/sub  # two dirs of same name in different dirs
+```
++
+```py
+# module files in different directories
+
+# /code/ns/dir1/sub/mod1.py
+print(r'dir1\sub\mod1')
+
+# /code/ns/dir2/sub/mod2.py
+print(r'dir2\sub\mod2')
+```
++
+```sh
+PYTHONPATH=/code/ns/dir1:/code/ns/dir2 python -q
+```
++
+```py
+import sub
+sub  # namespace packages: nested search paths
+# <module 'sub' (<_frozen_importlib_external.NamespaceLoader object at 0x7fd1eeda5c50>)>
+sub.__path__
+# _NamespacePath(['/code/ns/dir1/sub', '/code/ns/dir2/sub'])
+
+from sub import mod1
+# dir1\sub\mod1
+import sub.mod2  # content from two different directories
+# dir2\sub\mod2
+
+mod1
+# <module 'sub.mod1' from '/code/ns/dir1/sub/mod1.py'>
+sub.mod2
+# <module 'sub.mod2' from '/code/ns/dir2/sub/mod2.py'>
+```
+
+=== relative imports
+
+* The `from` statement can use leading dots (`.`) to specify that it require modules located within the same package (known as _package relative imports_), instead of modules located elsewhere on the module import search path (called _absolute imports_).
++
+```py
+from . import string # relative to this package, imports mypkg.string
+from .string import name1, name2 # imports names from mypkg.string
+from .. import string # imports string sibling of mypkg
+```
++
+```console
+├── main.py
+└── spam
+    ├── eggs.py
+    ├── ham.py
+    └── __init__.py
+```
++
+```py
+# spam/ham.py
+from . import eggs
+print('eggs')
+```
++
+```py
+# main.py
+from spam import ham
+```
++
+```console
+$ python3 main.py
+eggs
+```
++
+[TIP]
+====
+Running `main.py` directly sets the module's `+++__name__+++` attribute to "+++__main__+++", causing issues with relative imports which rely on it being set to the package name.
+
+```py
+# mypkg\
+#     main.py
+#     string.py
+```
+
+```py
+# string.py
+def some_function(): ...
+```
+
+```py
+# main.py
+from .string import some_function
+```
+
+```console
+$ python3 main.py
+Traceback (most recent call last):
+    from .string import some_function
+ImportError: attempted relative import with no known parent package
+```
+====
+
+=== _X, +++__all__+++, +++__name__+++, and +++__main__+++
+
+* Python looks for an `+++__all__+++` list in the module first and copies its names irrespective of any underscores; if `+++__all__+++` is not defined, `from *` copies all names without a single leading underscore (`_X`):
++
+```py
+# unders.py
+a, _b, c, _d = 1, 2, 3, 4
+```
++
+```py
+from unders import * # Load non _X names only
+a, c  # (1, 3)
+_b  # NameError: name '_b' is not defined
+
+import unders # But other importers get every name
+unders._b  # 2
+```
++
+```py
+# alls.py
+__all__ = ['a', '_c'] # __all__ has precedence over _X
+a, b, _c, _d = 1, 2, 3, 4
+```
++
+```py
+from alls import *  # load __all__ names only
+a, _c  # (1, 3)
+b  # NameError: name 'b' is not defined
+from alls import a, b, _c, _d  # but other importers get every name
+a, b, _c, _d  # (1, 2, 3, 4)
+
+import alls
+alls.a, alls.b, alls._c, alls._d  # (1, 2, 3, 4)
+```
+
+* If a module’s `+++__name__+++` variable is the string "+++__main__+++", it means that the file is being executed as a top-level script as a program instead of being imported from another file as a library in the program.
++
+```py
+# cat.py
+def wow():
+    return __name__
+
+if __name__ == '__main__':
+    print(f'executed: {wow()}')
+```
++
+```console
+$ python3 cat.py  # directly executed (as a script)
+executed: __main__
+```
++
+```py
+# imported by another module
+from cat import wow
+print(f'imported: {wow()}')  # imported: cat
+```
+
+=== modules by name strings
+
+* To import the referenced module given its string name, build and run an `import` statement with `exec`, or pass the string name in a call to the `+++__import__+++` or `importlib.import_module`.
++
+```py
+# The `import` statements can’t directly to load a module given its name as a
+# string—Python expects a variable name that’s taken literally and not evalu-
+# ated, not a string or expression.
+import 'string'
+#   File "<stdin>", line 1
+#     import 'string'
+#            ^^^^^^^^
+# SyntaxError: invalid syntax
+```
++
+```py
+# The most general approach is to construct an `import` statement as a string of Python
+# code and pass it to the `exec` built-in function to run, but it must compile the `import`
+# statement each time it runs, and compiling can be slow.
+modname = 'string'
+exec('import ' + modname) # Run a string of code
+string
+# <module 'string' from '/usr/lib/python3.11/string.py'>
+```
++
+```py
+# In most cases it’s probably simpler and may run quicker to use the built-in `__import__`
+# function to load from a name string instead, which returns the module object, so assign it
+# to a name here to keep it.
+modname = 'string'
+string = __import__(modname)
+string
+# <module 'string' from '/usr/lib/python3.11/string.py'>
+```
++
+```py
+# The newer call `importlib.import_module` does the same work as the built-in `__import__`
+# function, and is generally preferred in more recent Pythons for direct calls to import
+# by name string.
+import importlib
+modname = 'string'
+string = importlib.import_module(modname)
+```
+
+=== pip: pip install packages
+
+```sh
+# ensure can run pip from the command line
+python3 -m pip --version  # pip --version
+# pip 23.0.1 from /usr/lib/python3/dist-packages/pip (python 3.11)
+
+# OR, install pip, venv modules in Debian/Ubuntu for the system python.
+apt install python3-pip python3-venv  # On Debian/Ubuntu systems
+```
+==== virtual environment
+
+```sh
+# create a virtual environment
+python3 -m venv python-learning-notes_env
+
+# active a virtual environment
+source python-learning-notes_env/bin/activate
+
+# ensure pip, setuptools, and wheel are up to date
+pip install --upgrade pip setuptools wheel
+
+# show pip version 
+pip --version  # python3 -m pip --version
+# pip 24.0 from .../python-learning-notes_env/lib/python3.11/site-packages/pip (python 3.11)
+
+# deactive a virtual environment: the deactivate command is often implemented as a shell function.
+deactivate
+```
+
+==== Version specifiers
+
+A version specifier consists of a series of version clauses, separated by commas. For example:
+
+```console
+~= 0.9, >= 1.0, != 1.3.4.*, < 2.0
+```
+
+The comparison operator determines the kind of version clause:
+
+:pep-0440: https://peps.python.org/pep-0440
+
+* `~=`: {pep-0440}/#compatible-release[Compatible release] clause
+* `==`: {pep-0440}/#version-matching[Version matching] clause
+* `!=`: {pep-0440}/#version-exclusion[Version exclusion] clause
+* `+++<=+++`, `>=`: {pep-0440}/#inclusive-ordered-comparison[Inclusive ordered comparison] clause
+* `<`, `>`: {pep-0440}/#exclusive-ordered-comparison[Exclusive ordered comparison] clause
+* `===`: {pep-0440}/#arbitrary-equality[Arbitrary equality] clause.
+
+Examples:
+
+* `~=3.1`: version 3.1 or later, but not version 4.0 or later.
+* `~=3.1.2`: version 3.1.2 or later, but not version 3.2.0 or later.
+* `~=3.1a1`: version 3.1a1 or later, but not version 4.0 or later.
+* `== 3.1`: specifically version 3.1 (or 3.1.0), excludes all pre-releases, post releases, developmental releases and any 3.1.x maintenance releases.
+* `== 3.1.*`: any version that starts with 3.1. Equivalent to the `~=3.1.0` compatible release clause.
+* `~=3.1.0, != 3.1.3`: version 3.1.0 or later, but not version 3.1.3 and not version 3.2.0 or later.
+
+==== pip install
+
+```sh
+# install the latest stable version.
+pip install <package_name>
+
+# install a package with extras, i.e., optional dependencies (e.g., pip install 'transformers[torch]').
+pip install <package_name>[extra1[,extra2,...]]
+
+# install the exact version (e.g., pip install vllm==0.4.3).
+pip install <package_name>==<version>
+
+# install the latest version greater than or equal to the specified one (e.g., pip install vllm>=0.4.0 gets anything from 0.4.0 onwards), but within the same major version.
+pip install <package_name>>=<version>
+
+# install the latest patch version (tilde operator) within the specified major and minor version (e.g., pip install vllm~=0.4).
+pip install <package_name>~=<version>
+
+# upgrade an already installed to the latest from PyPI.
+pip install --upgrade <package_name>
+
+# install from an alternate index
+pip install --index-url http://my.package.repo/simple/ <package_name>
+
+# search an additional index during install, in addition to PyPI
+pip install --extra-index-url http://my.package.repo/simple <package_name>
+
+# install pre-release and development versions, in addition to stable versions
+pip install --pre <package_name>
+```
+
+==== cache, configuration
+
+```sh
+# get the cache directory that pip is currently configured to use
+pip cache dir  # ~/.cache/pip
+```
+
+```ini
+# Configuration files can change the default values for command line options, and pip has 3 levels:
+#   - global: system-wide configuration file, shared across users.
+#   - user: per-user configuration file.
+#   - site: per-environment configuration file; i.e. per-virtualenv.
+
+# the names of the settings are derived from the long command line option.
+[global]
+timeout = 60
+index-url = https://download.zope.org/ppix
+
+# per-command section: pip install
+[install]
+ignore-installed = true
+no-dependencies = yes
+```
+
+```console
+# finding the config directory programmatically:
+Debian GNU/Linux$ pip config list -v
+For variant 'global', will try loading '/etc/xdg/pip/pip.conf'
+For variant 'global', will try loading '/etc/pip.conf'
+For variant 'user', will try loading '~/.pip/pip.conf'
+For variant 'user', will try loading '~/.config/pip/pip.conf'
+For variant 'site', will try loading '$VIRTUAL_ENV/pip.conf' or '/usr/pip.conf'
+
+Microsoft Windows 11 > pip config list -v
+For variant 'global', will try loading '%ALLUSERSPROFILE%\pip\pip.ini'
+For variant 'user', will try loading '%USERPROFILE%\pip\pip.ini'
+For variant 'user', will try loading '%APPDATA%\pip\pip.ini'
+For variant 'site', will try loading '%VIRTUAL_ENV%\pip.ini' or '%LOCALAPPDATA%\Programs\Python\Python312\pip.ini'
+```
+
+==== mirror
+
+```sh
+# default: https://pypi.org/simple
+
+# set the PyPI mirror
+pip config --user set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# pip config --user set global.index-url https://mirrors.aliyun.com/pypi/simple/
+# pip config set global.extra-index-url "https://mirrors.sustech.edu.cn/pypi/web/simple https://mirrors.aliyun.com/pypi/simple/"
+```
+
+==== conda
+
+https://docs.conda.io/en/latest/[Conda] is a free, open-source software program for package and environment management originally developed by Anaconda.
+
+* https://www.anaconda.com/docs/getting-started/miniconda[Miniconda] is a free, miniature installation of https://www.anaconda.com/docs/getting-started/getting-started[Anaconda] Distribution that includes only _conda_, _Python_, the packages they both depend on, and a small number of other useful packages.
++
+```sh
+# download and install the latest version
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash ~/Miniconda3-latest-Linux-x86_64.sh
+
+# optional: disable auto-activation of base environment on startup
+conda config --set auto_activate_base false
+```
+
+* Conda channels are the locations where packages are stored that serve as the base for hosting and managing packages. By default, conda can serve packages from two main locations:
++
+--
+** `repo.anaconda.com`: By default, `conda` automatically uses the following base locations to download and update packages:
++
+```
+https://repo.anaconda.com/pkgs/main
+https://repo.anaconda.com/pkgs/r
+https://repo.anaconda.com/pkgs/msys2
+```
+
+** `conda.anaconda.org`: Conda clients search for community channels like `conda-forge` or `bioconda` here.
+--
++
+```console
+$ conda config --get channels
+--add channels 'https://repo.anaconda.com/pkgs/r'   # lowest priority
+--add channels 'https://repo.anaconda.com/pkgs/main'   # highest priority
+$ conda config --add channels conda-forge
+$ conda config --get channels
+--add channels 'https://repo.anaconda.com/pkgs/r'   # lowest priority
+--add channels 'https://repo.anaconda.com/pkgs/main'
+--add channels 'conda-forge'   # highest priority
+$ conda config --set channel_priority strict
+$ cat ~/.condarc 
+channels:
+  - conda-forge
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+auto_activate_base: false
+channel_priority: strict
+```
++
+```yml
+# mirror defaults
+default_channels:
+    - https://my-mirror.com/pkgs/main
+    - https://my-mirror.com/pkgs/r
+    - https://my-mirror.com/pkgs/msys2
+
+# mirror all community channels
+channel_alias: https://my-mirror.com
+
+# mirror only some community channels
+custom_channels:
+    conda-forge: https://my-mirror.com/conda-forge
+```
++
+```yml
+# using TUNA mirrors
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+* Conda is a powerful command line tool for package and environment management that runs on Windows, macOS, and Linux.
++
+```sh
+# create environments
+conda create -n <env-name>
+
+# add packages while creating an environment
+conda create -n myenvironment python numpy pandas
+```
++
+```sh
+# list environments
+conda info --envs
+# or
+conda env list
+```
++
+```sh
+# remove an environment
+conda env remove --name my_env
+```
++
+```sh
+# activate an environment
+conda activate myenv
+
+# deactivate an environment
+conda deactivate
+
+# change the current environment back to the default base
+conda activate
+```
++
+```sh
+# install packages via environment activation
+conda activate myenvironment
+conda install matplotlib
+
+# install multiple packages via environment activation
+conda install -y pandas jupyter matplotlib
+
+# install packages via command line option
+conda install --name myenvironment matplotlib
+
+# install packages from a specific channel, such as conda-forge
+conda install conda-forge::numpy # or conda install -c conda-forge numpy
+```
++
+```sh
+# check the installed package
+conda list
+```
++
+```sh
+# see if a specific package, such as SciPy, is available for installation
+conda search scipy
+
+# see if a specific package, such as SciPy, is available for installation from Anaconda.org
+conda search --override-channels --channel defaults scipy
+
+# see if a specific package, such as SciPy, exists in a specific channel, is available for installation
+conda search --override-channels --channel conda-forge scipy
+
+# show package detailed information: conda search <package>=<version>=<build_num> --info
+conda search scipy=1.15.2=py313hf4aebb8_1 --info
+```
++
+```sh
+# see conda version
+conda --version
+```
++
+```sh
+# view a list of available Python versions
+conda search python
+
+# update Python
+conda update python
+```
++
+```sh
+# update a specific package
+conda update biopython
+
+# update conda itself
+conda update conda
+```
++
+```sh
+# use pip in an environment
+conda install -n myenv pip
+conda activate myenv
+pip <pip_subcommand>
+```
+
+==== pipenv
+
+Pipenv is a dependency manager for Python projects, is similar in spirit to Node.js’ npm or Ruby’s bundler.
+
+```sh
+# install pipenv in Debian/Ubuntu for the system python.
+apt install pipenv
+```
+
+```sh
+# install pipenv for the user python.
+pip install pipenv --user
+
+# If pipenv isn’t available in a shell after installation, add the user site-packages binary directory to `PATH`.
+#
+# On Windows, the user base binary directory can be found by running
+# `python -m site --user-site`
+# and replacing `site-packages` with `Scripts`.
+#
+# On Linux and macOS, find the user base binary directory by running
+# `python -m site --user-base`
+# and appending `bin` to the end.
+```
+
+[TIP]
+====
+Debian/Linux might not work due to limitations with user-based installations.
+
+. Using `apt`
++
+```sh
+apt install pipenv
+```
+
+. Using `pip` with virtualenv
++
+```sh
+# Create a virtual environment
+python3 -m venv pipenv_env
+
+# Activate the virtual environment (replace "pipenv_env" with your chosen name)
+source pipenv_env/bin/activate
+
+# Install pipenv within the virtual environment
+pip install pipenv
+
+# Deactivate the virtual environment (optional)
+deactivate
+```
+====
+
+```sh
+# Pipenv manages dependencies on a per-project basis. 
+mkdir myproject && cd myproject
+pipenv install requests
+ls  # Pipfile  Pipfile.lock
+```
+
+```sh
+# show the location of the virtual environment
+pipenv run python -c "import os; print(os.environ['VIRTUAL_ENV'])"
+```
+
+```sh
+# activate the project's virtualenv:
+pipenv shell
+```
+
+```py
+# main.py
+import requests
+
+response = requests.get('https://httpbin.org/ip')
+
+print('Your IP is {0}'.format(response.json()['origin']))
+```
+
+```sh
+# run a command inside the virtualenv
+pipenv run python main.py
+# Your IP is 9.5.2.7
+```
+
+```sh
+# show virtualenv path information
+pipenv --venv
+# /Users/your-username/.local/share/virtualenvs/your-project-name-abc123
+```
+
+```sh
+# remove the virtualenv
+pipenv --rm
+```
+
+```sh
+# remove the virtual environment manually
+rm -rf /Users/your-username/.local/share/virtualenvs/your-project-name-abc123
+```
+
+```sh
+# remove all virtual environments
+rm -rf ~/.local/share/virtualenvs/
+```
+
+```sh
+pipenv check         # Checks for PyUp Safety security vulnerabilities and against
+                     # PEP 508 markers provided in Pipfile.
+pipenv clean         # Uninstalls all packages not specified in Pipfile.lock.
+pipenv graph         # Displays currently-installed dependency graph information.
+pipenv install       # Installs provided packages and adds them to Pipfile, or (if no
+                     # packages are given), installs all packages from Pipfile.
+pipenv lock          # Generates Pipfile.lock.
+pipenv open          # View a given module in your editor.
+pipenv requirements  # Generate a requirements.txt from Pipfile.lock.
+pipenv run           # Spawns a command installed into the virtualenv.
+pipenv scripts       # Lists scripts in current environment config.
+pipenv shell         # Spawns a shell within the virtualenv.
+pipenv sync          # Installs all packages specified in Pipfile.lock.
+pipenv uninstall     # Uninstalls a provided package and removes it from Pipfile.
+pipenv update        # Runs lock, then sync.
+pipenv upgrade       # Resolves provided packages and adds them to Pipfile, or (if no
+                     # packages are given), merges results to Pipfile.lock
+pipenv verify        # Verify the hash in Pipfile.lock is up-to-date.
+```
+
+== Testing
+
+* `unittest`
++
+```py
+# **Key Points About `unittest` in Python:**
+# 
+# * **Test Cases:** Individual units of testing that verify specific functionality.
+# * **Test Suites:** Collections of test cases that can be run together.
+# * **Assertions:** Methods used to check if expected results match actual results.
+# * **Test Case Structure:** Arrange-Act-Assert (AAA) is a common structure.
+# * **Test Fixtures:** `setUp()` and `tearDown()` methods for setup and cleanup.
+# * **Running Tests:** `unittest.main()` is the primary way to run tests.
+# * **Best Practices:** Write clear, concise, and well-organized tests.
+# * **Naming Conventions:** Test case functions must be prefixed with `test_`.
+# 
+# **Common Assertions:**
+# 
+# * `assertEqual(a, b)`: Checks if `a` equals `b`.
+# * `assertNotEqual(a, b)`: Checks if `a` does not equal `b`.
+# * `assertTrue(condition)`: Checks if `condition` is `True`.
+# * `assertFalse(condition)`: Checks if `condition` is `False`.
+# * `assertIn(item, container)`: Checks if `item` is in `container`.
+# * `assertNotIn(item, container)`: Checks if `item` is not in `container`.
+
+# test_cap.py
+import unittest
+
+def cap(text: str) -> str:
+    return text.capitalize()
+
+class TestCap(unittest.TestCase):
+    def setUp(self) -> None:
+        pass
+
+    def tearDown(self) -> None:
+        pass
+
+    def test_one_word(self):
+        text = 'duck'  # _arrange_ the objects, create and set them up as necessary.
+
+        result = cap(text)  # _act_ on an object.
+
+        self.assertEqual('Duck', result)  # _assert_ that something is as expected.
+
+    def test_multi_words(self):
+        text = 'hello world'  # _arrange_ the objects, create and set them up as necessary.
+
+        result = cap(text)  # _act_ on an object.
+
+        self.assertEqual('Hello World', result)  # _assert_ that something is as expected.
+
+    def test_table_driven(self):
+        # _arrange_ the objects, create and set them up as necessary.
+        tests = [
+            ('duck', 'Duck'),
+            ('hello world', 'Hello World')
+        ]
+
+        for text, expected in tests:
+            result = cap(text)  # _act_ on an object.
+            self.assertEqual(result, expected)  # _assert_ that something is as expected.
+
+if __name__ == '__main__':
+    unittest.main()
+```
++
+```console
+$ python3 test_cap.py
+F.
+======================================================================
+FAIL: test_multi_words (__main__.TestCap.test_multi_words)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "...", line 27, in test_multi_words
+    self.assertEqual('Hello World', result)
+AssertionError: 'Hello World' != 'Hello world!'
+- Hello World
+?       ^
++ Hello world
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+FAILED (failures=1)
+```
+
+* `doctest`
++
+```py
+# doctest_cap.py
+def cap(text: str) -> str:
+    """
+    >>> cap('duck')
+    'Duck'
+    >>> cap('hello world')
+    'Hello World'
+    """
+    return text.capitalize()
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+```
++
+```console
+$ python3 doctest_cap.py
+**********************************************************************
+File "...", line 5, in __main__.cap
+Failed example:
+    cap('hello world')
+Expected:
+    'Hello World'
+Got:
+    'Hello world'
+**********************************************************************
+1 items had failures:
+   1 of   2 in __main__.cap
+***Test Failed*** 1 failures.
+```
+
+* `pytest`
++
+```py
+# test_cap.py
+def cap(text: str) -> str:
+    return text.capitalize()
+
+def test_one_word():
+    text = 'duck'
+    result = cap(text)
+    assert result == 'Duck'
+
+def test_multiple_words():
+    text = 'hello world'
+    result = cap(text)
+    assert result == 'Hello World'
+```
++
+```console
+$ pipenv install pytest
+Installing pytest...
+Installing dependencies from Pipfile.lock (207fdb)...
+$ pytest
+============================================== test session starts ==============================================
+platform linux -- Python 3.11.2, pytest-8.2.1, pluggy-1.5.0
+rootdir: ...
+collected 2 items
+
+test_cap.py .F                                                                                            [100%]
+
+=================================================== FAILURES ====================================================
+______________________________________________ test_multiple_words ______________________________________________
+
+    def test_multiple_words():
+        text = 'hello world'
+        result = cap(text)
+>       assert result == 'Hello World'
+E       AssertionError: assert 'Hello world' == 'Hello World'
+E
+E         - Hello World
+E         ?       ^
+E         + Hello world
+E         ?       ^
+
+test_cap.py:12: AssertionError
+============================================ short test summary info ============================================
+FAILED test_cap.py::test_multiple_words - AssertionError: assert 'Hello world' == 'Hello World'
+========================================== 1 failed, 1 passed in 0.09s ==========================================
+```
+
+== Processes and concurrency
+
+```py
+# The standard library’s os module provides a common way of accessing some system information.
+import os
+os.uname()
+# posix.uname_result(sysname='Linux', nodename='node-0', release='6.1.0-21-amd64', version='#1 SMP PREEMPT_DYNAMIC Debian 6.1.90-1 (2024-05-03)', machine='x86_64')
+os.getloadavg()
+# (0.05126953125, 0.03955078125, 0.00341796875)
+os.cpu_count()
+# 4
+(os.getpid(), os.getcwd(), os.getuid(), os.getgid())
+# (1295, '/tmp', 1000, 1000)
+os.system('date -u')
+# Thu Jun  6 11:23:23 AM UTC 2024
+# 0
+```
+
+```py
+# get system and process information with the third-party package psutil
+import psutil  # pip install psutil
+print(psutil.cpu_times(percpu=True))
+# [scputimes(user=4.37, nice=0.0, system=6.71, idle=1468.69, iowait=0.26, irq=0.0, softirq=1.86, steal=0.0, guest=0.0, guest_nice=0.0), scputimes(user=11.84, nice=0.0, system=9.3, idle=1465.29, iowait=1.02, irq=0.0, softirq=0.75, steal=0.0, guest=0.0, guest_nice=0.0), scputimes(user=10.31, nice=0.0, system=8.58, idle=1468.4, iowait=1.66, irq=0.0, softirq=0.97, steal=0.0, guest=0.0, guest_nice=0.0), scputimes(user=9.11, nice=0.0, system=10.02, idle=1467.95, iowait=0.81, irq=0.0, softirq=0.65, steal=0.0, guest=0.0, guest_nice=0.0)]
+print(psutil.cpu_percent(percpu=False))
+# 0.0
+print(psutil.cpu_percent(percpu=True))
+# [0.3, 0.4, 0.4, 0.1]
+```
+
+=== subprocess and multiprocessing
+
+```py
+import subprocess
+
+# run another program in a shell 
+# and grab whatever output it created (both standard output and standard error output)
+print(subprocess.getoutput('date'))  # Thu Jun  6 07:19:50 PM CST 2024
+
+# A variant method called `check_output()` takes a list of the command and arguments.
+# By default it returns standard output only as type bytes rather than a string, and
+# does not use the shell:
+print(subprocess.check_output(['date', '-u']))  # b'Thu Jun  6 11:30:09 AM UTC 2024\n'
+
+# return a tuple with the status code and output of the other program
+print(subprocess.getstatusoutput('date'))  # (0, 'Thu Jun  6 07:32:25 PM CST 2024')
+
+# capture the exit status only
+ret = subprocess.call('date -u', shell=True)
+# Thu Jun  6 11:45:51 AM UTC 2024
+print(ret)
+# 0
+
+# makes a list of the arguments, not need to call the shell
+ret = subprocess.call(['date', '-u'])
+# Thu Jun  6 11:50:04 AM UTC 2024
+print(ret)
+# 0
+```
+
+```py
+# create multiple independent processes
+import multiprocessing
+import os
+
+def whoami(what):
+    print("Process %s says: %s" % (os.getpid(), what))
+
+if __name__ == "__main__":
+    whoami("I'm the main program")
+    for n in range(4):
+        p = multiprocessing.Process(
+            target=whoami, args=("I'm function %s" % n,))
+        p.start()
+
+# Process 1648 says: I'm the main program
+# Process 1649 says: I'm function 0
+# Process 1650 says: I'm function 1
+# Process 1651 says: I'm function 2
+# Process 1652 says: I'm function 3
+```
+
+```py
+# kill a process with terminate()
+import multiprocessing
+import time
+import os
+
+def whoami(name):
+    print("I'm %s, in process %s" % (name, os.getpid()))
+
+def loopy(name):
+    whoami(name)
+    start = 1
+    stop = 1000000
+    for num in range(start, stop):
+        print("\tNumber %s of %s. Honk!" % (num, stop))
+        time.sleep(1)
+
+if __name__ == "__main__":
+    whoami("main")
+    p = multiprocessing.Process(target=loopy, args=("loopy",))
+    p.start()
+    time.sleep(5)
+    p.terminate()
+
+# I'm main, in process 13084
+# I'm loopy, in process 14664
+#         Number 1 of 1000000. Honk!
+#         Number 2 of 1000000. Honk!
+#         Number 3 of 1000000. Honk!
+#         Number 4 of 1000000. Honk!
+#         Number 5 of 1000000. Honk!
+```
+
+=== Queues, processes, and threads
+
+A queue is like a list: things are added at one end and taken away from the other, which most common is referred to as FIFO (first in, first out). In general, queues transport messages, which can be any kind of information, for distributed task management, also known as _work queues_, _job queues_, or _task queues_.
+
+Threads can be dangerous. Like manual memory management in languages such as C and C++, they can cause bugs that are extremely hard to find, let alone fix. To use threads, all the code in the program (and in external libraries that it uses) must be _thread safe_.
+
+In Python, threads do not speed up CPU-bound tasks because of an implementation detail in the standard Python system called the _Global Interpreter Lock_ (GIL).
+
+* Use threads for I/O-bound problems
+
+* Use processes, networking, or events (discussed in the next section) for CPU-bound problems
+
+```py
+import multiprocessing as mp
+
+def washer(dishes, output):
+    for dish in dishes:
+        print('Washing', dish, 'dish')
+        output.put(dish)
+
+def dryer(input):
+    while True:
+        dish = input.get()
+        print('Drying', dish, 'dish')
+        input.task_done()
+
+dish_queue = mp.JoinableQueue()
+dryer_proc = mp.Process(target=dryer, args=(dish_queue,))
+dryer_proc.daemon = True
+dryer_proc.start()
+dishes = ['salad', 'bread', 'entree', 'dessert']
+washer(dishes, dish_queue)
+dish_queue.join()
+
+# Washing salad dish
+# Washing bread dish
+# Washing entree dish
+# Washing dessert dish
+# Drying salad dish
+# Drying bread dish
+# Drying entree dish
+# Drying dessert dish
+```
+
+```py
+import threading
+import queue
+import time
+
+def washer(dishes, dish_queue):
+    for dish in dishes:
+        print("Washing", dish)
+        time.sleep(5)
+        dish_queue.put(dish)
+
+def dryer(dish_queue):
+    while True:
+        dish = dish_queue.get()
+        print("Drying", dish)
+        time.sleep(10)
+        dish_queue.task_done()
+
+dish_queue = queue.Queue()
+for n in range(2):
+    dryer_thread = threading.Thread(target=dryer, args=(dish_queue,))
+    dryer_thread.start()
+dishes = ['salad', 'bread', 'entree', 'dessert']
+washer(dishes, dish_queue)
+dish_queue.join()
+
+# Washing salad
+# Washing bread
+# Drying salad
+# Washing entree
+# Drying bread
+# Washing dessert
+# Drying entree
+# Drying dessert
+```
+
+=== concurrent.futures
+
+The `concurrent.futures` module in the standard library can be used to schedule an asynchronous pool of workers, using threads (when I/O-bound) or processes (when CPU-bound), and get back a `future` to track their state and collect the results.
+
+Use concurrent.futures any time to launch a bunch of concurrent tasks, such as the following:
+
+* Crawling URLs on the web
+* Processing files, such as resizing images
+* Calling service APIs
+
+```py
+from concurrent import futures
+import math
+import sys
+
+def calc(val):
+    result = math.sqrt(float(val))
+    return val, result
+
+def use_threads(num, values):
+    with futures.ThreadPoolExecutor(num) as tex:
+        tasks = [tex.submit(calc, value) for value in values]
+        for f in futures.as_completed(tasks):
+            yield f.result()
+
+def use_processes(num, values):
+    with futures.ProcessPoolExecutor(num) as pex:
+        tasks = [pex.submit(calc, value) for value in values]
+        for f in futures.as_completed(tasks):
+            yield f.result()
+
+def main(workers, values):
+    print(f"Using {workers} workers for {len(values)} values")
+    print("Using threads:")
+    for val, result in use_threads(workers, values):
+        print(f'{val} {result:.4f}')
+    print("Using processes:")
+    for val, result in use_processes(workers, values):
+        print(f'{val} {result:.4f}')
+
+if __name__ == '__main__':
+    workers = 3
+    if len(sys.argv) > 1:
+        workers = int(sys.argv[1])
+        values = list(range(1, 6))  # 1 .. 5
+    main(workers, values)
+```
+
+=== Asynchronous I/O
+
+Python 3.4 introduced the asyncio module for asynchronous programming, and Python 3.5 added the `async` and `await` keywords, enabling _coroutines_ (pausable functions) and an _event loop_ for scheduling them, which facilitates high-performance networking, web servers, database connections, and distributed task queues, making it ideal for IO-bound and structured network applications.
+
+```py
+import asyncio
+
+async def say(phrase, seconds):
+    print(phrase)
+    await asyncio.sleep(seconds)
+
+async def wicked():
+    task_1 = asyncio.create_task(say("Surrender,", 2))
+    task_2 = asyncio.create_task(say("Dorothy!", 0))
+    await task_1
+    await task_2
+
+#  blocking: runs the passed coroutine in the default executor, which given a timeout duration of 5 minutes to shutdown
+asyncio.run(wicked())
+```
+
+```py
+import asyncio
+
+async def say(phrase, seconds):
+    print(phrase)
+    await asyncio.sleep(seconds)
+
+async def wicked():
+    task_1 = asyncio.create_task(say("Surrender,", 2))
+    task_2 = asyncio.create_task(say("Dorothy!", 0))
+    await asyncio.gather(task_1, task_2)  # Wait for all tasks to finish concurrently
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(wicked())
+loop.close()
+```
+
+== SQL
+ 
+DB-API (Database API), similar to JDBC in Java, is a standardized interface for Python that allows us to interact with various relational databases using a consistent set of functions and methods, which can simplify database access by providing a common ground for working with different database systems like MySQL, PostgreSQL, SQL Server, and SQLite.
+ 
+* DB-API focuses on fundamental database operations like connecting, executing SQL queries, fetching results, and committing/rolling back transactions.
+ 
+* Different database modules (e.g., `MySQLdb`, `psycopg2`, `sqlite3`) implement the DB-API standard, ensuring consistency in these core functionalities across various systems.
+ 
+* DB-API promotes parameterization of SQL queries using placeholders (`%s`, `?`, etc.) for values, which enhances security by preventing SQL injection vulnerabilities and improves portability by separating data from the query itself.
+ 
+=== Using DB-API with SQLite in Memory
+
+```py
+import sqlite3
+
+# Connect to an in-memory database (no file needed)
+with sqlite3.connect(":memory:") as connection:
+
+    # Create a cursor object
+    cursor = connection.cursor()
+
+    # Create a table (assuming you don't have one)
+    cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL)
+''')
+
+    # Insert some data using parameterization
+    users = [("Alice", "alice@example.com"), ("Bob", "bob@example.com")]
+    cursor.executemany(
+        "INSERT INTO users (username, email) VALUES (?, ?)", users)
+
+    # Commit the changes
+    connection.commit()
+
+    # Query the data
+    cursor.execute("SELECT * FROM users")
+
+    # Fetch all results
+    results = cursor.fetchall()
+
+    # Print the results
+    for row in results:
+        print(f"ID: {row[0]}, Username: {row[1]}, Email: {row[2]}")
+```
+
+[appendix]
+== Install Python from Source Code on Linux
+
+1. Download https://www.python.org/downloads/source/[Python Source Releases]
++
+```sh
+# replace the Python version (e.g. 3.13.0) as needed
+curl -LO https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tar.xz
+```
+
+2. Extract the XZ compressed source tarball
++
+```sh
+tar xvf Python-3.13.0.tar.xz
+```
+
+3. Configure, make and install the Python
++
+```sh
+cd Python-3.13.0 && ./configure && sudo make install
+```
++
+By default, `make install` will install all the files in `/usr/local/bin`, `/usr/local/lib` etc. You can specify an installation prefix other than `/usr/local` using `--prefix` on `./configure`, for instance `--prefix=$HOME`.
++
+```console
+$ ls /usr/local/lib/
+libpython3.12.a  libpython3.13.a  pkgconfig  python3.11  python3.12  python3.13
+$ ls /usr/local/bin/
+2to3  2to3-3.12  idle3  idle3.12  idle3.13  pip3  pip3.12  pip3.13  pydoc3  pydoc3.12  pydoc3.13  python3  python3.12  python3.12-config  python3.13  python3.13-config  python3-config
+```
+
+4. Check the Python version
++
+```console
+$ python3 --version
+Python 3.13.0
+```
+
+[appendix]
+== Build a Docker Image for FastAPI
+
+```console
+$ ls
+Dockerfile  main.py  requirements.txt
+```
+
+```dockerfile
+# syntax=docker/dockerfile:1
+ARG PYTHON_VERSION=3.11
+
+FROM python:${PYTHON_VERSION}-alpine AS builder
+
+ARG PYTHON_VERSION
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt \
+        -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+FROM python:${PYTHON_VERSION}-alpine
+ARG PYTHON_VERSION
+
+ENV APP_UID=1654
+RUN apk add --no-cache shadow \
+    && groupadd -r app -g $APP_UID \
+    && useradd --no-log-init -r -g app -u $APP_UID app
+USER app
+
+COPY --from=builder /usr/local/lib/python${PYTHON_VERSION}/site-packages /usr/local/lib/python${PYTHON_VERSION}/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY . .
+
+EXPOSE 8000
+
+CMD ["fastapi", "run", "main.py"]
+```
+
+[bibliography]
+== References
+
+* [[[IntroducingPython,1]]] Bill Lubanovic _Introducing Python: Modern Computing in Simple Packages_. second edition, O’Reilly Media, Inc., November 2019
+* [[[LearningPython,2]]] Learning Python, 5th Edition Powerful Object-Oriented Programming (Mark Lutz), O'Reilly Media; 5th edition (July 30, 2013)
+* [[[wiki-Python,3]]] https://en.wikipedia.org/wiki/Python_(programming_language)
+* [[[gemini,4]]] https://gemini.google.com
+* [[[python-standard-library,5]]] https://docs.python.org/3/library/
+* [[[pypi,6]]] https://pypi.org/
+* [[[numpy-basics,7]]] https://numpy.org/doc/stable/user/absolute_beginners.html
+* [[[pydata-book,8]]] Wes McKinney _Python for Data Analysis_. thrid edition, O’Reilly, August 2022.

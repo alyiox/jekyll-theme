@@ -1,0 +1,6 @@
+<h3>Tags</h3>
+<ul class="c-tag-list">
+  {% for tag in site.tags %}
+    <li><a href="{{ site.baseurl }}/tags/#{{ tag | first | slugify }}">{{ tag | first }} ({{ tag | last | size }})</a></li>
+  {% endfor %}
+</ul>

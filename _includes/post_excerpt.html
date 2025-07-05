@@ -1,0 +1,9 @@
+{%- assign excerpt_content = include.post.content -%}
+
+{%- if include.post.excerpt and include.post.excerpt != "" and include.post.excerpt != include.post.content -%}
+  {%- assign excerpt_content = include.post.excerpt | strip_toc -%}
+{%- else -%}
+  {%- assign excerpt_content = excerpt_content | strip_toc -%}
+{%- endif -%}
+
+{{ excerpt_content | strip_html | truncatewords: 50 }}

@@ -1,0 +1,6 @@
+<h3>Latest Posts</h3>
+<ul>
+  {% for post in site.posts | sort: 'date' | reverse limit: 5 %}
+    <li><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></li>
+  {% endfor %}
+</ul>

@@ -2,15 +2,25 @@
 layout: default
 ---
 
-<div class="c-home">
-  <h1 class="c-home-title">{{ site.title | escape }}</h1>
-
-  <ul class="c-post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="c-post-date">{{ post.date | date_to_string }}</span>
-        <a class="c-post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="c-home-container">
+  <div class="c-home-main">
+    <ul class="c-post-list">
+      {% for post in site.posts %}
+        <li class="c-post-item">
+          <h2 class="c-post-title">
+            <a class="c-post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          </h2>
+          <p class="c-post-meta">{{ post.date | date_to_string }}</p>
+          <div class="c-post-excerpt">
+            <a href="{{ post.url | relative_url }}">
+              {% include post_excerpt.html post=post %}
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <aside class="c-home-sidebar">
+    {% include sidebar.html %}
+  </aside>
 </div>
