@@ -43,7 +43,7 @@
 
     .c-post-link {
       text-decoration: none;
-      color: settings.$text-color;
+      color: settings.$link-color;
 
       &:hover {
         text-decoration: underline;
@@ -66,7 +66,7 @@
 
       a {
         text-decoration: none;
-        color: settings.$text-color;
+        color: settings.$link-color;
 
         &:hover {
           text-decoration: underline;

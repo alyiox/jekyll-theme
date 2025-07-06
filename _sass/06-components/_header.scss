@@ -30,7 +30,7 @@
 
   &-nav {
     a {
-      color: settings.$secondary-color;
+      color: settings.$link-color;
       margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
 
       &:hover {

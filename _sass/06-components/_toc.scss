@@ -18,11 +18,11 @@
   }
 
   a {
-    color: settings.$secondary-color;
+    color: settings.$link-color;
     text-decoration: none;
 
     &:hover {
-      color: settings.$secondary-color;
+      color: settings.$text-color;
       text-decoration: underline;
     }
   }
