@@ -2,45 +2,58 @@
 
 // Settings
 
+// Naming Convention:
+// This project uses a structured naming convention for SCSS variables to enhance readability, consistency, and maintainability.
+// Variables follow the pattern: [category]-[type]-[modifier/context]
+//
+// - Category: Broad classification (e.g., `color`, `font`, `spacing`, `breakpoint`, `shadow`).
+// - Type: Specific aspect within the category (e.g., `text`, `background`, `family`, `size`, `unit`, `section`).
+// - Modifier/Context: Further refines the type or provides context (e.g., `primary`, `light`, `base`, `sm`, `md`, `h1`).
+//
+// Examples:
+// - `$color-primary` (Category: `color`, Type: `primary`)
+// - `$color-background-light` (Category: `color`, Type: `background`, Modifier: `light`)
+// - `$font-family-base` (Category: `font`, Type: `family`, Modifier: `base`)
+// - `$font-size-h1` (Category: `font`, Type: `size`, Context: `h1`)
+// - `$spacing-unit-base` (Category: `spacing`, Type: `unit`, Modifier: `base`)
+
 // Colors
-$text-color: #333;
-$background-color: #fdfdfd;
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$accent-color: #f0ad4e;
-$border-color: #dee2e6;
-$link-color: #555;
-$light-background-color: #f8f9fa;
+$color-text: #333;
+$color-background: #fdfdfd;
+$color-primary: #007bff;
+$color-secondary: #6c757d;
+$color-accent: #f0ad4e;
+$color-border: #dee2e6;
+$color-link: #555;
+$color-background-light: #f8f9fa;
+$color-background-card: #ffffff;
 
 // Typography
-$base-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$heading-font-family: "Georgia", "Times New Roman", serif;
-$code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-$base-line-height: 1.7; // Standard line height for body text
-$small-font-size: 0.9rem; // For metadata, tags, etc.
-$heading-margin-bottom: 0.5em; // Consistent spacing below headings
+$font-family-base: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-heading: "Georgia", "Times New Roman", serif;
+$font-family-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$line-height-base: 1.7; // Standard line height for body text
+$small-font-size: 0.9rem; // This will be replaced by $font-size-sm later
 
 // Spacing
-$base-spacing-unit: 1rem;
-$section-spacing: 2rem; // For consistent vertical spacing between major sections
-$element-spacing: 1rem; // For consistent vertical spacing between smaller elements
+$spacing-unit-base: 1rem;
+$spacing-section: 2rem; // For consistent vertical spacing between major sections
+$spacing-element: 1rem; // For consistent vertical spacing between smaller elements
+$spacing-heading-bottom: 0.5em; // Consistent spacing below headings
 
 // Borders & Shadows
 $border-width-thin: 1px;
-$box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-// Card
-$card-background-color: #ffffff;
-$border-radius: 0.25rem;
+$border-radius-base: 0.25rem;
+$shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
 
 // Breakpoints
-$breakpoint-small: 576px;
-$breakpoint-medium: 768px;
-$breakpoint-large: 992px;
-$breakpoint-xlarge: 1200px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
 
 // Container Max-Widths
 $container-max-width-default: 800px;
-$container-max-width-medium: 720px;
-$container-max-width-large: 960px;
-$container-max-width-xlarge: 1140px;
+$container-max-width-md: 720px;
+$container-max-width-lg: 960px;
+$container-max-width-xl: 1140px;

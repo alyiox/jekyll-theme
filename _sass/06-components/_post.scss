@@ -2,60 +2,60 @@
 @use "../01-settings" as settings;
 
 // Component-specific variables for the post
-$post-title-font-size: 2.5rem;
-$blockquote-border-thickness: 4px;
+$post-font-size-title: 2.5rem;
+$post-border-thickness-blockquote: 4px;
 
 .c-post {
-  margin-bottom: settings.$base-spacing-unit * 2;
+  margin-bottom: settings.$spacing-unit-base * 2;
 
   &-header {
-    margin-bottom: settings.$base-spacing-unit;
+    margin-bottom: settings.$spacing-unit-base;
   }
 
   &-title {
-    font-size: $post-title-font-size;
-    margin-bottom: math.div(settings.$base-spacing-unit, 2);
+    font-size: $post-font-size-title;
+    margin-bottom: math.div(settings.$spacing-unit-base, 2);
   }
 
   &-meta {
-    color: settings.$secondary-color;
+    color: settings.$color-secondary;
     font-size: settings.$small-font-size;
   }
 
   &-content {
-    line-height: settings.$base-line-height;
+    line-height: settings.$line-height-base;
     overflow-wrap: break-word; // Added to prevent long words from overflowing
 
     h1, h2, h3, h4, h5, h6 {
-      margin-top: settings.$base-spacing-unit * 1.5;
-      margin-bottom: settings.$base-spacing-unit;
+      margin-top: settings.$spacing-unit-base * 1.5;
+      margin-bottom: settings.$spacing-unit-base;
     }
 
     p {
-      margin-bottom: settings.$base-spacing-unit;
+      margin-bottom: settings.$spacing-unit-base;
     }
 
     ul, ol {
-      margin-bottom: settings.$base-spacing-unit;
-      padding-left: settings.$base-spacing-unit * 1.5;
+      margin-bottom: settings.$spacing-unit-base;
+      padding-left: settings.$spacing-unit-base * 1.5;
     }
 
     li {
-      margin-bottom: math.div(settings.$base-spacing-unit, 4);
+      margin-bottom: math.div(settings.$spacing-unit-base, 4);
     }
 
     img {
       max-width: 100%;
       height: auto;
       display: block;
-      margin: settings.$base-spacing-unit * 1.5 auto;
+      margin: settings.$spacing-unit-base * 1.5 auto;
     }
 
     blockquote {
-      border-left: $blockquote-border-thickness solid settings.$border-color;
-      padding-left: settings.$base-spacing-unit;
-      margin: settings.$base-spacing-unit * 1.5 0;
-      color: settings.$secondary-color;
+      border-left: $post-border-thickness-blockquote solid settings.$color-border;
+      padding-left: settings.$spacing-unit-base;
+      margin: settings.$spacing-unit-base * 1.5 0;
+      color: settings.$color-secondary;
       font-style: italic;
     }
 

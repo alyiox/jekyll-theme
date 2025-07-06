@@ -1,10 +1,10 @@
 @use "../01-settings" as settings;
 
 .c-footer {
-  padding: (settings.$base-spacing-unit * 2) 0;
-  margin-top: settings.$base-spacing-unit * 2;
-  border-top: 1px solid settings.$border-color;
+  padding: (settings.$spacing-unit-base * 2) 0;
+  margin-top: settings.$spacing-unit-base * 2;
+  border-top: settings.$border-width-thin solid settings.$color-border;
   text-align: center;
-  color: settings.$secondary-color;
+  color: settings.$color-secondary;
   font-size: settings.$small-font-size;
 }

@@ -9,20 +9,20 @@
 
   ul {
     list-style: none;
-    padding-left: settings.$base-spacing-unit;
+    padding-left: settings.$spacing-unit-base;
     margin-bottom: 0;
   }
 
   li {
-    margin-bottom: math.div(settings.$base-spacing-unit, 4);
+    margin-bottom: math.div(settings.$spacing-unit-base, 4);
   }
 
   a {
-    color: settings.$link-color;
+    color: settings.$color-link;
     text-decoration: none;
 
     &:hover {
-      color: settings.$text-color;
+      color: settings.$color-text;
       text-decoration: underline;
     }
   }
@@ -30,12 +30,12 @@
 
 /* AsciiDoc specific TOC styling */
 div#toc {
-  margin-bottom: settings.$base-spacing-unit * 1.5;
+  margin-bottom: settings.$spacing-unit-base * 1.5;
 
   #toctitle {
     display: none;
     font-weight: bold;
-    margin-bottom: math.div(settings.$base-spacing-unit, 2);
+    margin-bottom: math.div(settings.$spacing-unit-base, 2);
   }
 
   // Apply generic list styles to the ul within AsciiDoc TOC
@@ -46,7 +46,7 @@ div#toc {
 
 /* Markdown specific TOC styling */
 ul#markdown-toc {
-  margin-bottom: settings.$base-spacing-unit * 1.5;
+  margin-bottom: settings.$spacing-unit-base * 1.5;
 
   // Apply generic list styles to the Markdown TOC
   @extend .c-toc-list;

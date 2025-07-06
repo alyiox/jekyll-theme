@@ -2,18 +2,18 @@
 @use "../01-settings" as settings;
 
 body {
-  background-color: settings.$background-color;
-  color: settings.$text-color;
-  font-family: settings.$base-font-family;
-  line-height: settings.$base-line-height;
+  background-color: settings.$color-background;
+  color: settings.$color-text;
+  font-family: settings.$font-family-base;
+  line-height: settings.$line-height-base;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: settings.$heading-font-family;
-  margin-bottom: settings.$heading-margin-bottom;
-  color: color.scale(settings.$text-color, $lightness: -15%);
+  font-family: settings.$font-family-heading;
+  margin-bottom: settings.$spacing-heading-bottom;
+  color: color.scale(settings.$color-text, $lightness: -15%);
 }
 
 p {
-  margin-bottom: settings.$base-spacing-unit;
+  margin-bottom: settings.$spacing-unit-base;
 }

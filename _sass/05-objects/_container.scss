@@ -5,17 +5,17 @@
   max-width: settings.$container-max-width-default; // Default max width
   margin-left: auto;
   margin-right: auto;
-  padding: 0 settings.$base-spacing-unit;
+  padding: 0 settings.$spacing-unit-base;
 
-  @media (min-width: settings.$breakpoint-medium) {
-    max-width: settings.$container-max-width-medium; // Adjust max-width for medium screens
+  @media (min-width: settings.$breakpoint-md) {
+    max-width: settings.$container-max-width-md; // Adjust max-width for medium screens
   }
 
-  @media (min-width: settings.$breakpoint-large) {
-    max-width: settings.$container-max-width-large; // Adjust max-width for large screens
+  @media (min-width: settings.$breakpoint-lg) {
+    max-width: settings.$container-max-width-lg; // Adjust max-width for large screens
   }
 
-  @media (min-width: settings.$breakpoint-xlarge) {
-    max-width: settings.$container-max-width-xlarge; // Adjust max-width for extra large screens
+  @media (min-width: settings.$breakpoint-xl) {
+    max-width: settings.$container-max-width-xl; // Adjust max-width for extra large screens
   }
 }

@@ -1,7 +1,7 @@
 @use "../01-settings" as settings;
 
 a {
-  color: settings.$primary-color;
+  color: settings.$color-primary;
   text-decoration: none;
 
   &:hover {

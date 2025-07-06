@@ -2,18 +2,18 @@
 
 pre,
 code {
-  font-family: settings.$code-font-family;
+  font-family: settings.$font-family-code;
 }
 
 pre {
-  padding: settings.$base-spacing-unit;
-  margin-bottom: settings.$base-spacing-unit;
+  padding: settings.$spacing-unit-base;
+  margin-bottom: settings.$spacing-unit-base;
   overflow-x: auto;
-  border-radius: settings.$border-radius;
+  border-radius: settings.$border-radius-base;
 }
 
 code {
-  color: settings.$secondary-color;
+  color: settings.$color-secondary;
 }
 
 pre code {

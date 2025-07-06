@@ -2,50 +2,50 @@
 @use "../01-settings" as settings;
 
 // Component-specific variables for the header
-$header-title-font-size: 1.5rem;
-$nav-toggle-icon-width: 24px;
-$nav-toggle-icon-height: 2px;
-$nav-toggle-icon-spacing: 8px; // Spacing for the before/after pseudo-elements
+$header-font-size-title: 1.5rem;
+$header-icon-nav-toggle-width: 24px;
+$header-icon-nav-toggle-height: 2px;
+$header-icon-nav-toggle-spacing: 8px; // Spacing for the before/after pseudo-elements
 
 .c-header {
-  padding: settings.$base-spacing-unit 0;
-  border-bottom: settings.$border-width-thin solid settings.$border-color;
-  margin-bottom: settings.$base-spacing-unit * 2;
+  padding: settings.$spacing-unit-base 0;
+  border-bottom: settings.$border-width-thin solid settings.$color-border;
+  margin-bottom: settings.$spacing-unit-base * 2;
 
   .o-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    @media (min-width: settings.$breakpoint-medium) {
+    @media (min-width: settings.$breakpoint-md) {
       flex-direction: row;
       justify-content: space-between;
     }
   }
 
   &-title {
-    font-size: $header-title-font-size;
+    font-size: $header-font-size-title;
     font-weight: bold;
-    color: settings.$text-color;
-    margin-bottom: math.div(settings.$base-spacing-unit, 2); // Add space below title on small screens
+    color: settings.$color-text;
+    margin-bottom: math.div(settings.$spacing-unit-base, 2); // Add space below title on small screens
 
-    @media (min-width: settings.$breakpoint-medium) {
+    @media (min-width: settings.$breakpoint-md) {
       margin-bottom: 0; // Remove space on larger screens
     }
   }
 
   &-nav {
     a {
-      color: settings.$link-color;
-      margin: 0 math.div(settings.$base-spacing-unit, 2); // Adjust margin for mobile nav links
+      color: settings.$color-link;
+      margin: 0 math.div(settings.$spacing-unit-base, 2); // Adjust margin for mobile nav links
 
       &:hover {
-        color: settings.$primary-color;
+        color: settings.$color-primary;
         text-decoration: none;
       }
 
-      @media (min-width: settings.$breakpoint-medium) {
-        margin-left: settings.$base-spacing-unit; // Revert to original margin on larger screens
+      @media (min-width: settings.$breakpoint-md) {
+        margin-left: settings.$spacing-unit-base; // Revert to original margin on larger screens
         margin-right: 0;
       }
     }
@@ -56,49 +56,49 @@ $nav-toggle-icon-spacing: 8px; // Spacing for the before/after pseudo-elements
     background: none;
     border: none;
     cursor: pointer;
-    padding: math.div(settings.$base-spacing-unit, 2);
+    padding: math.div(settings.$spacing-unit-base, 2);
     position: absolute;
-    right: settings.$base-spacing-unit;
-    top: settings.$base-spacing-unit;
+    right: settings.$spacing-unit-base;
+    top: settings.$spacing-unit-base;
 
-    @media (max-width: settings.$breakpoint-medium - 1px) {
+    @media (max-width: settings.$breakpoint-md - 1px) {
       display: block; // Show on small screens
     }
 
     &-icon {
       display: block;
-      width: $nav-toggle-icon-width;
-      height: $nav-toggle-icon-height;
-      background-color: settings.$text-color;
+      width: $header-icon-nav-toggle-width;
+      height: $header-icon-nav-toggle-height;
+      background-color: settings.$color-text;
       position: relative;
 
       &::before,
       &::after {
         content: '';
         display: block;
-        width: $nav-toggle-icon-width;
-        height: $nav-toggle-icon-height;
-        background-color: settings.$text-color;
+        width: $header-icon-nav-toggle-width;
+        height: $header-icon-nav-toggle-height;
+        background-color: settings.$color-text;
         position: absolute;
         left: 0;
       }
 
       &::before {
-        top: -$nav-toggle-icon-spacing;
+        top: -$header-icon-nav-toggle-spacing;
       }
 
       &::after {
-        top: $nav-toggle-icon-spacing;
+        top: $header-icon-nav-toggle-spacing;
       }
     }
   }
 
   &-nav-wrapper {
-    @media (max-width: settings.$breakpoint-medium - 1px) {
+    @media (max-width: settings.$breakpoint-md - 1px) {
       display: none; // Hidden by default on small screens
       width: 100%;
       text-align: center;
-      padding-top: settings.$base-spacing-unit;
+      padding-top: settings.$spacing-unit-base;
 
       &.is-active {
         display: block; // Show when active
@@ -108,12 +108,12 @@ $nav-toggle-icon-spacing: 8px; // Spacing for the before/after pseudo-elements
         display: flex;
         flex-direction: column;
         a {
-          margin: math.div(settings.$base-spacing-unit, 2) 0; // Stack links vertically
+          margin: math.div(settings.$spacing-unit-base, 2) 0; // Stack links vertically
         }
       }
     }
 
-    @media (min-width: settings.$breakpoint-medium) {
+    @media (min-width: settings.$breakpoint-md) {
       display: block; // Always visible on larger screens
     }
   }

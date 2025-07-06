@@ -5,20 +5,20 @@
 // Components
 
 // Component-specific variables for the page
-$page-header-margin-bottom: 1.5rem;
-$page-title-font-size: 2.5rem;
+$page-spacing-header-bottom: 1.5rem;
+$page-font-size-title: 2.5rem;
 
 .c-page {
   .c-page-header {
-    margin-bottom: $page-header-margin-bottom;
+    margin-bottom: $page-spacing-header-bottom;
   }
 
   .c-page-title {
-    font-size: $page-title-font-size;
-    margin-bottom: settings.$element-spacing;
+    font-size: $page-font-size-title;
+    margin-bottom: settings.$spacing-element;
   }
 
   .c-page-content {
-    line-height: settings.$base-line-height;
+    line-height: settings.$line-height-base;
   }
 }

@@ -3,29 +3,29 @@
 @use "sass:color";
 
 // Component-specific variables for the button
-$button-padding-y: 0.5rem;
-$button-padding-x: 1rem;
-$button-font-size: 1rem;
-$button-font-weight: 400;
-$button-line-height: 1.5;
+$button-spacing-padding-y: 0.5rem;
+$button-spacing-padding-x: 1rem;
+$button-font-size-base: 1rem;
+$button-font-weight-base: 400;
+$button-line-height-base: 1.5;
 
 .c-button {
   display: inline-block;
-  padding: $button-padding-y $button-padding-x;
-  font-size: $button-font-size;
-  font-weight: $button-font-weight;
-  line-height: $button-line-height;
+  padding: $button-spacing-padding-y $button-spacing-padding-x;
+  font-size: $button-font-size-base;
+  font-weight: $button-font-weight-base;
+  line-height: $button-line-height-base;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
   border: settings.$border-width-thin solid transparent;
-  @include tools.border-radius(settings.$border-radius);
-  background-color: settings.$primary-color;
+  @include tools.border-radius(settings.$border-radius-base);
+  background-color: settings.$color-primary;
   color: #fff;
 
   &:hover {
-    background-color: color.adjust(settings.$primary-color, $lightness: -10%);
+    background-color: color.adjust(settings.$color-primary, $lightness: -10%);
   }
 }

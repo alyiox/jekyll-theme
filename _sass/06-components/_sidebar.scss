@@ -1,25 +1,23 @@
-// _sidebar.scss
-
 @use "../01-settings" as settings;
 @use "sass:math";
 @use "sass:color";
 
 // Component-specific variables for the sidebar
-$sidebar-heading-font-size: 1.5rem;
+$sidebar-font-size-heading: 1.5rem;
 
 .c-home-sidebar {
-  background-color: settings.$card-background-color;
-  border: settings.$border-width-thin solid settings.$border-color;
-  border-radius: settings.$border-radius;
-  padding: settings.$base-spacing-unit * 1.5;
-  box-shadow: settings.$box-shadow-light;
+  background-color: settings.$color-background-card;
+  border: settings.$border-width-thin solid settings.$color-border;
+  border-radius: settings.$border-radius-base;
+  padding: settings.$spacing-unit-base * 1.5;
+  box-shadow: settings.$shadow-light;
 
   h3 {
-    font-size: $sidebar-heading-font-size;
+    font-size: $sidebar-font-size-heading;
     margin-top: 0;
-    margin-bottom: settings.$base-spacing-unit;
-    border-bottom: settings.$border-width-thin solid settings.$border-color;
-    padding-bottom: math.div(settings.$base-spacing-unit, 2);
+    margin-bottom: settings.$spacing-unit-base;
+    border-bottom: settings.$border-width-thin solid settings.$color-border;
+    padding-bottom: math.div(settings.$spacing-unit-base, 2);
   }
 
   ul {
@@ -30,7 +28,7 @@ $sidebar-heading-font-size: 1.5rem;
     &.c-tag-list {
       display: flex;
       flex-wrap: wrap;
-      gap: math.div(settings.$base-spacing-unit, 2);
+      gap: math.div(settings.$spacing-unit-base, 2);
 
       li {
         margin-bottom: 0; // Reset margin for inline items
@@ -38,15 +36,15 @@ $sidebar-heading-font-size: 1.5rem;
 
       a {
         display: inline-block;
-        background-color: settings.$border-color;
-        color: settings.$text-color;
-        padding: math.div(settings.$base-spacing-unit, 4) math.div(settings.$base-spacing-unit, 2);
-        border-radius: settings.$border-radius;
+        background-color: settings.$color-border;
+        color: settings.$color-text;
+        padding: math.div(settings.$spacing-unit-base, 4) math.div(settings.$spacing-unit-base, 2);
+        border-radius: settings.$border-radius-base;
         text-decoration: none;
         font-size: settings.$small-font-size;
 
         &:hover {
-          background-color: color.adjust(settings.$border-color, $lightness: -10%);
+          background-color: color.adjust(settings.$color-border, $lightness: -10%);
           text-decoration: none;
         }
       }
@@ -54,7 +52,7 @@ $sidebar-heading-font-size: 1.5rem;
   }
 
   li {
-    margin-bottom: math.div(settings.$base-spacing-unit, 2);
+    margin-bottom: math.div(settings.$spacing-unit-base, 2);
 
     &:last-child {
       margin-bottom: 0;
@@ -63,7 +61,7 @@ $sidebar-heading-font-size: 1.5rem;
 
   a {
     text-decoration: none;
-    color: settings.$text-color;
+    color: settings.$color-text;
 
     &:hover {
       text-decoration: underline;
