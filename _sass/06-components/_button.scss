@@ -2,19 +2,26 @@
 @use "../02-tools" as tools;
 @use "sass:color";
 
+// Component-specific variables for the button
+$button-padding-y: 0.5rem;
+$button-padding-x: 1rem;
+$button-font-size: 1rem;
+$button-font-weight: 400;
+$button-line-height: 1.5;
+
 .c-button {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
+  padding: $button-padding-y $button-padding-x;
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  line-height: $button-line-height;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  border: 1px solid transparent;
-  @include tools.border-radius(0.25rem);
+  border: settings.$border-width-thin solid transparent;
+  @include tools.border-radius(settings.$border-radius);
   background-color: settings.$primary-color;
   color: #fff;
 

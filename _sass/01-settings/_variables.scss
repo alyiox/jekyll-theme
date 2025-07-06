@@ -16,9 +16,18 @@ $light-background-color: #f8f9fa;
 $base-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $heading-font-family: "Georgia", "Times New Roman", serif;
 $code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$base-line-height: 1.7; // Standard line height for body text
+$small-font-size: 0.9rem; // For metadata, tags, etc.
+$heading-margin-bottom: 0.5em; // Consistent spacing below headings
 
 // Spacing
 $base-spacing-unit: 1rem;
+$section-spacing: 2rem; // For consistent vertical spacing between major sections
+$element-spacing: 1rem; // For consistent vertical spacing between smaller elements
+
+// Borders & Shadows
+$border-width-thin: 1px;
+$box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
 
 // Card
 $card-background-color: #ffffff;

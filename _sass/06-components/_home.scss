@@ -1,6 +1,12 @@
 @use "../01-settings" as settings;
 @use "sass:math";
 
+// Component-specific variables for the home page
+$home-title-font-size: 3rem;
+$post-title-font-size-large: 1.8rem;
+$post-title-font-size-small: 1.5rem;
+$home-sidebar-min-width: 250px;
+
 .c-home-container {
   display: flex;
   flex-wrap: wrap;
@@ -11,8 +17,8 @@
     min-width: 0; // Allow content to shrink
 
     .c-home-title {
-      font-size: 3rem;
-      margin-bottom: 2rem;
+      font-size: $home-title-font-size;
+      margin-bottom: settings.$section-spacing;
     }
 
     .c-post-list {
@@ -23,7 +29,7 @@
     .c-post-item {
       margin-bottom: settings.$base-spacing-unit * 2;
       padding-bottom: settings.$base-spacing-unit * 2;
-      border-bottom: 1px solid settings.$border-color;
+      border-bottom: settings.$border-width-thin solid settings.$border-color;
 
       &:last-child {
         border-bottom: none;
@@ -33,11 +39,11 @@
     }
 
     .c-post-title {
-      font-size: 1.8rem;
+      font-size: $post-title-font-size-large;
       margin-bottom: math.div(settings.$base-spacing-unit, 4);
 
       @media (max-width: settings.$breakpoint-medium - 1px) {
-        font-size: 1.5rem;
+        font-size: $post-title-font-size-small;
       }
     }
 
@@ -51,14 +57,14 @@
     }
 
     .c-post-meta {
-      font-size: 0.9rem;
+      font-size: settings.$small-font-size;
       color: settings.$secondary-color;
       margin-bottom: math.div(settings.$base-spacing-unit, 2);
     }
 
     .c-post-excerpt {
       color: settings.$text-color;
-      line-height: 1.7;
+      line-height: settings.$base-line-height;
 
       p {
         margin: 0;
@@ -80,13 +86,13 @@
       align-items: center;
       margin-top: settings.$base-spacing-unit * 2;
       padding-top: settings.$base-spacing-unit;
-      border-top: 1px solid settings.$border-color;
+      border-top: settings.$border-width-thin solid settings.$border-color;
 
       a {
         text-decoration: none;
         color: settings.$link-color;
         padding: math.div(settings.$base-spacing-unit, 2) settings.$base-spacing-unit;
-        border: 1px solid settings.$border-color;
+        border: settings.$border-width-thin solid settings.$border-color;
         border-radius: settings.$border-radius;
 
         &:hover {
@@ -95,7 +101,7 @@
       }
 
       .page_number {
-        font-size: 0.9rem;
+        font-size: settings.$small-font-size;
         color: settings.$secondary-color;
       }
 
@@ -111,10 +117,10 @@
 
   .c-home-sidebar {
     flex: 1;
-    min-width: 250px; // Minimum width for sidebar
+    min-width: $home-sidebar-min-width; // Minimum width for sidebar
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: settings.$breakpoint-medium - 1px) {
     .c-home-main,
     .c-home-sidebar {
       flex: auto;

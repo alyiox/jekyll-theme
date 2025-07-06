@@ -1,17 +1,24 @@
+@use "../01-settings" as settings;
+
 /// _page.scss
 
 // Components
+
+// Component-specific variables for the page
+$page-header-margin-bottom: 1.5rem;
+$page-title-font-size: 2.5rem;
+
 .c-page {
   .c-page-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: $page-header-margin-bottom;
   }
 
   .c-page-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: $page-title-font-size;
+    margin-bottom: settings.$element-spacing;
   }
 
   .c-page-content {
-    line-height: 1.7;
+    line-height: settings.$base-line-height;
   }
 }

@@ -1,9 +1,15 @@
 @use "sass:math";
 @use "../01-settings" as settings;
 
+// Component-specific variables for the header
+$header-title-font-size: 1.5rem;
+$nav-toggle-icon-width: 24px;
+$nav-toggle-icon-height: 2px;
+$nav-toggle-icon-spacing: 8px; // Spacing for the before/after pseudo-elements
+
 .c-header {
   padding: settings.$base-spacing-unit 0;
-  border-bottom: 1px solid settings.$border-color;
+  border-bottom: settings.$border-width-thin solid settings.$border-color;
   margin-bottom: settings.$base-spacing-unit * 2;
 
   .o-container {
@@ -18,7 +24,7 @@
   }
 
   &-title {
-    font-size: 1.5rem;
+    font-size: $header-title-font-size;
     font-weight: bold;
     color: settings.$text-color;
     margin-bottom: math.div(settings.$base-spacing-unit, 2); // Add space below title on small screens
@@ -61,8 +67,8 @@
 
     &-icon {
       display: block;
-      width: 24px;
-      height: 2px;
+      width: $nav-toggle-icon-width;
+      height: $nav-toggle-icon-height;
       background-color: settings.$text-color;
       position: relative;
 
@@ -70,19 +76,19 @@
       &::after {
         content: '';
         display: block;
-        width: 24px;
-        height: 2px;
+        width: $nav-toggle-icon-width;
+        height: $nav-toggle-icon-height;
         background-color: settings.$text-color;
         position: absolute;
         left: 0;
       }
 
       &::before {
-        top: -8px;
+        top: -$nav-toggle-icon-spacing;
       }
 
       &::after {
-        top: 8px;
+        top: $nav-toggle-icon-spacing;
       }
     }
   }

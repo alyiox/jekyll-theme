@@ -4,18 +4,21 @@
 @use "sass:math";
 @use "sass:color";
 
+// Component-specific variables for the sidebar
+$sidebar-heading-font-size: 1.5rem;
+
 .c-home-sidebar {
   background-color: settings.$card-background-color;
-  border: 1px solid settings.$border-color;
+  border: settings.$border-width-thin solid settings.$border-color;
   border-radius: settings.$border-radius;
   padding: settings.$base-spacing-unit * 1.5;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: settings.$box-shadow-light;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: $sidebar-heading-font-size;
     margin-top: 0;
     margin-bottom: settings.$base-spacing-unit;
-    border-bottom: 1px solid settings.$border-color;
+    border-bottom: settings.$border-width-thin solid settings.$border-color;
     padding-bottom: math.div(settings.$base-spacing-unit, 2);
   }
 
@@ -40,7 +43,7 @@
         padding: math.div(settings.$base-spacing-unit, 4) math.div(settings.$base-spacing-unit, 2);
         border-radius: settings.$border-radius;
         text-decoration: none;
-        font-size: 0.85rem;
+        font-size: settings.$small-font-size;
 
         &:hover {
           background-color: color.adjust(settings.$border-color, $lightness: -10%);

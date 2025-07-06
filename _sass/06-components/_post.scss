@@ -1,6 +1,10 @@
 @use "sass:math";
 @use "../01-settings" as settings;
 
+// Component-specific variables for the post
+$post-title-font-size: 2.5rem;
+$blockquote-border-thickness: 4px;
+
 .c-post {
   margin-bottom: settings.$base-spacing-unit * 2;
 
@@ -9,17 +13,17 @@
   }
 
   &-title {
-    font-size: 2.5rem;
+    font-size: $post-title-font-size;
     margin-bottom: math.div(settings.$base-spacing-unit, 2);
   }
 
   &-meta {
     color: settings.$secondary-color;
-    font-size: 0.9rem;
+    font-size: settings.$small-font-size;
   }
 
   &-content {
-    line-height: 1.8;
+    line-height: settings.$base-line-height;
     overflow-wrap: break-word; // Added to prevent long words from overflowing
 
     h1, h2, h3, h4, h5, h6 {
@@ -48,7 +52,7 @@
     }
 
     blockquote {
-      border-left: 4px solid settings.$border-color;
+      border-left: $blockquote-border-thickness solid settings.$border-color;
       padding-left: settings.$base-spacing-unit;
       margin: settings.$base-spacing-unit * 1.5 0;
       color: settings.$secondary-color;
