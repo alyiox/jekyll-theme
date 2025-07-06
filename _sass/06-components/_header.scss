@@ -2,7 +2,7 @@
 @use "../01-settings" as settings;
 
 // Component-specific variables for the header
-$header-font-size-title: 1.5rem;
+$header-font-size-title: settings.$font-size-h5;
 $header-icon-nav-toggle-width: 24px;
 $header-icon-nav-toggle-height: 2px;
 $header-icon-nav-toggle-spacing: 8px; // Spacing for the before/after pseudo-elements

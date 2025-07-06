@@ -5,7 +5,7 @@
 // Component-specific variables for the button
 $button-spacing-padding-y: 0.5rem;
 $button-spacing-padding-x: 1rem;
-$button-font-size-base: 1rem;
+$button-font-size-base: settings.$font-size-base;
 $button-font-weight-base: 400;
 $button-line-height-base: 1.5;
 

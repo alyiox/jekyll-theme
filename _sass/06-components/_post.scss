@@ -2,7 +2,6 @@
 @use "../01-settings" as settings;
 
 // Component-specific variables for the post
-$post-font-size-title: 2.5rem;
 $post-border-thickness-blockquote: 4px;
 
 .c-post {
@@ -13,13 +12,17 @@ $post-border-thickness-blockquote: 4px;
   }
 
   &-title {
-    font-size: $post-font-size-title;
+    font-size: settings.$font-size-h2;
     margin-bottom: math.div(settings.$spacing-unit-base, 2);
+
+    @media (max-width: settings.$breakpoint-md - 1px) {
+      font-size: settings.$font-size-h2-mobile;
+    }
   }
 
   &-meta {
     color: settings.$color-secondary;
-    font-size: settings.$small-font-size;
+    font-size: settings.$font-size-sm;
   }
 
   &-content {

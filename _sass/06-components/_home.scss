@@ -2,9 +2,6 @@
 @use "sass:math";
 
 // Component-specific variables for the home page
-$home-font-size-title: 3rem;
-$home-font-size-post-title-large: 1.8rem;
-$home-font-size-post-title-small: 1.5rem;
 $home-layout-sidebar-min-width: 250px;
 
 .c-home-container {
@@ -17,7 +14,7 @@ $home-layout-sidebar-min-width: 250px;
     min-width: 0; // Allow content to shrink
 
     .c-home-title {
-      font-size: $home-font-size-title;
+      font-size: settings.$font-size-h1;
       margin-bottom: settings.$spacing-section;
     }
 
@@ -39,11 +36,11 @@ $home-layout-sidebar-min-width: 250px;
     }
 
     .c-post-title {
-      font-size: $home-font-size-post-title-large;
+      font-size: settings.$font-size-h3;
       margin-bottom: math.div(settings.$spacing-unit-base, 4);
 
       @media (max-width: settings.$breakpoint-md - 1px) {
-        font-size: $home-font-size-post-title-small;
+        font-size: settings.$font-size-h3-mobile;
       }
     }
 
@@ -57,7 +54,7 @@ $home-layout-sidebar-min-width: 250px;
     }
 
     .c-post-meta {
-      font-size: settings.$small-font-size;
+      font-size: settings.$font-size-sm;
       color: settings.$color-secondary;
       margin-bottom: math.div(settings.$spacing-unit-base, 2);
     }
@@ -101,7 +98,7 @@ $home-layout-sidebar-min-width: 250px;
       }
 
       .page_number {
-        font-size: settings.$small-font-size;
+        font-size: settings.$font-size-sm;
         color: settings.$color-secondary;
       }
 

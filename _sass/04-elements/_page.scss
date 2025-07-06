@@ -6,6 +6,49 @@ body {
   color: settings.$color-text;
   font-family: settings.$font-family-base;
   line-height: settings.$line-height-base;
+  font-size: settings.$font-size-base; // Add base font size for body
+}
+
+h1 {
+  font-size: settings.$font-size-h1;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h1-mobile;
+  }
+}
+
+h2 {
+  font-size: settings.$font-size-h2;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h2-mobile;
+  }
+}
+
+h3 {
+  font-size: settings.$font-size-h3;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h3-mobile;
+  }
+}
+
+h4 {
+  font-size: settings.$font-size-h4;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h4-mobile;
+  }
+}
+
+h5 {
+  font-size: settings.$font-size-h5;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h5-mobile;
+  }
+}
+
+h6 {
+  font-size: settings.$font-size-h6;
+  @media (max-width: settings.$breakpoint-md - 1px) {
+    font-size: settings.$font-size-h6-mobile;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -3,7 +3,6 @@
 @use "sass:color";
 
 // Component-specific variables for the sidebar
-$sidebar-font-size-heading: 1.5rem;
 
 .c-home-sidebar {
   background-color: settings.$color-background-card;
@@ -13,11 +12,15 @@ $sidebar-font-size-heading: 1.5rem;
   box-shadow: settings.$shadow-light;
 
   h3 {
-    font-size: $sidebar-font-size-heading;
+    font-size: settings.$font-size-h5;
     margin-top: 0;
     margin-bottom: settings.$spacing-unit-base;
     border-bottom: settings.$border-width-thin solid settings.$color-border;
     padding-bottom: math.div(settings.$spacing-unit-base, 2);
+
+    @media (max-width: settings.$breakpoint-md - 1px) {
+      font-size: settings.$font-size-h5-mobile;
+    }
   }
 
   ul {
@@ -41,7 +44,7 @@ $sidebar-font-size-heading: 1.5rem;
         padding: math.div(settings.$spacing-unit-base, 4) math.div(settings.$spacing-unit-base, 2);
         border-radius: settings.$border-radius-base;
         text-decoration: none;
-        font-size: settings.$small-font-size;
+        font-size: settings.$font-size-sm;
 
         &:hover {
           background-color: color.adjust(settings.$color-border, $lightness: -10%);
