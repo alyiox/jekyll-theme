@@ -94,7 +94,7 @@ DEPENDENCIES
   jekyll (~> 4.4.1)
   jekyll-asciidoc (~> 3.0)
   jekyll-feed (~> 0.12)
-  jekyll-paginate
+  jekyll-paginate (~> 1.1.0)
   jekyll-seo-tag (~> 2.8.0)
   minima (~> 2.5)
   nokogiri
