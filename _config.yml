@@ -32,6 +32,9 @@ github_username:  jekyll
 # Build settings
 # theme: minima
 excerpt_separator: "<!-- more -->"
+strict_front_matter: true
+incremental: true
+livereload: true
 plugins:
   - jekyll-feed
   - jekyll-asciidoc
