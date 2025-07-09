@@ -1,0 +1,17 @@
+@use "sass:color";
+@use "../../01-settings" as settings;
+
+// Admonition
+$spacing-admonition-margin-vertical: 1.5em;
+$spacing-admonition-padding: 1em;
+$border-width-admonition: 4px;
+$size-admonition-icon-width: 40px;
+$spacing-admonition-icon-padding-right: 1em;
+$font-size-admonition-icon: settings.$font-size-h4;
+$color-background-admonition: color.adjust(settings.$color-primary, $alpha: -0.9);
+
+$color-admonition-tip: settings.$color-primary;
+$color-admonition-note: settings.$color-secondary;
+$color-admonition-important: color.adjust(settings.$color-primary, $hue: -30deg, $saturation: 20%);
+$color-admonition-warning: color.adjust(settings.$color-primary, $hue: -60deg, $saturation: 30%);
+$color-admonition-caution: color.adjust(settings.$color-primary, $hue: -90deg, $saturation: 40%);

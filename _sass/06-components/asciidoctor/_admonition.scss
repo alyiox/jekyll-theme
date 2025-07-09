@@ -1,0 +1,70 @@
+@use "variables" as vars;
+
+.admonitionblock {
+  margin: vars.$spacing-admonition-margin-vertical 0;
+  padding: vars.$spacing-admonition-padding;
+  border-left: vars.$border-width-admonition solid;
+  background-color: vars.$color-background-admonition;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  td.icon {
+    width: vars.$size-admonition-icon-width;
+    padding-right: vars.$spacing-admonition-icon-padding-right;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .title {
+    display: none;
+  }
+
+  td.icon::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: vars.$font-size-admonition-icon;
+  }
+
+  &.tip {
+    border-color: vars.$color-admonition-tip;
+    .icon::before {
+      content: "\f0eb"; // lightbulb
+      color: vars.$color-admonition-tip;
+    }
+  }
+
+  &.note {
+    border-color: vars.$color-admonition-note;
+    .icon::before {
+      content: "\f05a"; // info-circle
+      color: vars.$color-admonition-note;
+    }
+  }
+
+  &.important {
+    border-color: vars.$color-admonition-important;
+    .icon::before {
+      content: "\f06a"; // exclamation-circle
+      color: vars.$color-admonition-important;
+    }
+  }
+
+  &.warning {
+    border-color: vars.$color-admonition-warning;
+    .icon::before {
+      content: "\f071"; // exclamation-triangle
+      color: vars.$color-admonition-warning;
+    }
+  }
+
+  &.caution {
+    border-color: vars.$color-admonition-caution;
+    .icon::before {
+      content: "\f06d"; // fire
+      color: vars.$color-admonition-caution;
+    }
+  }
+}
