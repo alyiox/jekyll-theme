@@ -1,0 +1,79 @@
+---
+layout: post
+title: "Demonstrating AsciiDoc Blocks"
+date: 2025-07-09 10:00:00 +0000
+categories: [asciidoc, blocks, sample]
+tags: [example, quote, listing, code]
+---
+
+This post demonstrates various block types available in AsciiDoc, showcasing how they can be used to structure and present content effectively.
+
+== Example Block
+
+Here's an example block, useful for illustrating concepts or providing self-contained demonstrations.
+
+.A Simple Example
+====
+This is an example block.
+It can contain multiple lines of text, and is often used to highlight a specific point or usage.
+====
+
+== Quote Block
+
+Next, we have a quote block, perfect for citing external sources or notable sayings.
+
+[quote, Albert Einstein, Out of My Later Years]
+____
+The important thing is not to stop questioning. Curiosity has its own reason for existence.
+____
+
+== Listing Block (Source Code)
+
+Finally, a listing block, specifically formatted for source code. Notice how it preserves whitespace and can handle very long lines, often with horizontal scrolling in the rendered output.
+
+[source,python]
+----
+def calculate_very_complex_result_with_many_parameters_and_a_long_function_name(param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param16, param17, param18, param19, param20): <1>
+    # This is a very long line of code to demonstrate horizontal scrolling in a listing block. <2>
+    # In a real scenario, you would break this line for readability, but for demonstration, it's useful.
+    result = (param1 * param2 + param3 - param4) / (param5 + param6 * param7) - (param8 / param9 + param10) * (param11 - param12 + param13) + (param14 * param15 / param16) - (param17 + param18 - param19 * param20) <3>
+    return result <4>
+----
+<1> This is the function definition with many parameters.
+<2> This comment explains the purpose of the long line.
+<3> This is the complex calculation line.
+<4> The function returns the calculated result.
+
+== Admonition Blocks
+
+Admonition blocks are used to highlight important information.
+
+NOTE: This is a note. It's used for general information.
+
+TIP: This is a tip. It provides helpful advice.
+
+WARNING: This is a warning. It indicates potential issues.
+
+CAUTION: This is a caution. It advises against dangerous actions.
+
+IMPORTANT: This is an important block. It highlights critical information.
+
+== Nested Blocks: Admonition with Source Code
+
+It's also possible to nest blocks within each other. Here's an example of a TIP admonition block containing a source code listing.
+
+[TIP]
+====
+Here's a helpful code snippet:
+
+[source,javascript]
+----
+function veryLongFunctionNameForDemonstrationOnly(paramA, paramB, paramC, paramD, paramE, paramF, paramG, paramH, paramI, paramJ, paramK, paramL, paramM, paramN, paramO, paramP, paramQ, paramR, paramS, paramT) {
+  // This is another very long line to show nesting and horizontal scrolling.
+  const result = (paramA + paramB) * paramC - (paramD / paramE) + (paramF * paramG * paramH) - (paramI + paramJ + paramK + paramL + paramM + paramN + paramO + paramP + paramQ + paramR + paramS + paramT);
+  return result;
+}
+----
+====
+
+This concludes our demonstration of AsciiDoc block types.

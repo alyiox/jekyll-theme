@@ -1,10 +1,27 @@
 @use "variables" as vars;
+@use "sass:math";
 
 .admonitionblock {
   margin: vars.$spacing-admonition-margin-vertical 0;
   padding: vars.$spacing-admonition-padding;
   border-left: vars.$border-width-admonition solid;
   background-color: vars.$color-background-admonition;
+
+  // Styles for nested blocks within admonitions
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+  p, ul, ol, pre, .listingblock {
+    margin-bottom: math.div(vars.$spacing-admonition-padding, 2); // Adjust as needed
+  }
+  // Ensure nested listing blocks have proper background and text color
+  .listingblock pre {
+    background-color: vars.$color-code-background;
+    color: vars.$color-code-text;
+  }
 
   table {
     width: 100%;

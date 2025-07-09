@@ -1,0 +1,75 @@
+@use "variables" as vars;
+@use "../../01-settings" as settings;
+@use "sass:math";
+
+.exampleblock {
+  margin-bottom: settings.$spacing-element;
+  padding: vars.$spacing-block-padding-base;
+  border: settings.$border-width-thin solid vars.$color-border-example;
+  background-color: vars.$color-background-example;
+  border-radius: settings.$border-radius-base;
+
+  > .title {
+    font-size: vars.$font-size-example-title;
+    font-weight: bold;
+    margin-bottom: math.div(settings.$spacing-element, 2);
+    color: settings.$color-primary;
+  }
+}
+
+.quoteblock {
+  margin: vars.$spacing-block-margin-vertical 0;
+  padding: vars.$spacing-quote-padding;
+  border-left: settings.$border-width-thin * 4 solid vars.$color-border-quote;
+  font-style: vars.$font-style-quote;
+
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .attribution {
+    margin-top: math.div(settings.$spacing-element, 2);
+    font-size: vars.$font-size-quote-attribution;
+    text-align: right;
+
+    &::before {
+      content: "— ";
+    }
+  }
+}
+
+.listingblock {
+  margin-bottom: settings.$spacing-element;
+
+  pre {
+    background-color: vars.$color-code-background;
+    color: vars.$color-code-text;
+    padding: vars.$spacing-code-padding;
+    border-radius: vars.$border-radius-code;
+    border: settings.$border-width-thin solid vars.$color-code-border;
+    overflow-x: auto; /* Enable horizontal scrolling for long lines */
+    font-family: settings.$font-family-code;
+    font-size: vars.$font-size-code;
+
+    code {
+      /* Ensure code inside pre doesn't wrap */
+      white-space: pre;
+    }
+  }
+
+  .conum {
+    color: vars.$color-code-callout;
+    font-weight: bold;
+  }
+
+  .colist {
+    margin-top: settings.$spacing-element;
+    font-size: vars.$font-size-code;
+
+    li {
+      margin-bottom: math.div(settings.$spacing-element, 4);
+    }
+  }
+}

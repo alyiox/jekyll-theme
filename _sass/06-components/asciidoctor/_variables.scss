@@ -1,6 +1,29 @@
 @use "sass:color";
 @use "../../01-settings" as settings;
 
+// Blocks
+$spacing-block-padding-base: settings.$spacing-unit-base * 1.25; // For example blocks
+$spacing-block-margin-vertical: settings.$spacing-unit-base * 1.5; // For quote blocks
+
+$color-background-example: settings.$color-background-light;
+$color-border-example: settings.$color-border;
+$font-size-example-title: settings.$font-size-lg;
+
+$color-border-quote: settings.$color-secondary;
+$font-style-quote: italic;
+$font-size-quote-attribution: settings.$font-size-sm;
+
+$spacing-quote-padding: settings.$spacing-unit-base * 1.5 settings.$spacing-unit-base * 2;
+
+$color-code-background: #282c34; // Specific dark background for code
+$color-code-text: #abb2bf; // Specific light text for code
+$color-code-border: #3e4451; // Specific border for code
+$color-code-callout: #61afef; // Specific color for callout numbers
+
+$spacing-code-padding: settings.$spacing-unit-base;
+$border-radius-code: settings.$border-radius-base;
+$font-size-code: settings.$font-size-sm;
+
 // Admonition
 $spacing-admonition-margin-vertical: 1.5em;
 $spacing-admonition-padding: 1em;
