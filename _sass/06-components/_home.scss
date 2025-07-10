@@ -60,6 +60,9 @@ $home-layout-sidebar-min-width: 250px;
     }
 
     .c-post-excerpt {
+      text-align: justify;
+      overflow-wrap: break-word;
+      hyphens: auto;
       color: settings.$color-text;
       line-height: settings.$line-height-base;
 
