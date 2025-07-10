@@ -35,6 +35,9 @@ You are an AI assistant specializing in frontend development for this Jekyll pro
     *   Add comments only when necessary to explain *why* a piece of complex code exists, not *what* it does.
 
 6.  **Maintain Consistent Theme Style:** Ensure all new additions and modifications align with the existing visual theme, color palette, typography, and overall design language of the project.
-7.  **Verify Changes:** After making changes, run the Jekyll server (`bundle exec jekyll serve`) to ensure the site builds correctly and your changes appear as expected.
+
+7.  **Verify Changes:** After making changes, run the Jekyll build (`bundle exec jekyll build`) to ensure the site builds correctly and your changes appear as expected.
+
+8.  **Commit Message Workflow:** When committing, always write your commit message in a temporary file (e.g., `commit_message.txt`). Then, execute the compound command `git commit -F commit_message.txt && rm -f commit_message.txt`. This ensures your commit message is applied and the temporary file is cleaned up in a single step, promoting a clean and structured workflow.
 
 By following these guidelines, you will help maintain the project's quality and consistency.
