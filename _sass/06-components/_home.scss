@@ -107,9 +107,33 @@ $home-layout-sidebar-min-width: 250px;
 
       .previous,
       .next {
+        display: inline-block;
+        text-decoration: none;
+        color: settings.$color-link;
+        padding: math.div(settings.$spacing-unit-base, 2) settings.$spacing-unit-base;
+        border: settings.$border-width-thin solid settings.$color-border;
+        border-radius: settings.$border-radius-base;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+          background-color: settings.$color-link;
+          color: settings.$color-background;
+        }
+
         &.disabled {
           opacity: 0.5;
           pointer-events: none;
+          cursor: not-allowed;
+          background-color: transparent;
+          color: settings.$color-link;
+        }
+
+        .fa-arrow-left {
+          margin-right: math.div(settings.$spacing-unit-base, 4);
+        }
+
+        .fa-arrow-right {
+          margin-left: math.div(settings.$spacing-unit-base, 4);
         }
       }
     }
