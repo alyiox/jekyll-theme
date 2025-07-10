@@ -1,0 +1,38 @@
+---
+layout: archive
+title: Tag
+regenerate: true
+---
+<ul class="c-archive-tag-list">
+    {% assign tags = site.tags | sort %}
+    {% if tags.first[0] == null %}
+        {% for tag in tags %}
+        <li>
+            <a href="#{{ tag }}" title="{{ tag }}">
+                {{ tag }}
+                <sup>({{ tags[tag].size }})</sup>
+            </a>
+        </li>
+        {% endfor %}
+    {% else %}
+        {% for tag in tags %} 
+        <li>
+            <a href="#{{ tag[0] }}" title="{{ tag[0] }}">
+                {{ tag[0] }}
+                <sup>({{ tag[1].size }})</sup>
+            </a>
+        </li>
+        {% endfor %}
+     {% endif %}
+</ul>
+
+{% for tag in tags %}
+<h2 class="c-archive-tag-heading" id="{{ tag[0] }}">{{ tag[0] }}</h2>
+<ul class="c-archive-post-list">
+    {% for post in tag[1] %}
+    {% if post.title != null %}
+    <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endfor %}

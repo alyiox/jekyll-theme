@@ -1,0 +1,73 @@
+@use "sass:color";
+@use "sass:math";
+@use "../01-settings" as settings;
+
+.c-archive {
+  margin-bottom: settings.$spacing-unit-base * 2;
+
+  &-header {
+    margin-bottom: settings.$spacing-unit-base;
+  }
+
+  &-title {
+    font-size: settings.$font-size-h2;
+    margin-bottom: math.div(settings.$spacing-unit-base, 2);
+
+    @media (max-width: settings.$breakpoint-md - 1px) {
+      font-size: settings.$font-size-h2-mobile;
+    }
+  }
+
+  &-content {
+    line-height: settings.$line-height-base;
+
+    .c-archive-month-heading,
+    .c-archive-category-heading,
+    .c-archive-tag-heading {
+      font-size: settings.$font-size-h3;
+      margin-top: settings.$spacing-unit-base * 1.5;
+      margin-bottom: settings.$spacing-unit-base;
+    }
+
+    .c-archive-post-list {
+      margin-bottom: settings.$spacing-unit-base;
+      padding-left: settings.$spacing-unit-base * 1.5;
+
+      li {
+        margin-bottom: math.div(settings.$spacing-unit-base, 4);
+      }
+    }
+
+    .c-archive-category-list,
+    .c-archive-tag-list {
+      margin-bottom: settings.$spacing-unit-base;
+      padding-left: 0;
+      list-style: none;
+
+      li {
+        display: inline-block;
+        margin-right: math.div(settings.$spacing-unit-base, 2);
+        margin-bottom: math.div(settings.$spacing-unit-base, 2);
+
+        a {
+          display: inline-block;
+          background-color: settings.$color-border;
+          color: settings.$color-text;
+          padding: math.div(settings.$spacing-unit-base, 4) math.div(settings.$spacing-unit-base, 2);
+          border-radius: settings.$border-radius-base;
+          text-decoration: none;
+          font-size: settings.$font-size-sm;
+
+          &:hover {
+            background-color: color.adjust(settings.$color-border, $lightness: -10%);
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    a {
+      word-break: break-all;
+    }
+  }
+}
