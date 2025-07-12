@@ -1,0 +1,16 @@
+@use "../01-settings" as settings;
+
+.c-banner {
+  width: 100%;
+
+  &-bg {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+
+    @media (max-width: settings.$breakpoint-md - 1px) {
+      height: 50px; 
+    }
+  }
+}

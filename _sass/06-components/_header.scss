@@ -5,12 +5,11 @@
 $header-font-size-title: settings.$font-size-h5;
 $header-icon-nav-toggle-width: 24px;
 $header-icon-nav-toggle-height: 2px;
-$header-icon-nav-toggle-spacing: 8px; // Spacing for the before/after pseudo-elements
+$header-icon-nav-toggle-spacing: 8px;
 
 .c-header {
-  padding: settings.$spacing-unit-base 0;
-  border-bottom: settings.$border-width-thin solid settings.$color-border;
-  margin-bottom: settings.$spacing-unit-base * 2;
+  padding: settings.$spacing-unit-base 0 0 0;
+  margin-bottom: math.div(settings.$spacing-unit-base, 4);
 
   .o-container {
     display: flex;
@@ -27,17 +26,17 @@ $header-icon-nav-toggle-spacing: 8px; // Spacing for the before/after pseudo-ele
     font-size: $header-font-size-title;
     font-weight: bold;
     color: settings.$color-text;
-    margin-bottom: math.div(settings.$spacing-unit-base, 2); // Add space below title on small screens
+    margin-bottom: math.div(settings.$spacing-unit-base, 2);
 
     @media (min-width: settings.$breakpoint-md) {
-      margin-bottom: 0; // Remove space on larger screens
+      margin-bottom: 0;
     }
   }
 
   &-nav {
     a {
       color: settings.$color-link;
-      margin: 0 math.div(settings.$spacing-unit-base, 2); // Adjust margin for mobile nav links
+      margin: 0 math.div(settings.$spacing-unit-base, 2);
 
       &:hover {
         color: settings.$color-primary;
@@ -95,26 +94,26 @@ $header-icon-nav-toggle-spacing: 8px; // Spacing for the before/after pseudo-ele
 
   &-nav-wrapper {
     @media (max-width: settings.$breakpoint-md - 1px) {
-      display: none; // Hidden by default on small screens
+      display: none;
       width: 100%;
       text-align: center;
       padding-top: settings.$spacing-unit-base;
 
       &.is-active {
-        display: block; // Show when active
+        display: block;
       }
 
       .c-header-nav {
         display: flex;
         flex-direction: column;
         a {
-          margin: math.div(settings.$spacing-unit-base, 2) 0; // Stack links vertically
+          margin: math.div(settings.$spacing-unit-base, 2) 0;
         }
       }
     }
 
     @media (min-width: settings.$breakpoint-md) {
-      display: block; // Always visible on larger screens
+      display: block;
     }
   }
 }
