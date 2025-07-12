@@ -8,6 +8,7 @@
     height: 100px;
     object-fit: cover;
     object-position: center;
+    border-radius: settings.$border-radius-base;
 
     @media (max-width: settings.$breakpoint-md - 1px) {
       height: 50px; 
