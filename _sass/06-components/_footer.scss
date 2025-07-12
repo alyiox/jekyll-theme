@@ -1,10 +1,41 @@
+@use "sass:math";
 @use "../01-settings" as settings;
 
 .c-footer {
-  padding: (settings.$spacing-unit-base * 2) 0;
-  margin-top: settings.$spacing-unit-base * 2;
+  padding: math.div(settings.$spacing-unit-base, 2) 0;
+  margin-top: math.div(settings.$spacing-unit-base, 2);
   border-top: settings.$border-width-thin solid settings.$color-border;
   text-align: center;
   color: settings.$color-secondary;
   font-size: settings.$font-size-sm;
+
+  &-license {
+    text-transform: uppercase;
+    a {
+      color: settings.$color-secondary;
+    }
+  }
+
+  &-extralinks {
+    margin-top: math.div(settings.$spacing-unit-base, 4);
+
+    &-summary {
+      cursor: pointer;
+      display: inline-block;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &-content {
+      margin-top: math.div(settings.$spacing-unit-base, 4);
+      a {
+        text-decoration: none;
+        color: settings.$color-secondary;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
