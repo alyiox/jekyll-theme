@@ -10,6 +10,7 @@ $header-icon-nav-toggle-spacing: 8px;
 .c-header {
   padding: settings.$spacing-unit-base 0 0 0;
   margin-bottom: math.div(settings.$spacing-unit-base, 4);
+  text-transform: uppercase;
 
   .o-container {
     display: flex;
