@@ -11,6 +11,14 @@
   padding: settings.$spacing-unit-base * 1.5;
   box-shadow: settings.$shadow-light;
 
+  &-section{
+    &-profile {
+      text-align: justify;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+  }
+
   h3 {
     font-size: settings.$font-size-h5;
     margin-top: 0;
