@@ -1,5 +1,13 @@
+{% assign quotes = site.data.quotes %}
+{% assign random_index = site.time | date: '%s' | modulo: quotes.size %}
+{% assign random_quote = quotes[random_index] %}
+
 <div class="o-container">
   <div class="c-banner">
     <img src="{{ site.baseurl }}/assets/images/galaxy.svg" alt="Galaxy background" class="c-banner-bg">
+    <div class="c-banner-quote">
+      <p>"{{ random_quote.quote }}"</p>
+      <cite>- {{ random_quote.author }}</cite>
+    </div>
   </div>
 </div>

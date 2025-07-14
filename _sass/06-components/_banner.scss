@@ -1,7 +1,10 @@
+@use "sass:math";
+@use "sass:color";
 @use "../01-settings" as settings;
 
 .c-banner {
   width: 100%;
+  position: relative;
 
   &-bg {
     width: 100%;
@@ -12,6 +15,37 @@
 
     @media (max-width: settings.$breakpoint-md - 1px) {
       height: 50px; 
+    }
+  }
+
+  &-quote {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: color.scale(settings.$color-background-light, $lightness: -20%);
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    padding: 0 math.div(settings.$spacing-unit-base, 2); // Add some horizontal padding
+
+    p {
+      margin: 0;
+      font-size: settings.$font-size-lg;
+      font-style: italic;
+      // Text will wrap by default
+    }
+
+    cite {
+      display: block;
+      margin-top: math.div(settings.$spacing-unit-base, 2);
+      font-size: settings.$font-size-sm;
+    }
+
+    @media (max-width: settings.$breakpoint-md - 1px) {
+      p {
+        font-size: settings.$font-size-base;
+      }
     }
   }
 }
