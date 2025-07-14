@@ -18,4 +18,8 @@
   @media (min-width: settings.$breakpoint-xl) {
     max-width: settings.$container-max-width-xl; // Adjust max-width for extra large screens
   }
+
+  @media (min-width: settings.$breakpoint-xxl) {
+    max-width: settings.$container-max-width-xxl; // Adjust max-width for extra extra large screens
+  }
 }
