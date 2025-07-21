@@ -70,4 +70,11 @@
       margin-bottom: math.div(settings.$spacing-element, 4);
     }
   }
+
+  > .title {
+    font-size: vars.$font-size-example-title;
+    font-weight: bold;
+    margin-bottom: math.div(settings.$spacing-element, 2);
+    color: settings.$color-primary;
+  }
 }
