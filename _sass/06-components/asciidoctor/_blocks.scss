@@ -44,12 +44,10 @@
   margin-bottom: settings.$spacing-element;
 
   pre {
-    background-color: vars.$color-code-background;
     color: vars.$color-code-text;
     padding: vars.$spacing-code-padding;
     border-radius: vars.$border-radius-code;
     border: settings.$border-width-thin solid vars.$color-code-border;
-    overflow-x: auto; /* Enable horizontal scrolling for long lines */
     font-family: settings.$font-family-code;
     font-size: vars.$font-size-code;
 
