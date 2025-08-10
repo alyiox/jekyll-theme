@@ -2,6 +2,17 @@
 
 @use "../../01-settings/variables" as settings;
 
+@mixin table-cell-base-styles {
+  padding: settings.$spacing-unit-sm settings.$spacing-unit-sm;
+  vertical-align: top;
+}
+
+@mixin table-header-footer-styles($border-side) {
+  #{$border-side}: calc(2 * settings.$border-width-thin) solid settings.$color-border;
+  background-color: color.adjust(settings.$color-background-light, $lightness: -3%);
+  font-weight: bold;
+}
+
 table.tableblock {
   width: 100%;
   margin-bottom: 1rem;
@@ -12,17 +23,17 @@ table.tableblock {
   }
 
   &.frame-all {
-    border: 1px solid settings.$color-border;
+    border: settings.$border-width-thin solid settings.$color-border;
   }
 
   &.frame-topbot {
-    border-top: 1px solid settings.$color-border;
-    border-bottom: 1px solid settings.$color-border;
+    border-top: settings.$border-width-thin solid settings.$color-border;
+    border-bottom: settings.$border-width-thin solid settings.$color-border;
   }
 
   &.frame-sides {
-    border-left: 1px solid settings.$color-border;
-    border-right: 1px solid settings.$color-border;
+    border-left: settings.$border-width-thin solid settings.$color-border;
+    border-right: settings.$border-width-thin solid settings.$color-border;
   }
 
   &.frame-none {
@@ -31,9 +42,8 @@ table.tableblock {
 
   th,
   td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border: 1px solid settings.$color-border;
+    @include table-cell-base-styles;
+    border: settings.$border-width-thin solid settings.$color-border;
 
     &.halign-left {
       text-align: left;
@@ -63,23 +73,23 @@ table.tableblock {
   &.grid-all {
     th,
     td {
-      border: 1px solid settings.$color-border;
+      border: settings.$border-width-thin solid settings.$color-border;
     }
   }
 
   &.grid-cols {
     th,
     td {
-      border-left: 1px solid settings.$color-border;
-      border-right: 1px solid settings.$color-border;
+      border-left: settings.$border-width-thin solid settings.$color-border;
+      border-right: settings.$border-width-thin solid settings.$color-border;
     }
   }
 
   &.grid-rows {
     th,
     td {
-      border-top: 1px solid settings.$color-border;
-      border-bottom: 1px solid settings.$color-border;
+      border-top: settings.$border-width-thin solid settings.$color-border;
+      border-bottom: settings.$border-width-thin solid settings.$color-border;
     }
   }
 
@@ -92,24 +102,18 @@ table.tableblock {
 
   thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid settings.$color-border;
-    background-color: color.adjust(settings.$color-background-light, $lightness: -3%); // Consistent background
-    font-weight: bold; // Consistent font weight
+    @include table-header-footer-styles(border-bottom);
   }
 
   tbody + tbody {
-    border-top: 2px solid settings.$color-border;
+    border-top: calc(2 * settings.$border-width-thin) solid settings.$color-border;
   }
 
   tfoot {
     tr {
       td, th {
-        padding: 0.75rem;
-        vertical-align: top;
-        border: 1px solid settings.$color-border;
-        border-top: 2px solid settings.$color-border; // Consistent border thickness
-        background-color: color.adjust(settings.$color-background-light, $lightness: -3%); // Consistent background
-        font-weight: bold; // Consistent font weight
+        @include table-cell-base-styles;
+        @include table-header-footer-styles(border-top);
       }
     }
   }
@@ -134,12 +138,12 @@ table.tableblock {
 
   &.left {
     float: left;
-    margin-right: 1.25rem;
+    margin-right: calc(1.25 * settings.$spacing-unit-base);
   }
 
   &.right {
     float: right;
-    margin-left: 1.25rem;
+    margin-left: calc(1.25 * settings.$spacing-unit-base);
   }
 
   caption.title {

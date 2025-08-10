@@ -31,7 +31,7 @@ $color-background-card: #ffffff;
 $font-family-base: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $font-family-heading: "Georgia", "Times New Roman", serif;
 $font-family-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-$line-height-base: 1.7; // Standard line height for body text
+$line-height-base: 1.7;
 
 // Font Sizes
 $font-size-base: 1rem; // Base font size for body text (16px)
@@ -56,9 +56,11 @@ $font-size-h6-mobile: 0.875rem; // 14px
 
 // Spacing
 $spacing-unit-base: 1rem;
-$spacing-section: 2rem; // For consistent vertical spacing between major sections
-$spacing-element: 1rem; // For consistent vertical spacing between smaller elements
-$spacing-heading-bottom: 0.5em; // Consistent spacing below headings
+$spacing-unit-sm: 0.5rem;
+$spacing-unit-md: 0.75rem;
+$spacing-section: 2rem;
+$spacing-element: 1rem;
+$spacing-heading-bottom: 0.5em;
 
 // Borders & Shadows
 $border-width-thin: 1px;
