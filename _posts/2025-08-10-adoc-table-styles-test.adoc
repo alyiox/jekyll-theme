@@ -1,0 +1,233 @@
+= AsciiDoc Table Styles Test
+:page-layout: post
+:page-categories: [doc]
+:page-tags: [doc]
+:page-date: 2025-08-10 12:07:06 +0800
+:page-revdate: 2025-08-10 12:07:06 +0800
+:toc: preamble
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+
+This post is a test case for styling AsciiDoc tables.
+
+== Basic Table
+
+.An example table with `frame="all"`, `grid="all"`, and `stripes="even"`
+[width="100%", cols="2,1,1", frame="all", grid="all", stripes="even"]
+|===
+|Header Col 1 |Header Col 2 |Header Col 3
+
+|Cell 1,1
+|Cell 1,2
+|Cell 1,3
+
+|Cell 2,1
+|Cell 2,2
+|Cell 2,3
+
+|Cell 3,1
+|Cell 3,2
+|Cell 3,3
+|===
+
+== Frame and Grid Options
+
+.A table with `frame="topbot"` and `grid="none"`
+[width="100%", cols="3*", frame="topbot", grid="none"]
+|===
+|Header 1 |Header 2 |Header 3
+
+|Cell A1
+|Cell A2
+|Cell A3
+
+|Cell B1
+|Cell B2
+|Cell B3
+|===
+
+.A table with `frame="none"` and `grid="cols"`
+[width="100%", cols="1,1,2", frame="none", grid="cols"]
+|===
+|Header 1 |Header 2 |Header 3
+
+|1 |2 |3
+|4 |5 |6
+|===
+
+== Header and Footer
+
+.A table with a header and footer
+[width="100%", cols="2*", options="header,footer"]
+|===
+|Header 1 |Header 2
+
+|Body Cell 1
+|Body Cell 2
+
+|Footer 1
+|Footer 2
+|===
+
+== Cell Alignment
+
+.Horizontal and Vertical Alignment Combinations
+[frame="all", grid="all", width="100%", cols="s,<,^,>"]
+|===
+| |Left |Center |Right
+
+|*Top (`.<`)*
+.<|Top-Left
+.<|Top-Center
+.<|Top-Right
+
+|*Middle (`.^`)*
+.^|Middle-Left
+.^|Middle-Center
+.^|Middle-Right
+
+|*Bottom (`.v`)*
+.v|Bottom-Left
+.v|Bottom-Center
+.v|Bottom-Right
+|===
+
+== Merged Cells
+
+.A table with merged cells
+[width="100%"]
+|===
+|Cell 1.1 |Cell 1.2 |Cell 1.3
+
+.2+^|Merged across 2 rows
+|Cell 2.2
+|Cell 2.3
+|3+^|Merged across 3 columns
+|===
+
+== Cell Style Specifiers
+
+.Demonstrating cell style specifiers
+[cols="1,2,2"]
+|===
+|Specifier |Description |Example
+
+|`a`
+|AsciiDoc content (allows block elements)
+a|
+[source,js]
+----
+function greet() {
+  return "Hello, World!";
+}
+----
+
+|`d`
+|Default (allows inline formatting)
+d|This is default text with *bold* and _italic_.
+
+|`e`
+|Emphasis (italic)
+e|This text is emphasized.
+
+|`h`
+|Header
+h|This is a header cell.
+
+|`l`
+|Literal (preformatted)
+l|This is literal text.
+  It preserves whitespace.
+
+|`m`
+|Monospace
+m|This text is in monospace.
+
+|`s`
+|Strong (bold)
+s|This text is strong.
+|===
+
+== Striping
+
+.A table with `stripes="odd"`
+[width="100%", cols="3*", stripes="odd", options="header"]
+|===
+|Header 1 |Header 2 |Header 3
+|Row 1
+|Row 1
+|Row 1
+|Row 2
+|Row 2
+|Row 2
+|Row 3
+|Row 3
+|Row 3
+|Row 4
+|Row 4
+|Row 4
+|===
+
+.A table with `stripes="all"`
+[width="100%", cols="3*", stripes="all", options="header"]
+|===
+|Header 1 |Header 2 |Header 3
+|Row 1
+|Row 1
+|Row 1
+|Row 2
+|Row 2
+|Row 2
+|Row 3
+|Row 3
+|Row 3
+|Row 4
+|Row 4
+|Row 4
+|===
+
+== Table Positioning
+
+.A table floated to the left
+[width="50%", float="left", frame="all", grid="all"]
+|===
+|Header 1 |Header 2
+|Content 1 |Content 2
+|===
+
+.A table floated to the right
+[width="50%", float="right", frame="all", grid="all"]
+|===
+|Header 1 |Header 2
+|Content 1 |Content 2
+|===
+
+.A table aligned to the center
+[width="50%", align="center", frame="all", grid="all"]
+|===
+|Header 1 |Header 2
+|Content 1 |Content 2
+|===
+
+== Table Orientation
+
+.A table with rotate option
+[%rotate]
+|===
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|===
+
+.A table with orientation attribute
+[orientation=landscape]
+|===
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|===
