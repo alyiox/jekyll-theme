@@ -51,8 +51,8 @@ pre .conum[data-value] {
   }
 
   td:last-child {
-    padding-bottom: settings.$spacing-heading-bottom;
     width: auto;
+    vertical-align: middle;
   }
 }
 

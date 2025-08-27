@@ -21,11 +21,13 @@
         font-weight: bold;
         white-space: nowrap;
         vertical-align: middle;
+        // padding-right: settings.$spacing-unit-md;
       }
 
       &.hdlist2 {
         line-height: settings.$line-height-base;
         word-wrap: break-word;
+        vertical-align: middle;
       }
     }
   }
