@@ -1,0 +1,184 @@
+= Asciidoc Callouts and Description Lists Demo
+:page-layout: post
+:page-categories: [doc]
+:page-tags: [doc, asciidoc]
+:page-date: 2025-08-26 10:00:00 +0000
+:page-revdate: 2025-08-26 10:00:00 +0000
+:toc: preamble
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+
+This post demonstrates how to use callouts and description lists in AsciiDoc.
+
+== Callouts
+
+Callouts are used to add annotations to literal text and source code. They are indicated by numbers in angle brackets.
+
+=== JavaScript Example
+
+[source,js]
+----
+function greet(name) { <1>
+  if (!name) { <2>
+    return "Hello, World!";
+  }
+  return `Hello, ${name}!`; <3>
+}
+----
+<1> A function named `greet` that takes one argument.
+<2> If the name is not provided, it returns a default greeting.
+<3> Otherwise, it returns a personalized greeting using a template literal.
+
+=== XML Example
+
+[source,xml]
+----
+<book>
+  <title>The Hitchhiker's Guide to the Galaxy</title> <1>
+  <author>Douglas Adams</author> <2>
+</book>
+----
+<1> The title of the book.
+<2> The author of the book.
+
+=== Callouts in an Admonition Block
+
+[TIP]
+====
+You can place source code with callouts inside any admonition block.
+
+[source,cs]
+----
+public class Greeter
+{
+    public string Greet(string name) // <1>
+    {
+        return $"Hello, {name}!"; // <2>
+    }
+}
+----
+<1> The method signature.
+<2> Uses C# string interpolation.
+====
+
+=== Line Comment Callouts
+
+For certain languages, you can place the callout marker inside a line comment. This prevents the marker from being interpreted as code.
+
+[source,js]
+----
+function calculate(a, b) {
+  return a + b; // <1>
+}
+
+const result = calculate(5, 10); // <2>
+----
+<1> Returns the sum of a and b.
+<2> Calls the function with two arguments.
+
+=== Custom Delimiter Line Comment Callouts
+
+You can specify a custom comment delimiter if the language requires it.
+
+[source,python,line-comment=##]
+----
+def say_hello(name):
+  print(f"Hello, {name}") ## <1>
+
+say_hello("World") ## <2>
+----
+<1> Prints a greeting.
+<2> Calls the function.
+
+=== Multi-line and Block Content in Callouts
+
+You can add multiple paragraphs to a single callout annotation by using a list continuation (`+`). Note that nesting complex blocks like source code may not be supported.
+
+[source,ruby]
+----
+class ComplexExample
+  def initialize # <1>
+    @data = [1, 2, 3]
+    @name = "Example" # <2>
+  end
+
+  def to_s # <3>
+    "#{@name}: #{@data.join(', ')}"
+  end
+end
+----
+<1> The initializer for `ComplexExample`.
++
+This is the second paragraph for the first callout.
+<2> A simple instance variable assignment.
++
+It sets a default name for the instance.
+<3> A `to_s` method for string representation.
++
+This allows the object to be printed nicely to the console.
+
+
+== Description Lists
+
+Description lists are used to define terms and their corresponding descriptions.
+
+=== Horizontal List
+
+[horizontal]
+Operating Systems::
+  Linux:: An open-source Unix-like operating system.
+  macOS:: The proprietary operating system for Apple's Mac computers.
+  Windows:: A family of proprietary operating systems developed by Microsoft.
+
+Hardware::
+  CPU:: The brain of the computer.
+  RAM:: Temporary memory for running applications.
+  Storage:: Long-term storage for data (e.g., SSD, HDD).
+
+=== Numbered Term List
+
+A description list can also use numbers or other labels as the term.
+
+[horizontal]
+1:: The first item in the list.
+2:: The second item, which can have a longer description.
+3:: The third and final item.
+
+=== Basic Description List
+
+This is a standard description list without any special attributes.
+
+Term 1:: Description for Term 1.
+Term 2:: Description for Term 2. This can be a longer description that wraps to multiple lines.
+
+=== Mixing Lists
+
+You can mix different types of lists within a description list.
+
+Term 1::
+  Description for Term 1.
+  * Item A
+  * Item B
+Term 2::
+  Description for Term 2.
+  . Step 1
+  . Step 2
+
+=== Nested Description List
+
+Description lists can be nested within other description lists.
+
+Outer Term::
+  Outer Description.
+  Inner Term 1::: Inner Description 1.
+  Inner Term 2::: Inner Description 2.
+    Deep Term:::: Deep Description.
+
+=== Question and Answer Lists
+
+A common use case for description lists is Q&A.
+
+[qanda]
+What is AsciiDoc?:: A human-readable markup language.
+Why use it?:: For technical documentation, books, articles, and more.

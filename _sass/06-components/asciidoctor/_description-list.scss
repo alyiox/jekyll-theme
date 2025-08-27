@@ -1,0 +1,117 @@
+@use '../../01-settings' as settings;
+
+.hdlist, .dlist {
+  margin-bottom: settings.$spacing-element;
+
+  > table {
+    width: 100%;
+    border-collapse: collapse;
+    background: none;
+    table-layout: auto;
+
+    tr {
+      background: none;
+    }
+
+    td {
+      vertical-align: top;
+      padding: 0 settings.$spacing-unit-md;
+
+      &.hdlist1 {
+        font-weight: bold;
+        white-space: nowrap;
+        vertical-align: middle;
+      }
+
+      &.hdlist2 {
+        line-height: settings.$line-height-base;
+        word-wrap: break-word;
+      }
+    }
+  }
+
+  > dl {
+    margin: 0;
+  }
+
+  dt.hdlist1, td.hdlist1 {
+    font-weight: bold;
+    vertical-align: top;
+    padding: settings.$spacing-unit-sm 0;
+
+    .hdlist & {
+      padding-right: settings.$spacing-unit-md;
+      // width: 20%;
+      // min-width: 100px;
+    }
+  }
+
+  dd, td.hdlist2 {
+    line-height: settings.$line-height-base;
+    padding: settings.$spacing-unit-sm 0;
+
+    .hdlist & {
+      padding-left: 0;
+    }
+  }
+
+  &.vertical {
+    dt.hdlist1, td.hdlist1 {
+      padding-bottom: 0;
+    }
+
+    dd, td.hdlist2 {
+      padding-top: 0;
+    }
+  }
+
+  &.label {
+    dt.hdlist1, td.hdlist1 {
+      padding-right: settings.$spacing-unit-md;
+    }
+  }
+}
+
+.dlist .dlist, .hdlist .hdlist {
+  margin-top: settings.$spacing-unit-sm;
+  margin-bottom: 0;
+}
+
+.qlist.qanda {
+  margin-bottom: settings.$spacing-element;
+  ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  li {
+    margin-bottom: settings.$spacing-unit-md;
+    p {
+      margin-bottom: settings.$spacing-unit-sm;
+    }
+    p:first-child {
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+}
+
+.ulist {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  li {
+    margin-bottom: settings.$spacing-unit-sm;
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.admonitionblock .hdlist td {
+  padding: 0;
+  padding-bottom: settings.$spacing-heading-bottom;
+  &:first-child {
+    padding-right: settings.$spacing-unit-md;
+  }
+}

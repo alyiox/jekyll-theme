@@ -1,0 +1,66 @@
+@use "../../01-settings" as settings;
+@use "variables" as asciidoctor-vars;
+
+.conum[data-value] {
+  display: inline-block;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
+  color: #fff !important;
+  background-color: settings.$color-primary;
+  border-radius: 50%;
+  width: asciidoctor-vars.$callout-badge-size;
+  height: asciidoctor-vars.$callout-badge-size;
+  line-height: asciidoctor-vars.$callout-badge-size;
+  font-size: asciidoctor-vars.$callout-badge-font-size;
+  font-family: settings.$font-family-base;
+
+  &::after {
+    content: attr(data-value);
+  }
+}
+
+.conum[data-value] + b {
+  display: none;
+}
+
+pre .conum[data-value] {
+  position: relative;
+  top: asciidoctor-vars.$callout-badge-vertical-offset;
+}
+
+.colist > table {
+  border: 0;
+  background: none;
+  width: 100%;
+  table-layout: fixed;
+
+  tr {
+    background: none;
+  }
+
+  td {
+    padding: 0;
+    vertical-align: top;
+  }
+
+  td:first-child {
+    padding-right: settings.$spacing-unit-md;
+    width: asciidoctor-vars.$colist-number-width;
+    vertical-align: middle;
+  }
+
+  td:last-child {
+    padding-bottom: settings.$spacing-heading-bottom;
+    width: auto;
+  }
+}
+
+.admonitionblock .colist td {
+  padding: 0;
+  padding-bottom: settings.$spacing-heading-bottom;
+
+  &:first-child {
+    padding-right: settings.$spacing-unit-md;
+  }
+}
