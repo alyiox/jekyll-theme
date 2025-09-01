@@ -74,7 +74,7 @@
   }
 }
 
-.dlist .dlist, .hdlist .hdlist {
+.dlist, .hdlist {
   margin-top: settings.$spacing-unit-sm;
   margin-bottom: 0;
 }
@@ -97,7 +97,7 @@
   }
 }
 
-.ulist {
+.dlist .ulist, .hdlist .ulist {
   ul {
     list-style-type: none;
     padding-left: 0;
